@@ -38,6 +38,22 @@ export class CostService {
       );
   }
 
+  deleteCost(cost: Cost) {
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+
+    this.http.delete('http://localhost:8080/auth/cost/'+cost.id)
+      .subscribe(
+        response => {
+          // localStorage.setItem('jwt', response.json().id_token);
+          // this.router.parent.navigateByUrl('/vat');
+        },
+        error => {
+          alert(error);
+          console.log(error);
+        }
+      );
+  }
+
   getCosts(): Observable<Cost> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
     return this.http.get('http://localhost:8080/auth/costs', { headers: contentHeaders })

@@ -1,4 +1,7 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
+import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
+import {Cost, CostService} from "../../shared/services/cost.service";
+// import {ModalDirective} from "./modal.component";
 
 @Component({
   moduleId: module.id,
@@ -9,8 +12,13 @@ export class CostTableComponent {
   @Input() rows:Array<any> = [];
   @Input() data:Array<any>;
   @Input() length:number = 0;
+  @Output() rowDeleted:EventEmitter<any> = new EventEmitter();
+  @ViewChild('childModal') public childModal:ModalDirective;
+
+  public selectedCost:Cost = new Cost();
 
   public columns:Array<any> = [
+    {title: 'Id', name: 'id'},
     {title: 'Datum', name: 'date'},
     {title: 'Bedrag', name: 'amount'},
     {title: 'btw', name: 'vat'},
@@ -26,6 +34,10 @@ export class CostTableComponent {
     sorting: {columns: this.columns, sortType: 'alphabetic'},
     filtering: {filterString: '', columnName: 'description'}
   };
+
+  constructor(
+    public costService: CostService
+  ) {}
 
   public changePage(page:any, data:Array<any> = this.data):Array<any> {
     let start = (page.page - 1) * page.itemsPerPage;
@@ -53,7 +65,7 @@ export class CostTableComponent {
       return data;
     }
 
-    // simple sorting
+    // simple sorting2
     return data.sort((previous:any, current:any) => {
       if (this.config.sorting.sortType === 'alphabetic') {
         if (previous[columnName] > current[columnName]) {
@@ -89,5 +101,29 @@ export class CostTableComponent {
     let sortedData = this.changeSort(filteredData, this.config);
     this.length = this.data.length;
     this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
+  }
+
+  public onCellClick(event:Event):void {
+    // this.rowDeleted.emit({row});
+    console.log(event);
+    this.selectedCost = event.row;
+    this.showChildModal();
+    // var index =this.rows.indexOf(row);
+    // this.rows.splice(row, 1);
+  }
+
+  public showChildModal():void {
+    this.childModal.show();
+  }
+
+  public hideChildModal():void {
+    this.childModal.hide();
+  }
+
+  public deleteCost():void {
+    var index =this.rows.indexOf(this.selectedCost);
+    this.rows.splice(index, 1);
+    this.costService.deleteCost(this.selectedCost);
+    this.hideChildModal();
   }
 }
