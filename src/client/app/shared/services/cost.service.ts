@@ -41,7 +41,7 @@ export class CostService {
   deleteCost(cost: Cost) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/cost/'+cost.id)
+    this.http.delete('http://localhost:8080/auth/cost/'+cost.id, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
