@@ -13,6 +13,7 @@ import {CsvParseService} from "./services/csv-parse.service";
 import {CostTypeSelector, KeysPipe} from "./selectors/cost-type.selector";
 import {CostCharacterSelector} from "./selectors/cost-character.selector";
 import {VatTypeSelector} from "./selectors/vat-type.selector";
+import {BookTypeSelector} from "./selectors/book-type.selector";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -26,6 +27,7 @@ import {VatTypeSelector} from "./selectors/vat-type.selector";
     CostTypeSelector,
     VatTypeSelector,
     CostCharacterSelector,
+    BookTypeSelector,
     KeysPipe
   ],
   exports: [
@@ -36,7 +38,8 @@ import {VatTypeSelector} from "./selectors/vat-type.selector";
     RouterModule,
     CostTypeSelector,
     CostCharacterSelector,
-    VatTypeSelector
+    VatTypeSelector,
+    BookTypeSelector
   ]
 })
 export class SharedModule {

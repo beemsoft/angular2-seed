@@ -1,7 +1,7 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Cost, CostService} from "../../shared/services/cost.service";
-// import {ModalDirective} from "./modal.component";
+import {CostType} from "../../shared/services/import-list.service";
 
 @Component({
   moduleId: module.id,
@@ -22,8 +22,8 @@ export class CostTableComponent {
     {title: 'Datum', name: 'date'},
     {title: 'Bedrag', name: 'amount'},
     {title: 'btw', name: 'vat'},
-    {title: 'Omschrijving', name: 'description'}
-    // {title: 'Type', name: 'costTypeDescription'}
+    {title: 'Omschrijving', name: 'description'},
+    {title: 'Type', name: 'costTypeDescription'}
   ];
   public page:number = 1;
   public itemsPerPage:number = 10;
@@ -83,10 +83,9 @@ export class CostTableComponent {
       return data;
     }
 
-    let filteredData:Array<any> = data.filter((item:any) =>
-      item[config.filtering.columnName].match(this.config.filtering.filterString)
+    return data.filter((item: any) =>
+        item[config.filtering.columnName].match(this.config.filtering.filterString)
     );
-    return filteredData;
   }
 
   public onChangeTable(config:any, page:any = {page: this.page, itemsPerPage: this.itemsPerPage}):any {
@@ -104,12 +103,19 @@ export class CostTableComponent {
   }
 
   public onCellClick(event:Event):void {
-    // this.rowDeleted.emit({row});
-    console.log(event);
     this.selectedCost = event.row;
+    this.costService.getCost(this.selectedCost)
+        .subscribe(
+            costData => {
+              this.selectedCost = costData;
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            },
+            () => console.log('Cost retrieved: ' + this.selectedCost.id)
+        );
     this.showChildModal();
-    // var index =this.rows.indexOf(row);
-    // this.rows.splice(row, 1);
   }
 
   public showChildModal():void {
@@ -121,7 +127,7 @@ export class CostTableComponent {
   }
 
   public deleteCost():void {
-    var index =this.rows.indexOf(this.selectedCost);
+    let index = this.rows.indexOf(this.selectedCost);
     this.rows.splice(index, 1);
     this.costService.deleteCost(this.selectedCost);
     this.hideChildModal();

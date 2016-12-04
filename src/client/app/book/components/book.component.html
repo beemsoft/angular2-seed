@@ -1,0 +1,14 @@
+<h1>Boekwaardes</h1>
+<div>
+  <p>Voeg hier boekwaardes toe.</p>
+
+  <book-type-selector (select)="bookValue.balanceType = $event"></book-type-selector>
+  <input [(ngModel)]="bookValue.bookYear" placeholder="Boekjaar">
+  <input [(ngModel)]="bookValue.saldo" placeholder="Saldo">
+  <button (click)="addBookValue()">Boekwaarde toevoegen</button>
+
+  <book-table [data]="bookValues"
+              [rows]="bookTable.rows"
+              [length]="bookValues.length">
+  </book-table>
+</div>

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Component} from '@angular/core';
 import {Cost, CostService} from "../../shared/services/cost.service";
 import {CostTableComponent} from "./cost-table.component";
 import moment = require("moment");
+import {LabelService} from "../../shared/services/label.service";
+import {CostType} from "../../shared/services/import-list.service";
 
 @Component({
   moduleId: module.id,
@@ -10,13 +11,13 @@ import moment = require("moment");
   templateUrl: 'cost.component.html'
 })
 export class CostComponent implements OnInit {
-  costTable: CostTableComponent;
   private costs: Array<Cost> = [];
   public cost: Cost;
 
   constructor(
     public costService: CostService,
     public costTable: CostTableComponent,
+    private labelService: LabelService
   ) {
     this.cost = new Cost();
   }
@@ -26,6 +27,9 @@ export class CostComponent implements OnInit {
       .subscribe(
         costData => {
           this.costs = costData;
+          this.costs.forEach((cost) => {
+              cost.costTypeDescription = this.labelService.get(CostType[cost.costType.id]);
+          });
           this.costTable.data = this.costs;
           this.costTable.config.filtering.filterString = '';
           this.costTable.onChangeTable(this.costTable.config);

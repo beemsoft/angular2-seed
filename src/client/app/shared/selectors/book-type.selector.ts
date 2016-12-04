@@ -1,7 +1,6 @@
 import {Component, Output, EventEmitter, Pipe, PipeTransform, Input} from '@angular/core'
-import {CostType} from "../services/import-list.service";
 import {LabelService} from "../services/label.service";
-import {Cost} from "../services/cost.service";
+import {BookType, BookValue} from "../services/book.service";
 
 @Pipe({
   name: 'keys'
@@ -23,18 +22,18 @@ export class KeysPipe implements PipeTransform {
 }
 
 @Component({
-  selector: 'cost-type-selector',
+  selector: 'book-type-selector',
   pipes: [KeysPipe],
   providers: [LabelService],
-  template: `<div *ngIf="selectedCost">
+  template: `<div *ngIf="selectedBookValue">
     <select #sel (change)="select.emit(sel.value)">
-      <option *ngFor="let item of costTypes | keys" [value]="item.key" [selected]="selectedCost.costTypeId == item.key">{{item.value}}
+      <option *ngFor="let item of bookTypes | keys" [value]="item.key" [selected]="bookTypes[selectedBookValue.balanceType] == item.key">{{item.value}}
       </option>
     </select>
   </div>`
 })
-export class CostTypeSelector {
-  costTypes = CostType;
-  @Input() selectedCost = new Cost();
+export class BookTypeSelector {
+  bookTypes = BookType;
+  @Input() selectedBookValue = new BookValue();
   @Output() select = new EventEmitter();
 }

@@ -1,33 +1,38 @@
-import {CostType} from "./import-list.service";
 import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
+import {LabelService} from "./label.service";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
-import * as moment from "moment/moment";
 import Collection = _.Collection;
 
-export class Cost {
-  id: number;
-  description: string;
-  costType: CostType;
-  costTypeId: number;
-  costTypeDescription: string;
-  date: moment.Moment;
-  amount: number;
-  vat: number;
+export enum BookType {
+  MACHINERY = 1,
+  CAR = 2,
+  CURRENT_ASSETS = 3,
+  NON_CURRENT_ASSETS = 4,
+  PENSION = 5,
+  STOCK = 6,
+  OFFICE = 7,
+  VAT_TO_BE_PAID = 8,
+  INVOICES_TO_BE_PAID = 9
+}
+
+export class BookValue {
+  balanceType: BookType;
+  bookYear: number;
+  saldo: number;
 }
 
 @Injectable()
-export class CostService {
+export class BookService {
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, private labelService: LabelService) {}
 
-  addCost(cost: Cost) {
-    console.log(cost);
-    let body = JSON.stringify(cost);
+  addBookValue(bookValue: BookValue) {
+    let body = JSON.stringify(bookValue);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/cost', body, { headers: contentHeaders })
+    this.http.post('http://localhost:8080/auth/book', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -40,10 +45,10 @@ export class CostService {
       );
   }
 
-  deleteCost(cost: Cost) {
+  deleteBookValue(bookValue: BookValue) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/cost/'+cost.id, { headers: contentHeaders })
+    this.http.delete('http://localhost:8080/auth/book/'+bookValue.id, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -56,18 +61,10 @@ export class CostService {
       );
   }
 
-  getCost(cost: Cost): Observable<Cost> {
+  getBookValues(): Observable<BookValue> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-
-    return this.http.get('http://localhost:8080/auth/costs/'+cost.id, { headers: contentHeaders })
-      .map(res => <Cost> res.json())
-      .catch(this.handleError);
-  }
-
-  getCosts(): Observable<Cost> {
-    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/costs', { headers: contentHeaders })
-      .map(res => <Cost> res.json())
+    return this.http.get('http://localhost:8080/auth/book', { headers: contentHeaders })
+      .map(res => <BookValue> res.json())
       .catch(this.handleError);
   }
 
