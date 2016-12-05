@@ -25,7 +25,7 @@ export class KeysPipe implements PipeTransform {
   selector: 'book-type-selector',
   pipes: [KeysPipe],
   providers: [LabelService],
-  template: `<div *ngIf="selectedBookValue">
+  template: `<div>
     <select #sel (change)="select.emit(sel.value)">
       <option *ngFor="let item of bookTypes | keys" [value]="item.key" [selected]="bookTypes[selectedBookValue.balanceType] == item.key">{{item.value}}
       </option>

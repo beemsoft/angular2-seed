@@ -26,7 +26,7 @@ export class KeysPipe implements PipeTransform {
   selector: 'cost-type-selector',
   pipes: [KeysPipe],
   providers: [LabelService],
-  template: `<div *ngIf="selectedCost">
+  template: `<div>
     <select #sel (change)="select.emit(sel.value)">
       <option *ngFor="let item of costTypes | keys" [value]="item.key" [selected]="selectedCost.costTypeId == item.key">{{item.value}}
       </option>

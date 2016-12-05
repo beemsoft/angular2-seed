@@ -1,0 +1,12 @@
+<h1>Activa</h1>
+<div>
+  <p>Voeg hier activa toe.</p>
+
+  <book-type-selector (select)="activum.balanceType = $event"></book-type-selector>
+  <button (click)="addActivum()">Activum toevoegen</button>
+
+  <activum-table [data]="activa"
+              [rows]="activumTable.rows"
+              [length]="activa.length">
+  </activum-table>
+</div>
