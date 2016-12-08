@@ -14,6 +14,7 @@ import {CostTypeSelector, KeysPipe} from "./selectors/cost-type.selector";
 import {CostCharacterSelector} from "./selectors/cost-character.selector";
 import {VatTypeSelector} from "./selectors/vat-type.selector";
 import {BookTypeSelector} from "./selectors/book-type.selector";
+import {ActivumTypeSelector} from "./selectors/activum-type.selector";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -28,6 +29,7 @@ import {BookTypeSelector} from "./selectors/book-type.selector";
     VatTypeSelector,
     CostCharacterSelector,
     BookTypeSelector,
+    ActivumTypeSelector,
     KeysPipe
   ],
   exports: [
@@ -39,7 +41,8 @@ import {BookTypeSelector} from "./selectors/book-type.selector";
     CostTypeSelector,
     CostCharacterSelector,
     VatTypeSelector,
-    BookTypeSelector
+    BookTypeSelector,
+    ActivumTypeSelector
   ]
 })
 export class SharedModule {

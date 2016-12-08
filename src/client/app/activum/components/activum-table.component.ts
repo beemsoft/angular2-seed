@@ -19,7 +19,7 @@ export class ActivumTableComponent {
 
     public columns:Array<any> = [
         {title: 'Id', name: 'id'},
-        {title: 'Soort', name: 'balanceType'}
+        {title: 'Soort', name: 'balanceTypeDescription'}
     ];
     public page:number = 1;
     public itemsPerPage:number = 10;
@@ -115,7 +115,7 @@ export class ActivumTableComponent {
     public deleteBookValue():void {
         var index =this.rows.indexOf(this.selectedActivum);
         this.rows.splice(index, 1);
-        this.bookService.deleteBookValue(this.selectedActivum);
+        this.activumService.deleteActivum(this.selectedActivum);
         this.hideChildModal();
     }
 }

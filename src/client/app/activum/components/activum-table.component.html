@@ -31,7 +31,7 @@
         <h4 class="modal-title">Activum wijzigen / verwijderen</h4>
       </div>
       <div class="modal-body">
-        <book-type-selector (select)="selectedActivum.balanceType = $event" [selectedActivum]="selectedActivum"></book-type-selector>
+        <activum-type-selector (select)="selectedActivum.balanceType = $event" [selectedActivum]="selectedActivum"></activum-type-selector>
         <button type="button" (click)="deleteActivum()"></button>
       </div>
     </div>

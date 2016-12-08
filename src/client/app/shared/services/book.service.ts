@@ -19,6 +19,7 @@ export enum BookType {
 
 export class BookValue {
   balanceType: BookType;
+  balanceTypeDescription: string;
   bookYear: number;
   saldo: number;
 }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {Activum, ActivumService} from "../../shared/services/activum.service";
+import {Activum, ActivumService, BusinessCar, Office, ActivumType} from "../../shared/services/activum.service";
 import {ActivumTableComponent} from "./activum-table.component";
+import {LabelService} from "../../shared/services/label.service";
 @Component({
     moduleId: module.id,
     selector: 'activum',
@@ -11,7 +12,8 @@ export class ActivumComponent implements OnInit {
     public activum: Activum;
 
     constructor(public activumService: ActivumService,
-                public activumTable: ActivumTableComponent) {
+                public activumTable: ActivumTableComponent,
+                private labelService: LabelService) {
         this.activum = new Activum();
     }
 
@@ -20,6 +22,9 @@ export class ActivumComponent implements OnInit {
             .subscribe(
                 activumData => {
                     this.activa = activumData;
+                    this.activa.forEach((activum) => {
+                        activum.balanceTypeDescription = this.labelService.get(activum.balanceType);
+                    });
                     this.activumTable.data = this.activa;
                     this.activumTable.config.filtering.filterString = '';
                     this.activumTable.onChangeTable(this.activumTable.config);
@@ -32,8 +37,14 @@ export class ActivumComponent implements OnInit {
             )
     }
 
-    public addActivum(): void {
-        this.activumService.addActivum(this.activum);
+    public addActivum(balanceType: ActivumType): void {
+        if (balanceType === ActivumType.CAR) {
+            this.activumService.addActivumCar(<BusinessCar>this.activum);
+        } if (balanceType === ActivumType.OFFICE) {
+            this.activumService.addActivumOffice(<Office>this.activum);
+        } else {
+            this.activumService.addActivum(this.activum);
+        }
         this.activa = (<Activum[]>this.activa).concat(this.activum);
 
         this.activumTable.data = this.activa;

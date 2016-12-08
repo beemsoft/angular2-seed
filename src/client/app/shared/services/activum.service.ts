@@ -1,27 +1,51 @@
 import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
-import {LabelService} from "./label.service";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
+import * as moment from "moment/moment";
 import Collection = _.Collection;
-import {BookType} from "./book.service";
+
+export enum ActivumType {
+  MACHINERY = 1,
+  CAR = 2,
+  OFFICE = 7
+}
 
 export class Activum {
-  balanceType: BookType;
-  bookYear: number;
-  saldo: number;
+  balanceType: ActivumType = ActivumType.MACHINERY;
+  balanceTypeDescription: string;
+  purchasePrice: number;
+  remainingValue: number;
+  nofYearsForDepreciation: number;
+  purchaseDate: moment.Moment;
+  startDate: moment.Moment;
+  endDate: moment.Moment;
+}
+
+export class BusinessCar extends Activum {
+  fiscalIncomeAddition: number;
+  vatCorrectionForPrivateUsage: number
+}
+
+export class Office extends Activum {
+  description: string;
+  startupCosts: number;
+  nofSquareMetersBusiness: number;
+  nofSquareMetersPrivate: number;
+  wozValue: number;
+  terrainValue: number;
 }
 
 @Injectable()
 export class ActivumService {
 
-  constructor(private http: Http, private labelService: LabelService) {}
+  constructor(private http: Http) {}
 
   addActivum(activum: Activum) {
     let body = JSON.stringify(activum);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-
-    this.http.post('http://localhost:8080/auth/activum', body, { headers: contentHeaders })
+    let url = 'http://localhost:8080/auth/activum/machine';
+    this.http.post(url, body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -32,6 +56,40 @@ export class ActivumService {
           console.log(error);
         }
       );
+  }
+
+  addActivumCar(businessCar: BusinessCar) {
+    let body = JSON.stringify(businessCar);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/activum/car';
+    this.http.post(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
+  }
+
+  addActivumOffice(activum: Office) {
+    let body = JSON.stringify(activum);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/activum/office';
+    this.http.post(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
   }
 
   deleteActivum(activum: Activum) {

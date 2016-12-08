@@ -20,7 +20,7 @@ export class BookTableComponent {
         {title: 'Id', name: 'id'},
         {title: 'Jaar', name: 'bookYear'},
         {title: 'Saldo', name: 'saldo'},
-        {title: 'Soort', name: 'balanceType'}
+        {title: 'Soort', name: 'balanceTypeDescription'}
     ];
     public page:number = 1;
     public itemsPerPage:number = 10;
@@ -29,7 +29,7 @@ export class BookTableComponent {
     public config:any = {
         paging: true,
         sorting: {columns: this.columns, sortType: 'alphabetic'},
-        filtering: {filterString: '', columnName: 'balanceType'}
+        filtering: {filterString: '', columnName: 'balanceTypeDescription'}
     };
 
     constructor(

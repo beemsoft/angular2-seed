@@ -2,8 +2,28 @@
 <div>
   <p>Voeg hier activa toe.</p>
 
-  <book-type-selector (select)="activum.balanceType = $event"></book-type-selector>
-  <button (click)="addActivum()">Activum toevoegen</button>
+  <activum-type-selector (select)="activum.balanceType = $event"></activum-type-selector>
+  <label>Aankoopprijs:</label><input [(ngModel)]="activum.purchasePrice" placeholder="Aankoopprijs">
+  <label>Restwaarde:</label><input [(ngModel)]="activum.remainingValue" placeholder="Restwaarde">
+  <label>Aantal jaren:</label><input [(ngModel)]="activum.nofYearsForDepreciation" placeholder="Aantal jaren">
+  <label>Aankoopdatum:</label><input [(ngModel)]="activum.purchaseDate" placeholder="Aankoopdatum">
+  <label>Startdatum:</label><input [(ngModel)]="activum.startDate" placeholder="Startdatum">
+  <label>Einddatum:</label><input [(ngModel)]="activum.endDate" placeholder="Einddatum">
+  <div *ngIf="activum.balanceType == bookTypes.CAR">
+    <p>Auto van de zaak</p>
+    <label>Bijtelling:</label><input [(ngModel)]="activum.fiscalIncomeAddition" placeholder="Bijtelling">
+    <label>btw correctie:</label><input [(ngModel)]="activum.vatCorrectionForPrivateUsage" placeholder="btw correctie">
+  </div>
+  <div *ngIf="activum.balanceType == bookTypes.OFFICE">
+    <p>Kantoor thuis</p>
+    <label>Omschrijving:</label><input [(ngModel)]="activum.description" placeholder="Omschrijving">
+    <label>Opstartkosten:</label><input [(ngModel)]="activum.startupCosts" placeholder="Opstartkosten">
+    <label>Zakelijk oppervlakte:</label><input [(ngModel)]="activum.nofSquareMetersBusiness" placeholder="vierkante meters zakelijk">
+    <label>Prive oppervlakte:</label><input [(ngModel)]="activum.nofSquareMetersPrivate" placeholder="vierkante meters prive">
+    <label>WOZ waarde:</label><input [(ngModel)]="activum.wozValue" placeholder="WOZ waarde">
+    <label>Terrein waarde:</label><input [(ngModel)]="activum.terrainValue" placeholder="Terrein waarde">
+  </div>
+  <button (click)="addActivum(activum.balanceType)">Activum toevoegen</button>
 
   <activum-table [data]="activa"
               [rows]="activumTable.rows"

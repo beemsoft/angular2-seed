@@ -1,6 +1,7 @@
 import {BookValue, BookService} from "../../shared/services/book.service";
 import {BookTableComponent} from "./book-table.component";
 import {Component, OnInit} from "@angular/core";
+import {LabelService} from "../../shared/services/label.service";
 @Component({
     moduleId: module.id,
     selector: 'book',
@@ -11,7 +12,8 @@ export class BookComponent implements OnInit {
     public bookValue: BookValue;
 
     constructor(public bookService: BookService,
-                public bookTable: BookTableComponent) {
+                public bookTable: BookTableComponent
+                private labelService: LabelService) {
         this.bookValue = new BookValue();
     }
 
@@ -20,6 +22,9 @@ export class BookComponent implements OnInit {
             .subscribe(
                 bookData => {
                     this.bookValues = bookData;
+                    this.bookValues.forEach((bookValue) => {
+                        bookValue.balanceTypeDescription = this.labelService.get(bookValue.balanceType);
+                    });
                     this.bookTable.data = this.bookValues;
                     this.bookTable.config.filtering.filterString = '';
                     this.bookTable.onChangeTable(this.bookTable.config);
