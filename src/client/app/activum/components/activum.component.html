@@ -9,12 +9,12 @@
   <label>Aankoopdatum:</label><input [(ngModel)]="activum.purchaseDate" placeholder="Aankoopdatum">
   <label>Startdatum:</label><input [(ngModel)]="activum.startDate" placeholder="Startdatum">
   <label>Einddatum:</label><input [(ngModel)]="activum.endDate" placeholder="Einddatum">
-  <div *ngIf="activum.balanceType == bookTypes.CAR">
+  <div *ngIf="activum.balanceType == activumTypes.CAR">
     <p>Auto van de zaak</p>
     <label>Bijtelling:</label><input [(ngModel)]="activum.fiscalIncomeAddition" placeholder="Bijtelling">
     <label>btw correctie:</label><input [(ngModel)]="activum.vatCorrectionForPrivateUsage" placeholder="btw correctie">
   </div>
-  <div *ngIf="activum.balanceType == bookTypes.OFFICE">
+  <div *ngIf="activum.balanceType == activumTypes.OFFICE">
     <p>Kantoor thuis</p>
     <label>Omschrijving:</label><input [(ngModel)]="activum.description" placeholder="Omschrijving">
     <label>Opstartkosten:</label><input [(ngModel)]="activum.startupCosts" placeholder="Opstartkosten">

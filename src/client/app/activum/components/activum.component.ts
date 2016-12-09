@@ -8,6 +8,7 @@ import {LabelService} from "../../shared/services/label.service";
     templateUrl: 'activum.component.html'
 })
 export class ActivumComponent implements OnInit {
+    private activumTypes = ActivumType;
     private activa: Array<Activum> = [];
     public activum: Activum;
 
