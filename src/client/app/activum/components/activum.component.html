@@ -3,6 +3,7 @@
   <p>Voeg hier activa toe.</p>
 
   <activum-type-selector (select)="activum.balanceType = $event"></activum-type-selector>
+  <label>Omschrijving:</label><input [(ngModel)]="activum.description" placeholder="Omschrijving">
   <label>Aankoopprijs:</label><input [(ngModel)]="activum.purchasePrice" placeholder="Aankoopprijs">
   <label>Restwaarde:</label><input [(ngModel)]="activum.remainingValue" placeholder="Restwaarde">
   <label>Aantal jaren:</label><input [(ngModel)]="activum.nofYearsForDepreciation" placeholder="Aantal jaren">
@@ -16,7 +17,6 @@
   </div>
   <div *ngIf="activum.balanceType == activumTypes.OFFICE">
     <p>Kantoor thuis</p>
-    <label>Omschrijving:</label><input [(ngModel)]="activum.description" placeholder="Omschrijving">
     <label>Opstartkosten:</label><input [(ngModel)]="activum.startupCosts" placeholder="Opstartkosten">
     <label>Zakelijk oppervlakte:</label><input [(ngModel)]="activum.nofSquareMetersBusiness" placeholder="vierkante meters zakelijk">
     <label>Prive oppervlakte:</label><input [(ngModel)]="activum.nofSquareMetersPrivate" placeholder="vierkante meters prive">

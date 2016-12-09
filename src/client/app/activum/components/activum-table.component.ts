@@ -1,7 +1,6 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {BookValue, BookService} from "../../shared/services/book.service";
-import {Activum, ActivumService} from "../../shared/services/activum.service";
+import {Activum, ActivumService, ActivumType} from "../../shared/services/activum.service";
 
 @Component({
     moduleId: module.id,
@@ -19,6 +18,7 @@ export class ActivumTableComponent {
 
     public columns:Array<any> = [
         {title: 'Id', name: 'id'},
+        {title: 'Omschrijving', name: 'description'},
         {title: 'Soort', name: 'balanceTypeDescription'}
     ];
     public page:number = 1;

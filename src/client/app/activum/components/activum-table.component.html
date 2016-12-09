@@ -31,7 +31,27 @@
         <h4 class="modal-title">Activum wijzigen / verwijderen</h4>
       </div>
       <div class="modal-body">
+        <label>Omschrijving:</label><input [(ngModel)]="selectedActivum.description" placeholder="Omschrijving">
         <activum-type-selector (select)="selectedActivum.balanceType = $event" [selectedActivum]="selectedActivum"></activum-type-selector>
+        <label>Aankoopprijs:</label><input [(ngModel)]="selectedActivum.purchasePrice" placeholder="Aankoopprijs">
+        <label>Restwaarde:</label><input [(ngModel)]="selectedActivum.remainingValue" placeholder="Restwaarde">
+        <label>Aantal jaren:</label><input [(ngModel)]="selectedActivum.nofYearsForDepreciation" placeholder="Aantal jaren">
+        <label>Aankoopdatum:</label><input [(ngModel)]="selectedActivum.purchaseDate" placeholder="Aankoopdatum">
+        <label>Startdatum:</label><input [(ngModel)]="selectedActivum.startDate" placeholder="Startdatum">
+        <label>Einddatum:</label><input [(ngModel)]="selectedActivum.endDate" placeholder="Einddatum">
+        <div *ngIf="selectedActivum.balanceType == 'CAR'">
+          <p>Auto van de zaak</p>
+          <label>Bijtelling:</label><input [(ngModel)]="selectedActivum.fiscalIncomeAddition" placeholder="Bijtelling">
+          <label>btw correctie:</label><input [(ngModel)]="selectedActivum.vatCorrectionForPrivateUsage" placeholder="btw correctie">
+        </div>
+        <div *ngIf="selectedActivum.balanceType == 'OFFICE'">
+          <p>Kantoor thuis</p>
+          <label>Opstartkosten:</label><input [(ngModel)]="selectedActivum.startupCosts" placeholder="Opstartkosten">
+          <label>Zakelijk oppervlakte:</label><input [(ngModel)]="selectedActivum.nofSquareMetersBusiness" placeholder="vierkante meters zakelijk">
+          <label>Prive oppervlakte:</label><input [(ngModel)]="selectedActivum.nofSquareMetersPrivate" placeholder="vierkante meters prive">
+          <label>WOZ waarde:</label><input [(ngModel)]="selectedActivum.wozValue" placeholder="WOZ waarde">
+          <label>Terrein waarde:</label><input [(ngModel)]="selectedActivum.terrainValue" placeholder="Terrein waarde">
+        </div>
         <button type="button" (click)="deleteActivum()"></button>
       </div>
     </div>
