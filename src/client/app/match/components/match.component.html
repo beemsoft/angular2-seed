@@ -1,0 +1,14 @@
+<h1>Kost matchen</h1>
+<div>
+  <label>Kostensoort:</label><cost-type-selector (select)="costMatch.costType = $event"></cost-type-selector>
+  <label>btw type:</label><vat-type-selector *ngIf="displayVatTypeSelector()" (select)="costMatch.vatType = $event"></vat-type-selector>
+  <label>Karakter:</label><cost-character-selector (select)="costMatch.costCharacter = $event"></cost-character-selector>
+  <label>(Optioneel:) percentage</label><input [(ngModel)]="costMatch.percentage" placeholder="percentage">
+  <label>(Optioneel:) vast bedrag</label><input [(ngModel)]="costMatch.fixedAmount" placeholder="vast bedrag (netto)">
+  <button (click)="addCostMatch()" [disabled]="addMatchDisabled()">Match toevoegen</button>
+
+  <match-table [data]="costMatches"
+                     [rows]="costMatchTable.rows"
+                     [length]="costMatches.length">
+  </match-table>
+</div>

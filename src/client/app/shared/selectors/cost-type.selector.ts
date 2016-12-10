@@ -1,7 +1,6 @@
-import {Component, Output, EventEmitter, Pipe, PipeTransform, Input} from '@angular/core'
+import {Component, Output, EventEmitter, Pipe, PipeTransform, Input} from "@angular/core";
 import {CostType} from "../services/import-list.service";
 import {LabelService} from "../services/label.service";
-import {Cost} from "../services/cost.service";
 
 @Pipe({
   name: 'keys'
@@ -28,13 +27,13 @@ export class KeysPipe implements PipeTransform {
   providers: [LabelService],
   template: `<div>
     <select #sel (change)="select.emit(sel.value)">
-      <option *ngFor="let item of costTypes | keys" [value]="item.key" [selected]="selectedCost.costTypeId == item.key">{{item.value}}
+      <option *ngFor="let item of costTypes | keys" [value]="item.key" [selected]="selectedCostTypeId == item.key">{{item.value}}
       </option>
     </select>
   </div>`
 })
 export class CostTypeSelector {
   costTypes = CostType;
-  @Input() selectedCost = new Cost();
+  @Input() selectedCostTypeId;
   @Output() select = new EventEmitter();
 }

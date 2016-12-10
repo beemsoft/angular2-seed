@@ -14,6 +14,7 @@ import {LoginModule} from "./+login/components/login.module";
 import {CostModule} from "./cost/components/cost.module";
 import {BookModule} from "./book/components/book.module";
 import {ActivumModule} from "./activum/components/activum.module";
+import {CostMatchModule} from "./match/components/match.module";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {ActivumModule} from "./activum/components/activum.module";
     HomeModule,
     VatModule,
     CostModule,
+    CostMatchModule,
     BookModule,
     ActivumModule,
     LoginModule,

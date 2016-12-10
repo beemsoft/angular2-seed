@@ -28,15 +28,11 @@
         <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Kost wijzigen / verwijderen</h4>
+        <h4 class="modal-title">Kostmatch wijzigen / verwijderen</h4>
       </div>
       <div class="modal-body">
-        <cost-type-selector (select)="selectedCost.costType = $event" [selectedCostTypeId]="selectedCost.costTypeId"></cost-type-selector>
-        <input [(ngModel)]="selectedCost.date" placeholder="Datum">
-        <input [(ngModel)]="selectedCost.amount" placeholder="Bedrag">
-        <input [(ngModel)]="selectedCost.vat" placeholder="btw">
-        <input [(ngModel)]="selectedCost.description" placeholder="Omschrijving">
-        <button type="button" (click)="deleteCost()"></button>
+        <cost-type-selector (select)="selectedMatch.costType = $event" [selectedCostTypeId]="selectedMatch.costType.id"></cost-type-selector>
+        <button type="button" (click)="deleteMatch()"></button>
       </div>
     </div>
   </div>

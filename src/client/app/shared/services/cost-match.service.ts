@@ -8,7 +8,8 @@ import {Injectable} from "@angular/core";
 
 export class CostMatch {
   matchString: string;
-  costType: CostType;
+  costType: CostType = CostType.GENERAL_EXPENSE;
+  costTypeDescription: string;
   costCharacter: CostCharacter;
   vatType: VatType;
   percentage: number;
@@ -42,6 +43,22 @@ export class CostMatchService {
     return this.http.get('http://localhost:8080/auth/costmatches', { headers: contentHeaders })
       .map(res => <CostMatch> res.json())
       .catch(this.handleError);
+  }
+
+  deleteMatch(costMatch: CostMatch) {
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+
+    this.http.delete('http://localhost:8080/auth/match/'+costMatch.id, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
   }
 
   /**
