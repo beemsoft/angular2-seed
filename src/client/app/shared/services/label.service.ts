@@ -29,7 +29,7 @@ export class LabelService {
     ROAD_TAX: 'Wegenbelasting',
     INTEREST: 'Rente',
     OFFICE: 'Bedrijfsruimte',
-    SETTLEMENT_DISCOUNT: 'Bedrijfsruimte korting',
+    OFFICE_DISCOUNT: 'Bedrijfsruimte korting',
 
     MACHINERY: 'Machines',
     CAR: 'Auto',
