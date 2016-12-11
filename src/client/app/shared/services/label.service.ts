@@ -28,7 +28,7 @@ export class LabelService {
     INCOME_TAX_PAID_BACK: 'Inkomstenbelasting terugbetaald',
     ROAD_TAX: 'Wegenbelasting',
     INTEREST: 'Rente',
-    SETTLEMENT: 'Bedrijfsruimte',
+    OFFICE: 'Bedrijfsruimte',
     SETTLEMENT_DISCOUNT: 'Bedrijfsruimte korting',
 
     MACHINERY: 'Machines',
@@ -37,7 +37,6 @@ export class LabelService {
     NON_CURRENT_ASSETS: 'Eigen vermogen',
     PENSION: 'Oudedagsreserve',
     STOCK: 'Voorraad',
-    OFFICE: 'Bedrijfsruimte',
     VAT_TO_BE_PAID: 'Schuld omzetbelasting',
     INVOICES_TO_BE_PAID: 'Vordering op clienten'
   };

@@ -6,10 +6,11 @@ import {CostMatch} from "./cost-match.service";
 import {Injectable} from "@angular/core";
 
 export enum CostType {
-  GENERAL_EXPENSE = 2,
-  GENERAL_INCOME = 1,
-  INVOICE_PAID = 38,
   IGNORE = 0,
+  GENERAL_INCOME = 1,
+  GENERAL_EXPENSE = 2,
+  MACHINERY = 3,
+  INVOICE_PAID = 38,
   VAT = 12,
   BUSINESS_FOOD = 13,
   BUSINESS_CAR = 14,
@@ -22,8 +23,8 @@ export enum CostType {
   INCOME_TAX_PAID_BACK = 30,
   ROAD_TAX = 31,
   INTEREST = 33,
-  SETTLEMENT = 41,
-  SETTLEMENT_DISCOUNT = 45
+  OFFICE = 41,
+  OFFICE_DISCOUNT = 45
 }
 
 enum CsvType {
