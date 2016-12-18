@@ -8,6 +8,7 @@ import {CostRoutes} from "./cost/components/cost.routes";
 import {BookRoutes} from "./book/components/book.routes";
 import {ActivumRoutes} from "./activum/components/activum.routes";
 import {CostMatchRoutes} from "./match/components/match.routes";
+import {RegisterRoutes} from "./register/components/register.routes";
 
 export const routes: Routes = [
   ...HomeRoutes,
@@ -17,5 +18,6 @@ export const routes: Routes = [
   ...CostMatchRoutes,
   ...BookRoutes,
   ...ActivumRoutes,
-  ...LoginRoutes
+  ...LoginRoutes,
+  ...RegisterRoutes
 ];

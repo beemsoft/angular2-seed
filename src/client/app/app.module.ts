@@ -15,6 +15,7 @@ import {CostModule} from "./cost/components/cost.module";
 import {BookModule} from "./book/components/book.module";
 import {ActivumModule} from "./activum/components/activum.module";
 import {CostMatchModule} from "./match/components/match.module";
+import {RegisterModule} from "./register/components/register.module";
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import {CostMatchModule} from "./match/components/match.module";
     BookModule,
     ActivumModule,
     LoginModule,
+    RegisterModule,
     SharedModule.forRoot()
   ],
   declarations: [AppComponent],

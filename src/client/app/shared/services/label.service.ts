@@ -38,7 +38,10 @@ export class LabelService {
     PENSION: 'Oudedagsreserve',
     STOCK: 'Voorraad',
     VAT_TO_BE_PAID: 'Schuld omzetbelasting',
-    INVOICES_TO_BE_PAID: 'Vordering op clienten'
+    INVOICES_TO_BE_PAID: 'Vordering op clienten',
+
+    QUARTERLY: 'Per kwartaal',
+    YEARLY: 'Jaarlijks'
   };
 
   get(key: string): string {
