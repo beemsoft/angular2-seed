@@ -31,6 +31,7 @@ class FiscalData {
 }
 
 export class Registration {
+  user: string;
   registrationDate: moment.Moment;
   personalData: PersonalData = new PersonalData();
   companyData: CompanyData = new CompanyData();
@@ -44,7 +45,7 @@ export class RegisterService {
 
   register(registration: Registration) {
     let body = JSON.stringify(registration);
-    this.http.post('http://localhost:8080/register', body)
+    this.http.post('http://localhost:8080/register', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);

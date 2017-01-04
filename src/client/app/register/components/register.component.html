@@ -6,7 +6,12 @@
     Voordat u zich kunt aanmelden, dient u eerst de Algemene Voorwaarden te accepteren door het onderstaande hokje aan te vinken.
   </p>
 
+  <label>Gebruikersnaam:</label><input [(ngModel)]="registration.user" placeholder="Gebruikersnaam">
+  <label>Wachtwoord:</label><input type="password" [(ngModel)]="registration.password" placeholder="Wachtwoord">
+  <label>Voorletters:</label><input [(ngModel)]="registration.personalData.initials" placeholder="Voorletters">
+  <label>Tussenvoegsel(s):</label><input [(ngModel)]="registration.personalData.prefix" placeholder="Tussenvoegsel(s)">
   <label>Achternaam:</label><input [(ngModel)]="registration.personalData.surname" placeholder="Achternaam">
+  <label>Email:</label><input [(ngModel)]="registration.personalData.email" placeholder="Email">
   <button (click)="register()">Registreren</button>
 
 </div>
