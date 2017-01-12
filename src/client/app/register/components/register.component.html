@@ -1,17 +1,34 @@
 <h1>Registreren</h1>
-<div>
-  <p>Hier kunt u zich aanmelden voor de online dienst van TechyTax.
-    Na aanmelding heeft u een gratis proefperiode die loopt t/m: 2017-01-31
-    Na de gratis proefperiode is de prijs per maand:€ 8,33, exclusief btw
-    Voordat u zich kunt aanmelden, dient u eerst de Algemene Voorwaarden te accepteren door het onderstaande hokje aan te vinken.
+<div class="jumbotron center-block">
+  <p>Hier kunt u zich aanmelden voor de online dienst van TechyTax.<br>
+    Na aanmelding heeft u een gratis proefperiode die loopt t/m: 2017-01-31<br>
+    Na de gratis proefperiode is de prijs per maand:€ 8,33, exclusief btw<br>
+    Voordat u zich kunt aanmelden, dient u eerst de <a href="http://www.beemsoft.nl/av_tt.html" target="_blank">Algemene Voorwaarden</a> te accepteren door het onderstaande hokje aan te vinken.
   </p>
-
-  <label>Gebruikersnaam:</label><input [(ngModel)]="registration.user" placeholder="Gebruikersnaam">
-  <label>Wachtwoord:</label><input type="password" [(ngModel)]="registration.password" placeholder="Wachtwoord">
-  <label>Voorletters:</label><input [(ngModel)]="registration.personalData.initials" placeholder="Voorletters">
-  <label>Tussenvoegsel(s):</label><input [(ngModel)]="registration.personalData.prefix" placeholder="Tussenvoegsel(s)">
-  <label>Achternaam:</label><input [(ngModel)]="registration.personalData.surname" placeholder="Achternaam">
-  <label>Email:</label><input [(ngModel)]="registration.personalData.email" placeholder="Email">
-  <button (click)="register()">Registreren</button>
+  <div class="form-group">
+    <label>Gebruikersnaam:</label>
+    <input [(ngModel)]="registration.user" class="form-control" placeholder="Gebruikersnaam">
+  </div>
+  <div class="form-group">
+    <label>Wachtwoord:</label>
+    <input type="password" [(ngModel)]="registration.password" class="form-control" placeholder="Wachtwoord">
+  </div>
+  <div class="form-group">
+    <label>Voorletters:</label>
+    <input [(ngModel)]="registration.personalData.initials" class="form-control"placeholder="Voorletters">
+  </div>
+  <div class="form-group">
+    <label>Tussenvoegsel(s):</label>
+    <input [(ngModel)]="registration.personalData.prefix" class="form-control" placeholder="Tussenvoegsel(s)">
+  </div>
+  <div class="form-group">
+    <label>Achternaam:</label>
+    <input [(ngModel)]="registration.personalData.surname" class="form-control" placeholder="Achternaam">
+  </div>
+  <div class="form-group">
+    <label>Email:</label>
+    <input [(ngModel)]="registration.personalData.email" class="form-control" placeholder="Email">
+  </div>
+  <button (submit)="register()">Registreren</button>
 
 </div>

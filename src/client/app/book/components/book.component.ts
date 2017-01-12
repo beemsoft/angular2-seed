@@ -12,7 +12,7 @@ export class BookComponent implements OnInit {
     public bookValue: BookValue;
 
     constructor(public bookService: BookService,
-                public bookTable: BookTableComponent
+                public bookTable: BookTableComponent,
                 private labelService: LabelService) {
         this.bookValue = new BookValue();
     }
