@@ -112,7 +112,7 @@ export class ActivumTableComponent {
         this.childModal.hide();
     }
 
-    public deleteBookValue():void {
+    public deleteActivum():void {
         var index =this.rows.indexOf(this.selectedActivum);
         this.rows.splice(index, 1);
         this.activumService.deleteActivum(this.selectedActivum);
