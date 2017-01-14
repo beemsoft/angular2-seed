@@ -15,13 +15,13 @@ import {TransactionTableComponent} from "./transaction-table.component";
 export class VatComponent implements OnInit {
   uploadedFile: File;
   importedText: string;
-  transactionTable: TransactionTableComponent;
   public vatReport: VatReport;
   private costMatches;
   transactionsLoaded: number = 0;
   transactionsUnmatched: number;
   private transactions:Array<Transaction> = [];
   public costMatch: CostMatch;
+  private filterString: string;
 
   constructor(
     private importListService: ImportListService,
@@ -62,9 +62,9 @@ export class VatComponent implements OnInit {
 
   fileChangeEvent(fileInput: any){
     this.uploadedFile = fileInput.target.files[0];
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = file => {
-      var contents: any = file.target;
+      let contents: any = file.target;
       this.importedText = contents.result;
       this.transactions = this.transactions.concat(this.importListService.convert(this.importedText));
       this.transactions = this.costMatchService.match(this.transactions, this.costMatches);
@@ -81,14 +81,18 @@ export class VatComponent implements OnInit {
 
   }
 
+  handleFilterChange(filterString: string) {
+    this.filterString = filterString;
+  }
+
   public addMatch():void {
-    this.costMatch.matchString = this.transactionTable.config.filtering.filterString;
+    this.costMatch.matchString = this.filterString;
     this.costMatchService.addMatch(this.costMatch);
     this.costMatches = (<CostMatch[]>this.costMatches).concat(this.costMatch);
     this.transactions = this.costMatchService.match(this.transactions, this.costMatches);
 
     for (let i = 0; i < this.transactions.length; i++) {
-      if (this.transactions[i].description.indexOf(this.transactionTable.config.filtering.filterString) > -1) {
+      if (this.transactions[i].description.indexOf(this.filterString) > -1) {
         this.transactions[i].costTypeDescription = this.labelService.get(CostType[this.transactions[i].costType]);
         this.transactions[i].costCharacterDescription = this.labelService.get(CostCharacter[this.transactions[i].costCharacter]);
       }
@@ -101,7 +105,7 @@ export class VatComponent implements OnInit {
   }
 
   public addMatchDisabled():boolean {
-    return this.transactionTable.config.filtering.filterString.length < 2;
+    return !this.filterString  || this.filterString.length < 2;
   }
 
   private updateTotalVat():void {

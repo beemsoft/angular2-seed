@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, Output, EventEmitter} from "@angular/core";
 import {CostCharacter} from "../../shared/services/import-list.service";
 
 @Component({
@@ -10,6 +10,7 @@ export class TransactionTableComponent {
   @Input() rows:Array<any> = [];
   @Input() data:Array<any>;
   @Input() length:number = 0;
+  @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();
 
   public columns:Array<any> = [
     {title: 'Datum', name: 'dateFormatted'},
@@ -73,6 +74,7 @@ export class TransactionTableComponent {
     if (!config.filtering) {
       return data;
     }
+    this.filterChanged.emit(this.config.filtering.filterString);
 
     let filteredData:Array<any> = data.filter((item:any) =>
       item[config.filtering.columnName].match(this.config.filtering.filterString)

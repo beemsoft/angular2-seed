@@ -37,6 +37,8 @@
 
   <transaction-table [data]="transactions"
                      [rows]="transactionTable.rows"
-                     [length]="transactions.length">
+                     [length]="transactions.length"
+                     (filterChanged)="handleFilterChange($event)"
+  >
   </transaction-table>
 </div>
