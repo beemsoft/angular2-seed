@@ -39,9 +39,9 @@ export class ActivumComponent implements OnInit {
     }
 
     public addActivum(balanceType: ActivumType): void {
-        if (balanceType === ActivumType.CAR) {
+        if (balanceType == ActivumType.CAR) {
             this.activumService.addActivumCar(<BusinessCar>this.activum);
-        } if (balanceType === ActivumType.OFFICE) {
+        } else if (balanceType == ActivumType.OFFICE) {
             this.activumService.addActivumOffice(<Office>this.activum);
         } else {
             this.activumService.addActivum(this.activum);

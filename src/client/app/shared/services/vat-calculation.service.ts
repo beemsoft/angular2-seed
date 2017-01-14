@@ -35,14 +35,18 @@ export class VatCalculationService {
     let totalVatIn:number = 0, totalVatOut:number = 0;
     for (let i = 0; i < transactions.length; i++) {
       if (CostCharacter[transactions[i].costCharacter] === CostCharacter.IGNORE) {
-        // transactions.splice(i,1);
+        transactions[i].amountNet = "n.v.t.";
+        transactions[i].amountVat = "n.v.t.";
       } else {
         let vatIn = 0, vatOut = 0;
         switch (CostType[transactions[i].costType]) {
           case CostType.BUSINESS_FOOD:
             vatOut = VatCalculationService.applyVat(transactions[i], 0);
             break;
-          case CostType.INVOICE_PAID: break;
+          case CostType.INVOICE_PAID:
+            transactions[i].amountNet = "n.v.t.";
+            transactions[i].amountVat = "n.v.t.";
+            break;
           default:
             if (transactions[i].costMatch != null && transactions[i].costMatch.vatType != null) {
               if (transactions[i].costMatch.fixedAmount > 0) {
