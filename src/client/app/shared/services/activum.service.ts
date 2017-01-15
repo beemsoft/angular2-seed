@@ -92,6 +92,57 @@ export class ActivumService {
         );
   }
 
+  updateActivum(activum: Activum) {
+    let body = JSON.stringify(activum);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/activum/machine';
+    this.http.put(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
+  }
+
+  updateActivumCar(businessCar: BusinessCar) {
+    let body = JSON.stringify(businessCar);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/activum/car';
+    this.http.put(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
+  }
+
+  updateActivumOffice(activum: Office) {
+    let body = JSON.stringify(activum);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/activum/office';
+    this.http.put(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
+  }
+
   deleteActivum(activum: Activum) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 

@@ -1,6 +1,6 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {Activum, ActivumService, ActivumType} from "../../shared/services/activum.service";
+import {Activum, ActivumService, ActivumType, Office, BusinessCar} from "../../shared/services/activum.service";
 
 @Component({
     moduleId: module.id,
@@ -113,9 +113,18 @@ export class ActivumTableComponent {
     }
 
     public deleteActivum():void {
-        var index =this.rows.indexOf(this.selectedActivum);
+        let index = this.rows.indexOf(this.selectedActivum);
         this.rows.splice(index, 1);
         this.activumService.deleteActivum(this.selectedActivum);
+        this.hideChildModal();
+    }
+
+    public updateActivum():void {
+        switch (ActivumType[this.selectedActivum.balanceType]) {
+            case ActivumType.OFFICE: this.activumService.updateActivumOffice(<Office>this.selectedActivum); break;
+            case ActivumType.CAR: this.activumService.updateActivumCar(<BusinessCar>this.selectedActivum); break;
+            case ActivumType.MACHINERY: this.activumService.updateActivum(this.selectedActivum); break;
+        }
         this.hideChildModal();
     }
 }

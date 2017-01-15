@@ -85,10 +85,10 @@ export class ImportListService {
   }
 
   convert(csvFile: String): Transaction[] {
-    var transaction: Transaction;
-    var csvLines: String[][];
+    let transaction: Transaction;
+    let csvLines: String[][];
     csvLines = this.csvParseService.csvToArray(csvFile, ',');
-    var csvType: CsvType;
+    let csvType: CsvType;
 
     this.transactions = [];
     if (csvLines[0][1] !== undefined && csvLines[0][1].indexOf("Naam / Omschrijving") == 0) {
@@ -102,10 +102,11 @@ export class ImportListService {
 
     csvLines.shift(); // Skip the first line
     csvLines.forEach(line => {
+      let description: String;
       if (line.length > 1) {
         transaction = new Transaction();
 
-        var dateFormat: String;
+        let dateFormat: String;
         switch (csvType) {
           case CsvType.ING: dateFormat = 'YYYYMMDD'; break;
           case CsvType.OV_CHIPKAART: dateFormat = 'DD-MM-YYYY'; break;
@@ -119,7 +120,7 @@ export class ImportListService {
           } else {
             transaction.costType = CostType.GENERAL_INCOME;
           }
-          var description: String = line[1];
+          description = line[1];
           if (line[8]) {
             description = description.concat(' ', line[8]);
           }
