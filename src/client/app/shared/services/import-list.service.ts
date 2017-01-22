@@ -49,12 +49,10 @@ export enum VatType {
 }
 
 export class Transaction {
-  dateFormatted: string;
   date: moment.Moment;
   amount: number;
   amountVat: number;
   amountNet: number;
-  amountFormatted: string;
   description: string;
   costMatch: CostMatch;
   costType: CostType;
@@ -84,34 +82,37 @@ export class ImportListService {
     return this.transactions;
   }
 
-  convert(csvFile: String): Transaction[] {
+  convert(csvFile: string): Transaction[] {
     let transaction: Transaction;
-    let csvLines: String[][];
+    let csvLines: string[][];
     csvLines = this.csvParseService.csvToArray(csvFile, ',');
     let csvType: CsvType;
 
     this.transactions = [];
     if (csvLines[0][1] !== undefined && csvLines[0][1].indexOf("Naam / Omschrijving") == 0) {
       csvType = CsvType.ING;
+      csvLines.shift();
     } else {
       csvLines = this.csvParseService.csvToArray(csvFile, ';');
-      if (csvLines[0][1].indexOf("Check") == 0) {
+      if (csvLines[0][1] !== undefined && csvLines[0][1].indexOf("Check") == 0) {
         csvType = CsvType.OV_CHIPKAART;
+        csvLines.shift();
+      } else {
+        csvLines = this.csvParseService.csvToArray(csvFile, '\t');
+        csvType = CsvType.ABN_AMRO;
       }
     }
 
-    csvLines.shift(); // Skip the first line
     csvLines.forEach(line => {
-      let description: String;
+      let description: string;
       if (line.length > 1) {
         transaction = new Transaction();
 
-        let dateFormat: String;
         switch (csvType) {
-          case CsvType.ING: dateFormat = 'YYYYMMDD'; break;
-          case CsvType.OV_CHIPKAART: dateFormat = 'DD-MM-YYYY'; break;
+          case CsvType.ING: transaction.date = moment(line[0], 'YYYYMMDD'); break;
+          case CsvType.ABN_AMRO: transaction.date = moment(line[2], 'YYYYMMDD'); break;
+          case CsvType.OV_CHIPKAART: transaction.date = moment(line[0], 'DD-MM-YYYY'); break;
         }
-        transaction.date = moment(line[0], dateFormat);
 
         if (csvType === CsvType.ING) {
           transaction.amount = Number.parseFloat(line[6].replace(',', '.'));
@@ -124,6 +125,15 @@ export class ImportListService {
           if (line[8]) {
             description = description.concat(' ', line[8]);
           }
+        } else if (csvType === CsvType.ABN_AMRO) {
+          let amount:number = Number.parseFloat(line[6].replace(',', '.'));
+          transaction.amount = Math.abs(amount);
+          if (amount < 0) {
+            transaction.costType = CostType.GENERAL_EXPENSE;
+          } else {
+            transaction.costType = CostType.GENERAL_INCOME;
+          }
+          description = line[7];
         } else if (csvType === CsvType.OV_CHIPKAART) {
           transaction.amount = Number.parseFloat(line[5].replace(',', '.'));
           description = "Van " + line[2] + " naar " + line[4] + " (" + line[3] + ") " + line[6] + " " + line[7] + " " + line[8];
@@ -134,12 +144,6 @@ export class ImportListService {
         if (transaction.costType === CostType.GENERAL_INCOME) { //income
           if ( transaction.description.toLowerCase().indexOf('factuur') > -1) {  // Invoice
             transaction.costType = CostType.INVOICE_PAID;
-            transaction.costCharacter = CostCharacter.BUSINESS;
-          }
-        } else { // expenses
-
-          if (transaction.description.toLowerCase().indexOf('parking') > -1) { // Business car
-            transaction.costType = CostType.BUSINESS_CAR;
             transaction.costCharacter = CostCharacter.BUSINESS;
           }
         }

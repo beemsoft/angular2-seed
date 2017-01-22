@@ -4,34 +4,34 @@ export class CsvParseService {
   // This will parse a delimited string into an array of
   // arrays. The default delimiter is the comma, but this
   // can be overriden in the second argument.
-  csvToArray(strData: String, strDelimiter: String): String[][] {
+  csvToArray(strData: string, strDelimiter: string): string[][] {
     // Check to see if the delimiter is defined. If not,
     // then default to comma.
     strDelimiter = (strDelimiter || ",");
   
     // Create a regular expression to parse the CSV values.
-    var objPattern = new RegExp(
-      (
+    let objPattern = new RegExp(
+        (
         // Delimiters.
         "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
-  
+
         // Quoted fields.
         "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
-  
+
         // Standard fields.
         "([^\"\\" + strDelimiter + "\\r\\n]*))"
-      ),
-      "gi"
+        ),
+        "gi"
     );
   
   
     // Create an array to hold our data. Give the array
     // a default empty first row.
-    var arrData: String[][] = [[]];
+    let arrData: string[][] = [[]];
   
     // Create an array to hold our individual pattern
     // matching groups.
-    var arrMatches = null;
+    let arrMatches = null;
   
   
     // Keep looping over the regular expression matches
@@ -39,7 +39,7 @@ export class CsvParseService {
     while (arrMatches = objPattern.exec( strData )){
   
       // Get the delimiter that was found.
-      var strMatchedDelimiter = arrMatches[ 1 ];
+      let strMatchedDelimiter = arrMatches[1];
   
       // Check to see if the given delimiter has a length
       // (is not the start of string) and if it matches
@@ -56,7 +56,7 @@ export class CsvParseService {
   
       }
   
-      var strMatchedValue;
+      let strMatchedValue;
   
       // Now that we have our delimiter out of the way,
       // let's check to see which kind of value we
