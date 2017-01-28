@@ -34,6 +34,9 @@
   <div>
     btw in: {{vatReport.totalVatIn}}
   </div>
+  <div>
+    Betaalde facturen: {{vatReport.paidInvoices}}
+  </div>
 
   <transaction-table [data]="transactions"
                      [rows]="transactionTable.rows"

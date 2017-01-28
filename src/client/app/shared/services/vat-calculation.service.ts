@@ -4,6 +4,7 @@ import {Injectable} from "@angular/core";
 export class VatReport {
   totalVatIn: number;
   totalVatOut: number;
+  paidInvoices: number;
 }
 
 @Injectable()
@@ -32,7 +33,7 @@ export class VatCalculationService {
   }
 
   static calculateTotalVat(transactions:Array<Transaction>): VatReport {
-    let totalVatIn:number = 0, totalVatOut:number = 0;
+    let totalVatIn:number = 0, totalVatOut:number = 0, paidInvoices:number = 0;
     for (let i = 0; i < transactions.length; i++) {
       if (CostCharacter[transactions[i].costCharacter] === CostCharacter.IGNORE) {
         transactions[i].amountNet = "n.v.t.";
@@ -46,6 +47,7 @@ export class VatCalculationService {
           case CostType.INVOICE_PAID:
             transactions[i].amountNet = "n.v.t.";
             transactions[i].amountVat = "n.v.t.";
+            paidInvoices += transactions[i].amount;
             break;
           default:
             if (transactions[i].costMatch != null && transactions[i].costMatch.vatType != null) {
@@ -73,6 +75,7 @@ export class VatCalculationService {
     let vatReport = new VatReport();
     vatReport.totalVatIn = Math.round(totalVatIn * 100) / 100;
     vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
+    vatReport.paidInvoices = paidInvoices;
     return vatReport;
   }
 }

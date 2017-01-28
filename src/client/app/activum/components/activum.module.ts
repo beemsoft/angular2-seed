@@ -1,6 +1,5 @@
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {BookComponent} from "./book.component";
-import {BookService} from "../../shared/services/book.service";
 import {PaginationModule, ModalModule} from "ng2-bootstrap/ng2-bootstrap";
 import {Ng2TableModule} from "ng2-table/ng2-table";
 import {BookTableComponent} from "./book-table.component";
