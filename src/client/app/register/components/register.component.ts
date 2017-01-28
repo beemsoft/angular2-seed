@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {LabelService} from "../../shared/services/label.service";
 import {Registration, RegisterService} from "../../shared/services/register.service";
+import {Router} from "@angular/router";
 @Component({
     moduleId: module.id,
     selector: 'register',
@@ -9,12 +9,15 @@ import {Registration, RegisterService} from "../../shared/services/register.serv
 export class RegisterComponent {
     public registration: Registration;
 
-    constructor(public registerService: RegisterService,
-                private labelService: LabelService) {
+    constructor(public registerService: RegisterService, private router: Router) {
         this.registration = new Registration();
     }
 
     public register(): void {
         this.registerService.register(this.registration);
+    }
+
+    public cancel() {
+        this.router.navigateByUrl('/');
     }
 }

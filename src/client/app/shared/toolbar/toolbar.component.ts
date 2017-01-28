@@ -1,8 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from "@angular/core";
 
-/**
- * This class represents the toolbar component.
- */
 @Component({
   moduleId: module.id,
   selector: 'sd-toolbar',
@@ -10,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['toolbar.component.css']
 })
 
-export class ToolbarComponent {}
+export class ToolbarComponent {
+  private user:string = "nog niet ingelogd";
+
+  handleUserChange(user: string) {
+    this.user = user;
+  }
+}
 

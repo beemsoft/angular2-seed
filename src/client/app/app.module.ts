@@ -10,7 +10,6 @@ import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 import {VatModule} from "./vat/components/vat.module";
-import {LoginModule} from "./+login/components/login.module";
 import {CostModule} from "./cost/components/cost.module";
 import {BookModule} from "./book/components/book.module";
 import {ActivumModule} from "./activum/components/activum.module";
@@ -29,7 +28,6 @@ import {RegisterModule} from "./register/components/register.module";
     CostMatchModule,
     BookModule,
     ActivumModule,
-    LoginModule,
     RegisterModule,
     SharedModule.forRoot()
   ],

@@ -1,6 +1,8 @@
-  import {Component} from '@angular/core';
-import {Http} from '@angular/http';
-import {contentHeaders} from '../../common/headers';
+import {Component, EventEmitter, Output} from "@angular/core";
+import {Http} from "@angular/http";
+import {contentHeaders} from "../../common/headers";
+import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   moduleId: module.id,
@@ -10,9 +12,10 @@ import {contentHeaders} from '../../common/headers';
 })
 
 export class LoginComponent {
+  @Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
   private loggedIn = false;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, private router: Router, private location: Location) {}
 
   login(event, username, password) {
     event.preventDefault();
@@ -22,6 +25,7 @@ export class LoginComponent {
         response => {
           localStorage.setItem('jwt', response.json().token);
           this.loggedIn = true;
+          this.userChanged.emit(username);
           // this.router.parent.navigateByUrl('/vat');
         },
         error => {
@@ -33,7 +37,13 @@ export class LoginComponent {
 
   logout() {
     localStorage.removeItem('jwt');
+    this.userChanged.emit("niet ingelogd");
     this.loggedIn = false;
+    this.router.navigateByUrl('/')
+  }
+
+  register() {
+    this.router.navigateByUrl('/register');
   }
 
   isLoggedIn() {
@@ -43,5 +53,12 @@ export class LoginComponent {
   signup(event) {
     event.preventDefault();
     // this.router.parent.navigateByUrl('/signup');
+  }
+
+  isHidden() {
+    let list = ["/register"],
+        route = this.location.path();
+
+    return (list.indexOf(route) > -1) || this.loggedIn;
   }
 }

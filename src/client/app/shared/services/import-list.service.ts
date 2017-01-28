@@ -141,12 +141,6 @@ export class ImportListService {
         transaction.description = description;
 
         transaction.costCharacter = CostCharacter.UNKNOWN;
-        if (transaction.costType === CostType.GENERAL_INCOME) { //income
-          if ( transaction.description.toLowerCase().indexOf('factuur') > -1) {  // Invoice
-            transaction.costType = CostType.INVOICE_PAID;
-            transaction.costCharacter = CostCharacter.BUSINESS;
-          }
-        }
         transaction.costTypeDescription = this.labelService.get(CostType[transaction.costType]);
         transaction.costCharacterDescription = this.labelService.get(CostCharacter[transaction.costCharacter]);
         this.transactions.push(transaction);
