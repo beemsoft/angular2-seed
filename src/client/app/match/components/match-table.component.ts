@@ -120,4 +120,9 @@ export class CostMatchTableComponent {
     this.costMatchService.deleteMatch(this.selectedMatch);
     this.hideChildModal();
   }
+
+  public updateMatch():void {
+    this.costMatchService.updateMatch(this.selectedMatch);
+    this.hideChildModal();
+  }
 }

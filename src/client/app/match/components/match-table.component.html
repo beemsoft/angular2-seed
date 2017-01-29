@@ -32,7 +32,11 @@
       </div>
       <div class="modal-body">
         <cost-type-selector (select)="selectedMatch.costType = $event" [selectedCostTypeId]="selectedMatch.costType.id"></cost-type-selector>
-        <button type="button" (click)="deleteMatch()"></button>
+        <vat-type-selector (select)="selectedMatch.vatType = $event" [selectedVatType]="selectedMatch.vatType"></vat-type-selector>
+        <cost-character-selector (select)="selectedMatch.costCharacter = $event" [selectedCostCharacter]="selectedMatch.costCharacter"></cost-character-selector>
+        <input [(ngModel)]="selectedMatch.matchString" placeholder="Omschrijving">
+        <button type="button" (click)="deleteMatch()">Verwijder</button>
+        <button type="button" (click)="updateMatch()">Wijzig</button>
       </div>
     </div>
   </div>

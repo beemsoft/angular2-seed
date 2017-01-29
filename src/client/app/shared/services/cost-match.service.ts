@@ -61,6 +61,23 @@ export class CostMatchService {
         );
   }
 
+  updateMatch(costMatch: CostMatch) {
+    let body = JSON.stringify(costMatch);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/match';
+    this.http.put(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
+  }
+
   /**
    * Handle HTTP error
    */
