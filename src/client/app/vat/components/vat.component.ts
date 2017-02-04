@@ -34,7 +34,7 @@ export class VatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.costMatches = this.costMatchService.getMatches()
+    this.costMatchService.getMatches()
       .subscribe(
         costMatchData => this.costMatches = costMatchData,
         error => {

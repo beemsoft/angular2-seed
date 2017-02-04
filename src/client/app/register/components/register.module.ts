@@ -4,6 +4,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {CommonModule} from "@angular/common";
 import {RegisterComponent} from "./register.component";
 import {RegisterService} from "../../shared/services/register.service";
+import {RegisterEditComponent} from "./register-edit.component";
 
 @NgModule({
     imports: [
@@ -12,9 +13,13 @@ import {RegisterService} from "../../shared/services/register.service";
         ModalModule
     ],
     declarations: [
-        RegisterComponent
+        RegisterComponent,
+        RegisterEditComponent
     ],
-    exports: [RegisterComponent],
+    exports: [
+        RegisterComponent,
+        RegisterEditComponent
+    ],
     providers: [
         RegisterService
     ],

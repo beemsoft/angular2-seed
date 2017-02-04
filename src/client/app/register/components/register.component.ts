@@ -17,6 +17,10 @@ export class RegisterComponent {
         this.registerService.register(this.registration);
     }
 
+    public editRegistration() {
+        this.router.navigateByUrl('/register-edit');
+    }
+
     public cancel() {
         this.router.navigateByUrl('/');
     }

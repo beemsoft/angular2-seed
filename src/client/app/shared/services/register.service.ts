@@ -1,6 +1,5 @@
 import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
-import {LabelService} from "./label.service";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import Collection = _.Collection;
@@ -22,6 +21,7 @@ class CompanyData {
   address: string;
   zipCode: string;
   city: string;
+  account: string;
   chamberOfCommerceNumber: number;
 }
 
@@ -58,12 +58,29 @@ export class RegisterService {
       );
   }
 
-  getRegistration(registration: Registration): Observable<Registration> {
+  getRegistration(): Observable<Registration> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    return this.http.get('http://localhost:8080/auth/registration/'+registration.id, { headers: contentHeaders })
+    return this.http.get('http://localhost:8080/auth/register', { headers: contentHeaders })
         .map(res => <Registration> res.json())
         .catch(this.handleError);
+  }
+
+  updateRegistration(registration: Registration) {
+    let body = JSON.stringify(registration);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/register';
+    this.http.put(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
   }
 
   deleteRegistration(registration: Registration) {

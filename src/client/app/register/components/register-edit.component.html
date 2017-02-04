@@ -1,0 +1,28 @@
+<h1>Gegevens wijzigen</h1>
+<div class="jumbotron center-block">
+  <!--<div class="form-group">-->
+    <!--<label>Gebruikersnaam:</label>-->
+    <!--<span [ngModel]="registration.user"></span>-->
+  <!--</div>-->
+  <div class="form-group">
+    <label>Wachtwoord:</label>
+    <input type="password" [(ngModel)]="registration.password" class="form-control" placeholder="Wachtwoord">
+  </div>
+  <div class="form-group">
+    <label>Voorletters:</label>
+    <input [(ngModel)]="registration.personalData.initials" class="form-control"placeholder="Voorletters">
+  </div>
+  <div class="form-group">
+    <label>Tussenvoegsel(s):</label>
+    <input [(ngModel)]="registration.personalData.prefix" class="form-control" placeholder="Tussenvoegsel(s)">
+  </div>
+  <div class="form-group">
+    <label>Achternaam:</label>
+    <input [(ngModel)]="registration.personalData.surname" class="form-control" placeholder="Achternaam">
+  </div>
+  <div class="form-group">
+    <label>Email:</label>
+    <input [(ngModel)]="registration.personalData.email" class="form-control" placeholder="Email">
+  </div>
+  <button (click)="update()">Wijzigen</button>
+</div>

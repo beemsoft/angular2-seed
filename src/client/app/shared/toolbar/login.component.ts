@@ -46,6 +46,10 @@ export class LoginComponent {
     this.router.navigateByUrl('/register');
   }
 
+  editRegistration() {
+    this.router.navigateByUrl('/register-edit');
+  }
+
   isLoggedIn() {
     return this.loggedIn;
   }

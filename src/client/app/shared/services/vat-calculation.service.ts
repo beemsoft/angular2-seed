@@ -34,6 +34,17 @@ export class VatCalculationService {
 
   static calculateTotalVat(transactions:Array<Transaction>): VatReport {
     let totalVatIn:number = 0, totalVatOut:number = 0, paidInvoices:number = 0;
+
+    function applyVat(transaction): number {
+      if (transaction.costMatch.vatType === VatType[VatType.HIGH]) {
+        return VatCalculationService.applyVat(transaction, 21);
+      } else if (transaction.costMatch.vatType === VatType[VatType.LOW]) {
+        return VatCalculationService.applyVat(transaction, 6);
+      } else {
+        return VatCalculationService.applyVat(transaction, 0);
+      }
+    }
+
     for (let i = 0; i < transactions.length; i++) {
       if (CostCharacter[transactions[i].costCharacter] === CostCharacter.IGNORE) {
         transactions[i].amountNet = "n.v.t.";
@@ -54,13 +65,7 @@ export class VatCalculationService {
               if (transactions[i].costMatch.fixedAmount > 0) {
                 vatOut = VatCalculationService.applyFixedAmount(transactions[i], transactions[i].costMatch.fixedAmount);
               } else {
-                if (transactions[i].costMatch.vatType === VatType[VatType.HIGH]) {
-                  vatOut = VatCalculationService.applyVat(transactions[i], 21);
-                } else if (transactions[i].costMatch.vatType === VatType[VatType.LOW]) {
-                  vatOut = VatCalculationService.applyVat(transactions[i], 6);
-                } else {
-                  VatCalculationService.applyVat(transactions[i], 0);
-                }
+                vatOut = applyVat(transactions[i]);
                 if (transactions[i].costMatch.percentage > 0) {
                   vatOut = VatCalculationService.applyPercentage(transactions[i], transactions[i].costMatch.percentage);
                 }
