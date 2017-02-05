@@ -8,7 +8,9 @@
   <button (click)="addCostMatch()" [disabled]="addMatchDisabled()">Match toevoegen</button>
 
   <match-table [data]="costMatches"
-                     [rows]="costMatchTable.rows"
-                     [length]="costMatches.length">
+               [rows]="costMatchTable.rows"
+               [length]="costMatches.length"
+               (filterChanged)="handleFilterChange($event)"
+  >
   </match-table>
 </div>

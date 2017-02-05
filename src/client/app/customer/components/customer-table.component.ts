@@ -1,29 +1,24 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {CostMatch, CostMatchService} from "../../shared/services/cost-match.service";
-import {CostType} from "../../shared/services/import-list.service";
+import {Customer, CustomerService} from "../../shared/services/customer.service";
 
 @Component({
   moduleId: module.id,
-  selector: 'match-table',
-  templateUrl: 'match-table.component.html'
+  selector: 'customer-table',
+  templateUrl: 'customer-table.component.html'
 })
-export class CostMatchTableComponent {
+export class CustomerTableComponent {
   @Input() rows:Array<any> = [];
   @Input() data:Array<any>;
   @Input() length:number = 0;
   @Output() rowDeleted:EventEmitter<any> = new EventEmitter();
-  @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('childModal') public childModal:ModalDirective;
 
-  costTypes = CostType;
-
-  public selectedMatch:CostMatch = new CostMatch();
+  public selectedCustomer:Customer = new Customer();
 
   public columns:Array<any> = [
     {title: 'Id', name: 'id'},
-    {title: 'Match', name: 'matchString'},
-    {title: 'Type', name: 'costTypeDescription'}
+    {title: 'Naam', name: 'name'}
   ];
   public page:number = 1;
   public itemsPerPage:number = 10;
@@ -32,11 +27,11 @@ export class CostMatchTableComponent {
   public config:any = {
     paging: true,
     sorting: {columns: this.columns, sortType: 'alphabetic'},
-    filtering: {filterString: '', columnName: 'matchString'}
+    filtering: {filterString: '', columnName: 'name'}
   };
 
   constructor(
-    public costMatchService: CostMatchService
+    public customerService: CustomerService
   ) {}
 
   public changePage(page:any, data:Array<any> = this.data):Array<any> {
@@ -83,8 +78,6 @@ export class CostMatchTableComponent {
       return data;
     }
 
-    this.filterChanged.emit(this.config.filtering.filterString);
-
     return data.filter((item: any) =>
         item[config.filtering.columnName].match(this.config.filtering.filterString)
     );
@@ -105,7 +98,7 @@ export class CostMatchTableComponent {
   }
 
   public onCellClick(event:Event):void {
-    this.selectedMatch = event.row;
+    this.selectedCustomer = event.row;
     this.showChildModal();
   }
 
@@ -117,15 +110,15 @@ export class CostMatchTableComponent {
     this.childModal.hide();
   }
 
-  public deleteMatch():void {
-    let index = this.rows.indexOf(this.selectedMatch);
+  public deleteCustomer():void {
+    let index = this.rows.indexOf(this.selectedCustomer);
     this.rows.splice(index, 1);
-    this.costMatchService.deleteMatch(this.selectedMatch);
+    this.customerService.deleteCustomer(this.selectedCustomer);
     this.hideChildModal();
   }
 
-  public updateMatch():void {
-    this.costMatchService.updateMatch(this.selectedMatch);
+  public updateCustomer():void {
+    this.customerService.updateCustomer(this.selectedCustomer);
     this.hideChildModal();
   }
 }

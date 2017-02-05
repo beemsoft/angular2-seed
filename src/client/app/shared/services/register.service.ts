@@ -18,10 +18,11 @@ class PersonalData {
 }
 
 class CompanyData {
+  companyName: string;
   address: string;
   zipCode: string;
   city: string;
-  account: string;
+  accountNumber: string;
   chamberOfCommerceNumber: number;
 }
 

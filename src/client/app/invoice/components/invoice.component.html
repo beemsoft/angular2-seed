@@ -1,0 +1,10 @@
+<h1>Facturen</h1>
+<div>
+  <label>Aantal uren</label><input [(ngModel)]="invoice.unitsOfWork" placeholder="Aantal uren">
+  <button (click)="addInvoice()">Factuur toevoegen</button>
+
+  <invoice-table [data]="invoices"
+                 [rows]="invoiceTable.rows"
+                 [length]="invoices.length">
+  </invoice-table>
+</div>

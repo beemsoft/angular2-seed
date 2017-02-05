@@ -1,0 +1,12 @@
+<h1>Klanten</h1>
+<div>
+  <label>Naam</label><input [(ngModel)]="customer.name" placeholder="Naam">
+  <label>Adres</label><input [(ngModel)]="customer.address" placeholder="Adres (volledig)">
+  <label>Invoice email</label><input [(ngModel)]="customer.emailInvoice" placeholder="Email">
+  <button (click)="addCustomer()">Klant toevoegen</button>
+
+  <customer-table [data]="customers"
+                 [rows]="customerTable.rows"
+                 [length]="customers.length">
+  </customer-table>
+</div>

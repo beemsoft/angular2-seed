@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {CostTableComponent} from "./cost-table.component";
 import {LabelService} from "../../shared/services/label.service";
 import {CostType} from "../../shared/services/import-list.service";
 import {CostMatch, CostMatchService} from "../../shared/services/cost-match.service";
@@ -14,6 +13,7 @@ import moment = require("moment");
 export class CostMatchComponent implements OnInit {
   private costMatches: Array<CostMatch> = [];
   public costMatch: CostMatch = new CostMatch();
+  private filterString: string;
 
   constructor(
     public costMatchService: CostMatchService,
@@ -22,7 +22,7 @@ export class CostMatchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.costMatches = this.costMatchService.getMatches()
+    this.costMatchService.getMatches()
       .subscribe(
         costMatchData => {
           this.costMatches = costMatchData;
@@ -42,8 +42,9 @@ export class CostMatchComponent implements OnInit {
   }
 
   public addCostMatch():void {
+    this.costMatch.matchString = this.filterString;
     this.costMatchService.addMatch(this.costMatch);
-    this.costMatchTable = (<CostMatch[]>this.costMatches).concat(this.costMatch);
+    this.costMatches = (<CostMatch[]>this.costMatches).concat(this.costMatch);
 
     this.costMatchTable.data = this.costMatches;
     this.costMatchTable.config.filtering.filterString = '';
@@ -57,5 +58,9 @@ export class CostMatchComponent implements OnInit {
     public addMatchDisabled():boolean {
         // return this.transactionTable.config.filtering.filterString.length < 2;
         return false;
+    }
+
+    handleFilterChange(filterString: string) {
+        this.filterString = filterString;
     }
 }

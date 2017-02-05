@@ -1,31 +1,25 @@
-import {VatType, CostCharacter, CostType, Transaction} from "./import-list.service";
-import {Http} from '@angular/http';
+import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
-import Collection = _.Collection;
-import {LabelService} from "./label.service";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
+import Collection = _.Collection;
 
-export class CostMatch {
-  matchString: string;
-  costType: CostType = CostType.GENERAL_EXPENSE;
-  costTypeDescription: string;
-  costCharacter: CostCharacter;
-  vatType: VatType;
-  percentage: number;
-  fixedAmount: number;
+export class Customer {
+  name: string;
+  address: string;
+  emailInvoice: string;
 }
 
 @Injectable()
-export class CostMatchService {
+export class CustomerService {
 
-  constructor(private http: Http, private labelService: LabelService) {}
+  constructor(private http: Http) {}
 
-  addMatch(costMatch: CostMatch) {
-    let body = JSON.stringify(costMatch);
+  addCustomer(customer: Customer) {
+    let body = JSON.stringify(customer);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/match', body, { headers: contentHeaders })
+    this.http.post('http://localhost:8080/auth/customer', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -38,17 +32,17 @@ export class CostMatchService {
       );
   }
 
-  getMatches(): Observable<CostMatch> {
+  getCustomers(): Observable<Customer> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/match', { headers: contentHeaders })
-      .map(res => <CostMatch> res.json())
+    return this.http.get('http://localhost:8080/auth/customer', { headers: contentHeaders })
+      .map(res => <Customer> res.json())
       .catch(this.handleError);
   }
 
-  deleteMatch(costMatch: CostMatch) {
+  deleteCustomer(customer: Customer) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/match/'+costMatch.id, { headers: contentHeaders })
+    this.http.delete('http://localhost:8080/auth/customer/'+customer.id, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -61,10 +55,10 @@ export class CostMatchService {
         );
   }
 
-  updateMatch(costMatch: CostMatch) {
-    let body = JSON.stringify(costMatch);
+  updateCustomer(customer: Customer) {
+    let body = JSON.stringify(customer);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/match';
+    let url = 'http://localhost:8080/auth/customer';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -88,20 +82,5 @@ export class CostMatchService {
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
-  }
-
-  match(transactions: Array<Transaction>, costMatches: Collection<CostMatch>) {
-    transactions.forEach(transaction => {
-      for (let costMatch of costMatches) {
-        if (transaction.description.toLowerCase().indexOf(costMatch.matchString.toLowerCase()) > -1) {
-          transaction.costType = CostType[costMatch.costType.id];
-          transaction.costTypeDescription = this.labelService.get(CostType[costMatch.costType.id]);
-          transaction.costCharacter = CostCharacter[costMatch.costCharacter];
-          transaction.costCharacterDescription = this.labelService.get(CostCharacter[costMatch.costCharacter]);
-          transaction.costMatch = costMatch;
-        }
-      }
-    });
-    return transactions;
   }
 }

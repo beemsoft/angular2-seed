@@ -1,0 +1,11 @@
+<h1>Projecten</h1>
+<div>
+  <!--<label>Klant:</label><cost-type-selector (select)="costMatch.costType = $event"></cost-type-selector>-->
+  <label>Code</label><input [(ngModel)]="project.code" placeholder="code">
+  <button (click)="addProject()">Project toevoegen</button>
+
+  <project-table [data]="projects"
+                 [rows]="projectTable.rows"
+                 [length]="projects.length">
+  </project-table>
+</div>

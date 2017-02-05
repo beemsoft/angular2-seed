@@ -15,6 +15,9 @@ import {BookModule} from "./book/components/book.module";
 import {ActivumModule} from "./activum/components/activum.module";
 import {CostMatchModule} from "./match/components/match.module";
 import {RegisterModule} from "./register/components/register.module";
+import {CustomerModule} from "./customer/components/customer.module";
+import {ProjectModule} from "./project/components/project.module";
+import {InvoiceModule} from "./invoice/components/invoice.module";
 
 @NgModule({
   imports: [
@@ -29,6 +32,9 @@ import {RegisterModule} from "./register/components/register.module";
     BookModule,
     ActivumModule,
     RegisterModule,
+    CustomerModule,
+    ProjectModule,
+    InvoiceModule,
     SharedModule.forRoot()
   ],
   declarations: [AppComponent],

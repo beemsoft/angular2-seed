@@ -8,6 +8,9 @@ import {BookRoutes} from "./book/components/book.routes";
 import {ActivumRoutes} from "./activum/components/activum.routes";
 import {CostMatchRoutes} from "./match/components/match.routes";
 import {RegisterRoutes} from "./register/components/register.routes";
+import {CustomerRoutes} from "./customer/components/customer.routes";
+import {ProjectRoutes} from "./project/components/project.routes";
+import {InvoiceRoutes} from "./invoice/components/invoice.routes";
 
 export const routes: Routes = [
   ...HomeRoutes,
@@ -17,5 +20,8 @@ export const routes: Routes = [
   ...CostMatchRoutes,
   ...BookRoutes,
   ...ActivumRoutes,
+  ...CustomerRoutes,
+  ...ProjectRoutes,
+  ...InvoiceRoutes,
   ...RegisterRoutes
 ];

@@ -1,7 +1,6 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Cost, CostService} from "../../shared/services/cost.service";
-import {CostType} from "../../shared/services/import-list.service";
 
 @Component({
   moduleId: module.id,

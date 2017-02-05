@@ -1,9 +1,5 @@
 <h1>Gegevens wijzigen</h1>
 <div class="jumbotron center-block">
-  <!--<div class="form-group">-->
-    <!--<label>Gebruikersnaam:</label>-->
-    <!--<span [ngModel]="registration.user"></span>-->
-  <!--</div>-->
   <div class="form-group">
     <label>Wachtwoord:</label>
     <input type="password" [(ngModel)]="registration.password" class="form-control" placeholder="Wachtwoord">
@@ -23,6 +19,34 @@
   <div class="form-group">
     <label>Email:</label>
     <input [(ngModel)]="registration.personalData.email" class="form-control" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label>Bedijfsnaam:</label>
+    <input [(ngModel)]="registration.companyData.companyName" class="form-control" placeholder="Bedrijfsnaam (nodig voor factuur)">
+  </div>
+  <div class="form-group">
+    <label>Adres:</label>
+    <input [(ngModel)]="registration.companyData.address" class="form-control" placeholder="Adres (nodig voor factuur)">
+  </div>
+  <div class="form-group">
+    <label>Postcode:</label>
+    <input [(ngModel)]="registration.companyData.zipCode" class="form-control" placeholder="Postcode (nodig voor factuur)">
+  </div>
+  <div class="form-group">
+    <label>Stad:</label>
+    <input [(ngModel)]="registration.companyData.city" class="form-control" placeholder="Stad (nodig voor factuur)">
+  </div>
+  <div class="form-group">
+    <label>IBAN rekening:</label>
+    <input [(ngModel)]="registration.companyData.accountNumber" class="form-control" placeholder="IBAN rekening (nodig voor factuur)">
+  </div>
+  <div class="form-group">
+    <label>KvK nummer:</label>
+    <input [(ngModel)]="registration.companyData.chamberOfCommerceNumber" class="form-control" placeholder="KvK nummer (nodig voor factuur)">
+  </div>
+  <div class="form-group">
+    <label>Fiscaal nummer:</label>
+    <input [(ngModel)]="registration.fiscalData.vatNumber" class="form-control" placeholder="Fiscaal nummer, zonder NL vooraf (nodig voor factuur)">
   </div>
   <button (click)="update()">Wijzigen</button>
 </div>

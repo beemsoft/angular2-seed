@@ -3,9 +3,9 @@ import {PaginationModule, ModalModule} from "ng2-bootstrap/ng2-bootstrap";
 import {Ng2TableModule} from "ng2-table/ng2-table";
 import {SharedModule} from "../../shared/shared.module";
 import {CommonModule} from "@angular/common";
-import {CostMatchComponent} from "./match.component";
-import {CostMatchTableComponent} from "./match-table.component";
-import {CostMatchService} from "../../shared/services/cost-match.service";
+import {InvoiceComponent} from "./invoice.component";
+import {InvoiceTableComponent} from "./invoice-table.component";
+import {InvoiceService} from "../../shared/services/invoice.service";
 
 @NgModule({
     imports: [
@@ -16,15 +16,15 @@ import {CostMatchService} from "../../shared/services/cost-match.service";
       ModalModule
     ],
     declarations: [
-      CostMatchComponent,
-      CostMatchTableComponent
+      InvoiceComponent,
+      InvoiceTableComponent
     ],
-    exports: [CostMatchComponent],
+    exports: [InvoiceComponent],
     providers: [
-      CostMatchService,
-      CostMatchTableComponent
+      InvoiceService,
+      InvoiceTableComponent
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 
-export class CostMatchModule { }
+export class InvoiceModule { }

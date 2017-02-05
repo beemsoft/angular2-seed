@@ -1,11 +1,9 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import {RouterModule, Router} from '@angular/router';
-
-import { ToolbarComponent } from './toolbar/index';
-import { NavbarComponent } from './navbar/index';
-import {CostMatchService} from "./services/cost-match.service";
+import {NgModule, ModuleWithProviders} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {RouterModule} from "@angular/router";
+import {ToolbarComponent} from "./toolbar/index";
+import {NavbarComponent} from "./navbar/index";
 import {LabelService} from "./services/label.service";
 import {ImportListService} from "./services/import-list.service";
 import {CsvParseService} from "./services/csv-parse.service";
@@ -53,7 +51,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [CostMatchService, LabelService, ImportListService, CsvParseService]
+      providers: [LabelService, ImportListService, CsvParseService]
     };
   }
 }
