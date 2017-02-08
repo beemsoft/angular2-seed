@@ -6,8 +6,8 @@ import Collection = _.Collection;
 import {Project} from "./project.service";
 
 export class Invoice {
- invoiceNumber: string;
-  project: Project;
+  invoiceNumber: string;
+  project: Project = new Project();
   unitsOfWork: number;
 }
 

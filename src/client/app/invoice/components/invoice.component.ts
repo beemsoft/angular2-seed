@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
-import {Customer} from "../../shared/services/customer.service";
 import {Invoice, InvoiceService} from "../../shared/services/invoice.service";
 import {InvoiceTableComponent} from "./invoice-table.component";
+import {ProjectService} from "../../shared/services/project.service";
 import moment = require("moment");
 
 @Component({
@@ -10,12 +10,13 @@ import moment = require("moment");
   templateUrl: 'invoice.component.html'
 })
 export class InvoiceComponent implements OnInit {
-  private invoices: Array<Customer> = [];
+  private invoices: Array<Invoice> = [];
   public invoice: Invoice = new Invoice();
 
   constructor(
     public invoiceService: InvoiceService,
-    public invoiceTable: InvoiceTableComponent
+    public invoiceTable: InvoiceTableComponent,
+    private projectService: ProjectService
   ) {}
 
   ngOnInit() {
@@ -36,11 +37,22 @@ export class InvoiceComponent implements OnInit {
   }
 
   public addInvoice():void {
-    this.invoiceService.addInvoice(this.invoice);
-    this.invoices = (<Customer[]>this.invoices).concat(this.invoice);
+    this.projectService.getProject(this.invoice.project.id)
+        .subscribe(
+            projectData => {
+                this.invoice.project = projectData;
+                this.invoiceService.addInvoice(this.invoice);
+                this.invoices = (<Invoice[]>this.invoices).concat(this.invoice);
 
-    this.invoiceTable.data = this.invoices;
-    this.invoiceTable.config.filtering.filterString = '';
-    this.invoiceTable.onChangeTable(this.invoiceTable.config);
+                this.invoiceTable.data = this.invoices;
+                this.invoiceTable.config.filtering.filterString = '';
+                this.invoiceTable.onChangeTable(this.invoiceTable.config);
+            },
+            error => {
+                alert(error);
+                console.log(error);
+            },
+            () => console.log('Invoice added')
+        );
   }
 }

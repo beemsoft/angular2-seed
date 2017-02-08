@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Project, ProjectService} from "../../shared/services/project.service";
 import {ProjectTableComponent} from "./project-table.component";
 import moment = require("moment");
-import {CustomerService, Customer} from "../../shared/services/customer.service";
+import {CustomerService} from "../../shared/services/customer.service";
 
 @Component({
   moduleId: module.id,
@@ -12,7 +12,6 @@ import {CustomerService, Customer} from "../../shared/services/customer.service"
 export class ProjectComponent implements OnInit {
   private projects: Array<Project> = [];
   public project: Project = new Project();
-  private selectedCustomer: Customer;
 
   constructor(
     public projectService: ProjectService,

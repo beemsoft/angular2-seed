@@ -28,12 +28,13 @@
         <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Klant wijzigen / verwijderen</h4>
+        <h4 class="modal-title">Factuur wijzigen / verwijderen</h4>
       </div>
       <div class="modal-body">
-        <input [(ngModel)]="selectedCustomer.name" placeholder="Naam">
-        <button type="button" (click)="deleteCustomer()">Verwijder</button>
-        <button type="button" (click)="updateCustomerr()">Wijzig</button>
+        <input [(ngModel)]="selectedInvoice.invoiceNumber" placeholder="Factuurnummer">
+        <input [(ngModel)]="selectedInvoice.unitsOfWork" placeholder="Aantal uren">
+        <button type="button" (click)="deleteInvoice()">Verwijder</button>
+        <button type="button" (click)="updateInvoice()">Wijzig</button>
       </div>
     </div>
   </div>

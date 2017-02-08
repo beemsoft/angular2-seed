@@ -16,6 +16,8 @@ import {DisplayUserComponent} from "./display-user/display-user.component";
 import {LoginComponent} from "./toolbar/login.component";
 import {CustomerSelector} from "./selectors/customer.selector";
 import {CustomerService} from "./services/customer.service";
+import {ProjectSelector} from "./selectors/project.selector";
+import {ProjectService} from "./services/project.service";
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -34,7 +36,8 @@ import {CustomerService} from "./services/customer.service";
     BookTypeSelector,
     ActivumTypeSelector,
     KeysPipe,
-    CustomerSelector
+    CustomerSelector,
+    ProjectSelector
   ],
   exports: [
     ToolbarComponent,
@@ -48,14 +51,21 @@ import {CustomerService} from "./services/customer.service";
     VatTypeSelector,
     BookTypeSelector,
     ActivumTypeSelector,
-    CustomerSelector
+    CustomerSelector,
+    ProjectSelector
   ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [LabelService, ImportListService, CsvParseService, CustomerService]
+      providers: [
+        LabelService,
+        ImportListService,
+        CsvParseService,
+        CustomerService,
+        ProjectService
+      ]
     };
   }
 }

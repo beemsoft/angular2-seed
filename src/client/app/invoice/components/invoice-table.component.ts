@@ -111,7 +111,7 @@ export class InvoiceTableComponent {
     this.childModal.hide();
   }
 
-  public deleteCustomer():void {
+  public deleteInvoice():void {
     let index = this.rows.indexOf(this.selectedInvoice);
     this.rows.splice(index, 1);
     this.invoiceService.deleteInvoice(this.selectedInvoice);

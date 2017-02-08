@@ -8,6 +8,7 @@ import * as moment from "moment/moment";
 import Collection = _.Collection;
 
 export class Project {
+  id: number;
   customer: Customer = new Customer();
   code: string;
   projectDescription: string;
@@ -44,6 +45,14 @@ export class ProjectService {
   getProjects(): Observable<Project> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
     return this.http.get('http://localhost:8080/auth/project', { headers: contentHeaders })
+        .map(res => <Project> res.json())
+        .catch(this.handleError);
+  }
+
+  getProject(id: number): Observable<Project> {
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+
+    return this.http.get('http://localhost:8080/auth/project/'+  id, { headers: contentHeaders })
         .map(res => <Project> res.json())
         .catch(this.handleError);
   }
