@@ -122,4 +122,9 @@ export class InvoiceTableComponent {
     this.invoiceService.updateInvoice(this.selectedInvoice);
     this.hideChildModal();
   }
+
+  public createInvoicePdf():void {
+    this.invoiceService.createInvoicePdf(this.selectedInvoice);
+    this.hideChildModal();
+  }
 }

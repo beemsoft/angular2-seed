@@ -1,11 +1,11 @@
-import {Http} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
-import Collection = _.Collection;
 import {Project} from "./project.service";
 
 export class Invoice {
+  id: number;
   invoiceNumber: string;
   project: Project = new Project();
   unitsOfWork: number;
@@ -72,6 +72,25 @@ export class InvoiceService {
             }
         );
   }
+
+    createInvoicePdf(invoice: Invoice) {
+        const contentHeaders = new Headers();
+        contentHeaders.append('Accept', 'application/pdf');
+        contentHeaders.append('Content-Type', 'application/pdf');
+        contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+        let url = 'http://localhost:8080/auth/invoice/' + invoice.id;
+        return this.http.get(url, { headers: contentHeaders })
+            .subscribe(
+                response => {
+                    // localStorage.setItem('jwt', response.json().id_token);
+                    // this.router.parent.navigateByUrl('/vat');
+                },
+                error => {
+                    alert(error);
+                    console.log(error);
+                }
+            );
+    }
 
   /**
    * Handle HTTP error
