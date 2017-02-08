@@ -32,6 +32,10 @@
       </div>
       <div class="modal-body">
         <input [(ngModel)]="selectedProject.code" placeholder="Naam">
+        <input [(ngModel)]="selectedProject.projectDescription" placeholder="Project omschrijving">
+        <input [(ngModel)]="selectedProject.activityDescription" placeholder="Activiteit omschrijving">
+        <input [(ngModel)]="selectedProject.rate" placeholder="Tarief">
+        <input [(ngModel)]="selectedProject.paymentTermDays" placeholder="Betalingstermijn in dagen">
         <button type="button" (click)="deleteProject()">Verwijder</button>
         <button type="button" (click)="updateProject()">Wijzig</button>
       </div>

@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Project, ProjectService} from "../../shared/services/project.service";
 import {ProjectTableComponent} from "./project-table.component";
 import moment = require("moment");
+import {CustomerService, Customer} from "../../shared/services/customer.service";
 
 @Component({
   moduleId: module.id,
@@ -11,10 +12,12 @@ import moment = require("moment");
 export class ProjectComponent implements OnInit {
   private projects: Array<Project> = [];
   public project: Project = new Project();
+  private selectedCustomer: Customer;
 
   constructor(
     public projectService: ProjectService,
-    public projectTable: ProjectTableComponent
+    public projectTable: ProjectTableComponent,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit() {
@@ -35,11 +38,22 @@ export class ProjectComponent implements OnInit {
   }
 
   public addProject():void {
-    this.projectService.addProject(this.project);
-    this.projects = (<Project[]>this.projects).concat(this.project);
+    this.customerService.getCustomer(this.project.customer.id)
+        .subscribe(
+            customerData => {
+                this.project.customer = customerData;
+                this.projectService.addProject(this.project);
+                this.projects = (<Project[]>this.projects).concat(this.project);
 
-    this.projectTable.data = this.projects;
-    this.projectTable.config.filtering.filterString = '';
-    this.projectTable.onChangeTable(this.projectTable.config);
+                this.projectTable.data = this.projects;
+                this.projectTable.config.filtering.filterString = '';
+                this.projectTable.onChangeTable(this.projectTable.config);
+            },
+            error => {
+                alert(error);
+                console.log(error);
+            },
+            () => console.log('Project added')
+        );
   }
 }

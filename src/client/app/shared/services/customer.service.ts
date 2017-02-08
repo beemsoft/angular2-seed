@@ -5,6 +5,7 @@ import {Injectable} from "@angular/core";
 import Collection = _.Collection;
 
 export class Customer {
+  id: number;
   name: string;
   address: string;
   emailInvoice: string;
@@ -37,6 +38,14 @@ export class CustomerService {
     return this.http.get('http://localhost:8080/auth/customer', { headers: contentHeaders })
       .map(res => <Customer> res.json())
       .catch(this.handleError);
+  }
+
+  getCustomer(id: number): Observable<Customer> {
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+
+    return this.http.get('http://localhost:8080/auth/customer/'+  id, { headers: contentHeaders })
+        .map(res => <Customer> res.json())
+        .catch(this.handleError);
   }
 
   deleteCustomer(customer: Customer) {
