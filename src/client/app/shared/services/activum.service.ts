@@ -12,6 +12,7 @@ export enum ActivumType {
 }
 
 export class Activum {
+  description: string;
   balanceType: ActivumType = ActivumType.MACHINERY;
   balanceTypeDescription: string;
   purchasePrice: number;
@@ -28,7 +29,6 @@ export class BusinessCar extends Activum {
 }
 
 export class Office extends Activum {
-  description: string;
   startupCosts: number;
   nofSquareMetersBusiness: number;
   nofSquareMetersPrivate: number;

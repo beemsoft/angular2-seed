@@ -7,6 +7,8 @@ import {Ng2TableModule} from "ng2-table/ng2-table";
 import {PaginationModule} from "ng2-bootstrap/ng2-bootstrap";
 import {VatCalculationService} from "../../shared/services/vat-calculation.service";
 import {TransactionTableComponent} from "./transaction-table.component";
+import {VatReportComponent} from "./vat-report.component";
+import {FiscalReportComponent} from "./fiscal-report.component";
 
 @NgModule({
     imports: [
@@ -17,7 +19,9 @@ import {TransactionTableComponent} from "./transaction-table.component";
     ],
     declarations: [
       VatComponent,
-      TransactionTableComponent
+      TransactionTableComponent,
+      VatReportComponent,
+      FiscalReportComponent
     ],
     exports: [VatComponent],
     providers: [

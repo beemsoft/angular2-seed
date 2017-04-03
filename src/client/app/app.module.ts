@@ -18,6 +18,7 @@ import {RegisterModule} from "./register/components/register.module";
 import {CustomerModule} from "./customer/components/customer.module";
 import {ProjectModule} from "./project/components/project.module";
 import {InvoiceModule} from "./invoice/components/invoice.module";
+import {FiscalOverviewModule} from "./fiscal-overview/components/fiscal-overview.module";
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import {InvoiceModule} from "./invoice/components/invoice.module";
     CustomerModule,
     ProjectModule,
     InvoiceModule,
+    FiscalOverviewModule,
     SharedModule.forRoot()
   ],
   declarations: [AppComponent],

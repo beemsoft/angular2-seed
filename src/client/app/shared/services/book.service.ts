@@ -46,6 +46,23 @@ export class BookService {
       );
   }
 
+  updateBookValue(bookValue: BookValue) {
+    let body = JSON.stringify(bookValue);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/book';
+    this.http.put(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
+  }
+
   deleteBookValue(bookValue: BookValue) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 

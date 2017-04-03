@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Component} from '@angular/core';
 import {ImportListService, Transaction, CostCharacter, CostType} from "../../shared/services/import-list.service";
 import {CostMatch, CostMatchService} from "../../shared/services/cost-match.service";
 import {LabelService} from "../../shared/services/label.service";
-import {VatCalculationService, VatReport} from "../../shared/services/vat-calculation.service";
+import {VatCalculationService, VatReport, FiscalReport} from "../../shared/services/vat-calculation.service";
 import {TransactionTableComponent} from "./transaction-table.component";
+import moment = require("moment");
 
 @Component({
   moduleId: module.id,
@@ -15,7 +15,8 @@ import {TransactionTableComponent} from "./transaction-table.component";
 export class VatComponent implements OnInit {
   uploadedFile: File;
   importedText: string;
-  public vatReport: VatReport;
+  public vatReport: VatReport = new VatReport();
+  public fiscalReport: FiscalReport;
   private costMatches;
   transactionsLoaded: number = 0;
   transactionsUnmatched: number;
@@ -51,12 +52,24 @@ export class VatComponent implements OnInit {
 
   private checkTransactions(): void {
     this.transactionsUnmatched = 0;
+    let latestTransactionDate:moment.Moment = this.transactions[0].date;
+    let firstTransactionDate:moment.Moment = this.transactions[0].date;
     for (let i = 0; i < this.transactions.length; i++) {
       if (this.transactions[i].costCharacter === CostCharacter.UNKNOWN) {
         this.transactionsUnmatched++;
       }
+      if (this.transactions[i].date.isAfter(latestTransactionDate)) {
+        latestTransactionDate = this.transactions[i].date;
+      }
+      if (this.transactions[i].date.isBefore(firstTransactionDate)) {
+        firstTransactionDate = this.transactions[i].date;
+      }
+      if (!this.vatReport.accountNumbers.includes(this.transactions[i].accountNumber)) {
+        this.vatReport.accountNumbers.push(this.transactions[i].accountNumber);
+      }
     }
-
+    this.vatReport.firstTransactionDate = firstTransactionDate.format('YYYY-MM-DD');
+    this.vatReport.latestTransactionDate = latestTransactionDate.format('YYYY-MM-DD');
     this.transactionTable.config.filtering.onlyUnknown = this.transactionsUnmatched > 0;
   }
 
@@ -71,8 +84,8 @@ export class VatComponent implements OnInit {
       this.transactionsLoaded = this.transactions.length;
       this.transactionTable.length = this.transactions.length;
       if (this.transactionsLoaded) {
-        this.checkTransactions();
         this.updateTotalVat();
+        this.checkTransactions();
         this.transactionTable.data = this.transactions;
         this.transactionTable.onChangeTable(this.transactionTable.config);
       }
@@ -97,8 +110,8 @@ export class VatComponent implements OnInit {
         this.transactions[i].costCharacterDescription = this.labelService.get(CostCharacter[this.transactions[i].costCharacter]);
       }
     }
-    this.checkTransactions();
     this.updateTotalVat();
+    this.checkTransactions();
 
     this.transactionTable.config.filtering.filterString = '';
     this.transactionTable.onChangeTable(this.transactionTable.config);
@@ -112,7 +125,7 @@ export class VatComponent implements OnInit {
     this.vatReport = VatCalculationService.calculateTotalVat(this.transactions);
   }
 
-  public calculateVatDisabled():boolean {
-    return this.transactionsUnmatched > 0;
-  }
+  // public calculateVatDisabled():boolean {
+  //   return this.transactionsUnmatched > 0;
+  // }
 }

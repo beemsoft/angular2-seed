@@ -29,7 +29,7 @@ export class BookTableComponent {
     public config:any = {
         paging: true,
         sorting: {columns: this.columns, sortType: 'alphabetic'},
-        filtering: {filterString: '', columnName: 'balanceTypeDescription'}
+        filtering: {filterString: '', columnName: 'balanceType'}
     };
 
     constructor(
@@ -117,6 +117,11 @@ export class BookTableComponent {
         var index =this.rows.indexOf(this.selectedBookValue);
         this.rows.splice(index, 1);
         this.bookService.deleteBookValue(this.selectedBookValue);
+        this.hideChildModal();
+    }
+
+    public updateBookValue():void {
+        this.bookService.updateBookValue(this.selectedBookValue);
         this.hideChildModal();
     }
 }

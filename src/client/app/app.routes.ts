@@ -11,6 +11,7 @@ import {RegisterRoutes} from "./register/components/register.routes";
 import {CustomerRoutes} from "./customer/components/customer.routes";
 import {ProjectRoutes} from "./project/components/project.routes";
 import {InvoiceRoutes} from "./invoice/components/invoice.routes";
+import {FiscalOverviewRoutes} from "./fiscal-overview/components/fiscal-overview.routes";
 
 export const routes: Routes = [
   ...HomeRoutes,
@@ -23,5 +24,6 @@ export const routes: Routes = [
   ...CustomerRoutes,
   ...ProjectRoutes,
   ...InvoiceRoutes,
+  ...FiscalOverviewRoutes,
   ...RegisterRoutes
 ];

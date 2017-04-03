@@ -56,6 +56,23 @@ export class CostService {
       );
   }
 
+  updateCost(cost: Cost) {
+    let body = JSON.stringify(cost);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/cost';
+    this.http.put(url, body, { headers: contentHeaders })
+        .subscribe(
+            response => {
+              // localStorage.setItem('jwt', response.json().id_token);
+              // this.router.parent.navigateByUrl('/vat');
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            }
+        );
+  }
+
   getCost(cost: Cost): Observable<Cost> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 

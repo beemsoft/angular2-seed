@@ -36,7 +36,8 @@
         <input [(ngModel)]="selectedCost.amount" placeholder="Bedrag">
         <input [(ngModel)]="selectedCost.vat" placeholder="btw">
         <input [(ngModel)]="selectedCost.description" placeholder="Omschrijving">
-        <button type="button" (click)="deleteCost()"></button>
+        <button type="button" (click)="deleteCost()">Verwijder</button>
+        <button type="button" (click)="updateCost()">Wijzig</button>
       </div>
     </div>
   </div>

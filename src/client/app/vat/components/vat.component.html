@@ -12,31 +12,24 @@
 </div>
 <div>
   <input type="file" (change)="fileChangeEvent($event)" placeholder="Laad transacties..." />
-  <button type="button" (click)="upload()">Laad transacties</button>
 </div>
 <div *ngIf="transactionsLoaded > 0">
   <p>Er zijn {{transactionsLoaded}} transacties geladen.</p>
   <div [ngSwitch]="transactionsUnmatched > 0">
     <p *ngSwitchCase="false">Alle transacties zijn gematched.</p>
-    <p *ngSwitchCase="true">Er zijn nog {{transactionsUnmatched}} onbekende transacties (zie kolom 'Zakelijk/Prive'). Voeg matches toe m.b.v. het zoekfilter hieronder.</p>
+    <div *ngSwitchCase="true">
+      <p>Er zijn nog {{transactionsUnmatched}} onbekende transacties (zie kolom 'Zakelijk/Prive'). Voeg matches toe m.b.v. het zoekfilter hieronder.</p>
+      <label>Kostensoort:</label><cost-type-selector (select)="costMatch.costType = $event"></cost-type-selector>
+      <label>btw type:</label><vat-type-selector *ngIf="displayVatTypeSelector()" (select)="costMatch.vatType = $event"></vat-type-selector>
+      <label>Karakter:</label><cost-character-selector (select)="costMatch.costCharacter = $event"></cost-character-selector>
+      <label>(Optioneel:) percentage</label><input [(ngModel)]="costMatch.percentage" placeholder="percentage">
+      <label>(Optioneel:) vast bedrag</label><input [(ngModel)]="costMatch.fixedAmount" placeholder="vast bedrag (netto)">
+      <button (click)="addMatch()" [disabled]="addMatchDisabled()">Match toevoegen</button>
+    </div>
   </div>
 
-  <label>Kostensoort:</label><cost-type-selector (select)="costMatch.costType = $event"></cost-type-selector>
-  <label>btw type:</label><vat-type-selector *ngIf="displayVatTypeSelector()" (select)="costMatch.vatType = $event"></vat-type-selector>
-  <label>Karakter:</label><cost-character-selector (select)="costMatch.costCharacter = $event"></cost-character-selector>
-  <label>(Optioneel:) percentage</label><input [(ngModel)]="costMatch.percentage" placeholder="percentage">
-  <label>(Optioneel:) vast bedrag</label><input [(ngModel)]="costMatch.fixedAmount" placeholder="vast bedrag (netto)">
-  <button (click)="addMatch()" [disabled]="addMatchDisabled()">Match toevoegen</button>
-  <button (click)="calculateVat()" [disabled]="calculateVatDisabled()">Bereken btw</button>
-  <div>
-    btw uit: {{vatReport.totalVatOut}}
-  </div>
-  <div>
-    btw in: {{vatReport.totalVatIn}}
-  </div>
-  <div>
-    Betaalde facturen: {{vatReport.paidInvoices}}
-  </div>
+  <!--<button (click)="calculateVat()" [disabled]="calculateVatDisabled()">Bereken btw</button>-->
+  <vat-report [vatReport]="vatReport"></vat-report>
 
   <transaction-table [data]="transactions"
                      [rows]="transactionTable.rows"

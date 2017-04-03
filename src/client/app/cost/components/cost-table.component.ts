@@ -131,4 +131,9 @@ export class CostTableComponent {
     this.costService.deleteCost(this.selectedCost);
     this.hideChildModal();
   }
+
+  public updateCost():void {
+    this.costService.updateCost(this.selectedCost);
+    this.hideChildModal();
+  }
 }

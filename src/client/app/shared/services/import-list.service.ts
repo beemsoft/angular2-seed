@@ -15,9 +15,10 @@ export enum CostType {
   BUSINESS_FOOD = 13,
   BUSINESS_CAR = 14,
   FROM_SAVINGS_ACCOUNT = 15,
+  INVESTMENT = 16,
   TO_SAVINGS_ACCOUNT = 10,
   TO_PRIVATE_ACCOUNT = 17,
-  TRAVEL_WITH_PUBLIC_TRANSPORT_OTHER_ACCOUNT = 8,
+  TRAVEL_WITH_PUBLIC_TRANSPORT = 9,
   FROM_PRIVATE_ACCOUNT = 18,
   INCOME_TAX = 29,
   INCOME_TAX_PAID_BACK = 30,
@@ -49,6 +50,7 @@ export enum VatType {
 }
 
 export class Transaction {
+  accountNumber: string;
   date: moment.Moment;
   amount: number;
   amountVat: number;
@@ -115,6 +117,7 @@ export class ImportListService {
         }
 
         if (csvType === CsvType.ING) {
+          transaction.accountNumber = line[2];
           transaction.amount = Number.parseFloat(line[6].replace(',', '.'));
           if (line[5] === 'Af') {
             transaction.costType = CostType.GENERAL_EXPENSE;
@@ -135,6 +138,7 @@ export class ImportListService {
           }
           description = line[7];
         } else if (csvType === CsvType.OV_CHIPKAART) {
+          transaction.accountNumber = "Chipkaart";
           transaction.amount = Number.parseFloat(line[5].replace(',', '.'));
           description = "Van " + line[2] + " naar " + line[4] + " (" + line[3] + ") " + line[6] + " " + line[7] + " " + line[8];
         }

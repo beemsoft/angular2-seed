@@ -34,7 +34,8 @@
         <book-type-selector (select)="selectedBookValue.balanceType = $event" [selectedBookValue]="selectedBookValue"></book-type-selector>
         <input [(ngModel)]="selectedBookValue.bookYear" placeholder="Boekjaar">
         <input [(ngModel)]="selectedBookValue.saldo" placeholder="Saldo">
-        <button type="button" (click)="deleteBookValue()"></button>
+        <button type="button" (click)="deleteBookValue()">Verwijder</button>
+        <button type="button" (click)="updateBookValue()">Wijzig</button>
       </div>
     </div>
   </div>

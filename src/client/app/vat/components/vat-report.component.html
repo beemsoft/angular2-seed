@@ -1,0 +1,28 @@
+<div>
+    Laatste transactiedatum: {{vatReport.latestTransactionDate}}
+</div>
+<div>
+    btw uit: {{vatReport.totalVatOut}}
+</div>
+<div>
+    btw in: {{vatReport.totalVatIn}}
+</div>
+<div>
+    Betaalde facturen: {{vatReport.paidInvoices}}
+</div>
+<div>
+    Autokosten: {{vatReport.totalCarCosts}}
+</div>
+<div>
+    Transportkosten: {{vatReport.totalTransportCosts}}
+</div>
+<div>
+    Kantoorkosten: {{vatReport.totalOfficeCosts}}
+</div>
+<div>
+    Eten kosten: {{vatReport.totalFoodCosts}}
+</div>
+<div>
+    Oerige kosten: {{vatReport.totalOtherCosts}}
+</div>
+<button type="button" (click)="sendFiscalData()">Fiscale gegevens uploaden</button>
