@@ -1,14 +1,16 @@
-import {Http, Headers} from "@angular/http";
+import {Headers, Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import {Project} from "./project.service";
+import * as moment from "moment/moment";
 
 export class Invoice {
   id: number;
   invoiceNumber: string;
   project: Project = new Project();
   unitsOfWork: number;
+  sent: moment.Moment;
 }
 
 @Injectable()
@@ -36,6 +38,13 @@ export class InvoiceService {
   getInvoices(): Observable<Invoice> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
     return this.http.get('http://localhost:8080/auth/invoice', { headers: contentHeaders })
+        .map(res => <Invoice> res.json())
+        .catch(this.handleError);
+  }
+
+  getIncomeForLatestPeriod(): Observable<Invoice> {
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    return this.http.get('http://localhost:8080/auth/invoice/latest-period', { headers: contentHeaders })
         .map(res => <Invoice> res.json())
         .catch(this.handleError);
   }

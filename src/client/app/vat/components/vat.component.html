@@ -4,11 +4,6 @@
     Bereken hier je btw. Laad eerst een bestand met transacties die je kunt downloaden van je
     online bankieren site of van de OV chipkaart site.
   </p>
-  <p>
-    <strong>Let op:</strong> Er wordt nog niets naar de TechyTax server gestuurd. Eerst
-    moeten het type van alle transacties bekend zijn. Je kunt er nu ook voor kiezen om
-    de btw in je browser te berekenen.
-  </p>
 </div>
 <div>
   <input type="file" (change)="fileChangeEvent($event)" placeholder="Laad transacties..." />
@@ -16,7 +11,7 @@
 <div *ngIf="transactionsLoaded > 0">
   <p>Er zijn {{transactionsLoaded}} transacties geladen.</p>
   <div [ngSwitch]="transactionsUnmatched > 0">
-    <p *ngSwitchCase="false">Alle transacties zijn gematched.</p>
+    <p *ngSwitchCase="false">Alle transacties zijn gematcht. Loop de onderstaande tabel door om te kijken of alle transacties correct zijn gematch.  Je kunt nog een bestand inladen of de fiscale gegevens uploaden met de knop hieronder.</p>
     <div *ngSwitchCase="true">
       <p>Er zijn nog {{transactionsUnmatched}} onbekende transacties (zie kolom 'Zakelijk/Prive'). Voeg matches toe m.b.v. het zoekfilter hieronder.</p>
       <label>Kostensoort:</label><cost-type-selector (select)="costMatch.costType = $event"></cost-type-selector>

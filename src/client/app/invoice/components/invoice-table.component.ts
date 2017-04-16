@@ -19,7 +19,8 @@ export class InvoiceTableComponent {
   public columns:Array<any> = [
     {title: 'Id', name: 'id'},
     {title: 'Nummer', name: 'invoiceNumber'},
-    {title: 'Aantal uren', name: 'unitsOfWork'}
+    {title: 'Aantal uren', name: 'unitsOfWork'},
+    {title: 'Verstuurd', name: 'sent'}
   ];
   public page:number = 1;
   public itemsPerPage:number = 10;

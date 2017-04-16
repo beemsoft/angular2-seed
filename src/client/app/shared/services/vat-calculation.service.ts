@@ -6,17 +6,19 @@ export class FiscalReport  {
   firstTransactionDate: string;
   latestTransactionDate: string;
   accountNumbers: string[] = [];
-  totalCarCosts: number;
-  totalTransportCosts: number;
-  totalOfficeCosts: number;
-  totalFoodCosts: number;
-  totalOtherCosts: number;
+  totalCarCosts: number = 0;
+  totalTransportCosts: number = 0;
+  totalOfficeCosts: number = 0;
+  totalFoodCosts: number = 0;
+  totalOtherCosts: number = 0;
 }
 
 export class VatReport extends FiscalReport {
-  totalVatIn: number;
-  totalVatOut: number;
-  paidInvoices: number;
+  totalVatIn: number = 0;
+  totalVatOut: number = 0;
+  vatSaldo: number = 0;
+  paidInvoices: number = 0;
+  totalNetIn: number = 0;
 }
 
 @Injectable()
@@ -44,8 +46,8 @@ export class VatCalculationService {
     return transaction;
   }
 
-  static calculateTotalVat(transactions:Array<Transaction>): VatReport {
-    let totalVatIn:number = 0, totalVatOut:number = 0, paidInvoices:number = 0;
+  static calculateTotalVat(transactions:Array<Transaction>, vatReport:VatReport): VatReport {
+    let totalVatOut:number = 0, paidInvoices:number = 0;
     let totalCarCosts:number = 0, totalTransportCosts:number = 0, totalOfficeCosts:number =0, totalFoodCosts:number = 0, totalOtherCosts:number =0;
 
     function applyVat(transaction:Transaction): Transaction {
@@ -98,12 +100,10 @@ export class VatCalculationService {
             break;
         }
         totalVatOut += vatOut;
-        totalVatIn += vatIn;
       }
     }
-    let vatReport = new VatReport();
-    vatReport.totalVatIn = Math.round(totalVatIn * 100) / 100;
     vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
+    vatReport.vatSaldo = Math.round(vatReport.totalVatIn - vatReport.totalVatOut);
     vatReport.paidInvoices = paidInvoices;
     vatReport.totalOfficeCosts = Math.round(totalOfficeCosts * 100) / 100;
     vatReport.totalCarCosts = Math.round(totalCarCosts * 100) / 100;

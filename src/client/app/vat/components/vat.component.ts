@@ -122,7 +122,7 @@ export class VatComponent implements OnInit {
   }
 
   private updateTotalVat():void {
-    this.vatReport = VatCalculationService.calculateTotalVat(this.transactions);
+    this.vatReport = VatCalculationService.calculateTotalVat(this.transactions, this.vatReport);
   }
 
   // public calculateVatDisabled():boolean {
