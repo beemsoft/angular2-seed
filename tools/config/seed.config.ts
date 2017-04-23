@@ -353,7 +353,8 @@ export class SeedConfig {
       '@angular/platform-browser-dynamic/testing':
         'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
       '@angular/router/testing': 'node_modules/@angular/router/bundles/router-testing.umd.js',
-      '@vaadin/angular2-polymer': `node_modules/@vaadin/angular2-polymer/index.js`,
+      'ng2-pdf-viewer': 'node_modules/ng2-pdf-viewer/dist/pdf-viewer.component.js',
+      'pdfjs-dist': 'node_modules/pdfjs-dist',
 
       'app/*': '/app/*',
       // For test config
@@ -435,6 +436,13 @@ export class SeedConfig {
       },
       'angular2-localstorage': {
         defaultExtension: "js"
+      },
+      'ng2-pdf-viewer': {
+        main: 'dist/index.js',
+        defaultExtension: 'js'
+      },
+      'pdfjs-dist': {
+        defaultExtension: 'js'
       }
     }
   };

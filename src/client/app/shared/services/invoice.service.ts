@@ -1,4 +1,4 @@
-import {Headers, Http} from "@angular/http";
+import {Http, ResponseContentType} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
@@ -82,33 +82,23 @@ export class InvoiceService {
         );
   }
 
-    createInvoicePdf(invoice: Invoice) {
-        const contentHeaders = new Headers();
-        contentHeaders.append('Accept', 'application/pdf');
-        contentHeaders.append('Content-Type', 'application/pdf');
-        contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-        let url = 'http://localhost:8080/auth/invoice/' + invoice.id;
-        return this.http.get(url, { headers: contentHeaders })
-            .subscribe(
-                response => {
-                    // localStorage.setItem('jwt', response.json().id_token);
-                    // this.router.parent.navigateByUrl('/vat');
-                },
-                error => {
-                    alert(error);
-                    console.log(error);
-                }
-            );
-    }
+  createInvoicePdf(invoice: Invoice): any {
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    let url = 'http://localhost:8080/auth/invoice/' + invoice.id;
+    return this.http.get(url, {headers: contentHeaders, responseType: ResponseContentType.ArrayBuffer}).map(
+      (res) => {
+        return new Blob([res.blob()], {type: 'application/pdf'})
+      });
+  }
 
   /**
    * Handle HTTP error
    */
-  private handleError (error: any) {
+  private handleError(error: any) {
     // In a real world app, we might use a remote logging infrastructure
     // We'd also dig deeper into the error to get a better message
     let errMsg = (error.message) ? error.message :
-        error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
   }

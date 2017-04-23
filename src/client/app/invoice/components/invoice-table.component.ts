@@ -16,6 +16,8 @@ export class InvoiceTableComponent {
 
   public selectedInvoice:Invoice = new Invoice();
 
+  private pdfSrc: string;
+
   public columns:Array<any> = [
     {title: 'Id', name: 'id'},
     {title: 'Nummer', name: 'invoiceNumber'},
@@ -124,8 +126,11 @@ export class InvoiceTableComponent {
     this.hideChildModal();
   }
 
-  public createInvoicePdf():void {
-    this.invoiceService.createInvoicePdf(this.selectedInvoice);
-    this.hideChildModal();
+  public createInvoicePdf2():void {
+    this.invoiceService.createInvoicePdf(this.selectedInvoice).subscribe(
+      (res) => {
+        this.pdfSrc = URL.createObjectURL(res);
+      }
+    );
   }
 }

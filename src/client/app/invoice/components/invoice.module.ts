@@ -6,6 +6,7 @@ import {CommonModule} from "@angular/common";
 import {InvoiceComponent} from "./invoice.component";
 import {InvoiceTableComponent} from "./invoice-table.component";
 import {InvoiceService} from "../../shared/services/invoice.service";
+import {PdfViewerComponent} from "ng2-pdf-viewer";
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {InvoiceService} from "../../shared/services/invoice.service";
     ],
     declarations: [
       InvoiceComponent,
-      InvoiceTableComponent
+      InvoiceTableComponent,
+      PdfViewerComponent
     ],
     exports: [InvoiceComponent],
     providers: [
