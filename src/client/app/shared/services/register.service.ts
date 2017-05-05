@@ -44,6 +44,34 @@ export class RegisterService {
 
   constructor(private http: Http) {}
 
+  getLastDayOfFirstMonthOfNextQuarter(): moment.Moment {
+    let month = moment().month();
+    let lastDay: moment.Moment;
+    switch (month) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        lastDay = moment().month(4).date(0);
+        break;
+      case 4:
+      case 5:
+      case 6:
+        lastDay = moment().month(7).date(0);
+        break;
+      case 7:
+      case 8:
+      case 9:
+        lastDay = moment().month(10).date(0);
+        break;
+      case 10:
+      case 11:
+        lastDay = moment().month(1).date(0);
+        break;
+    }
+    return lastDay;
+  }
+
   register(registration: Registration) {
     let body = JSON.stringify(registration);
     this.http.post('http://localhost:8080/register', body, { headers: contentHeaders })
