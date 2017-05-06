@@ -45,8 +45,8 @@
     <input [(ngModel)]="registration.companyData.chamberOfCommerceNumber" class="form-control" placeholder="KvK nummer (nodig voor factuur)">
   </div>
   <div class="form-group">
-    <label>Fiscaal nummer:</label>
-    <input [(ngModel)]="registration.fiscalData.vatNumber" class="form-control" placeholder="Fiscaal nummer, zonder NL vooraf (nodig voor factuur)">
+    <label>Omzet-belastingnummer (wordt gebruikt voor btw aangifte naar Digipoort, bij btw-identificatienummer voor facturen wordt NL toegevoegd):</label>
+    <input [(ngModel)]="registration.fiscalData.vatNumber" class="form-control" placeholder="btw nummer, zonder NL vooraf">
   </div>
   <button (click)="update()">Wijzigen</button>
 </div>
