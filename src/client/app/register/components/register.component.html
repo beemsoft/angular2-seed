@@ -5,30 +5,35 @@
     Na de gratis proefperiode is de prijs per maand: <b>€ 8,33</b>, exclusief btw<br>
     Voordat u zich kunt aanmelden, dient u eerst de <a href="http://www.beemsoft.nl/av_tt.html" target="_blank">Algemene Voorwaarden</a> te accepteren door het onderstaande hokje aan te vinken.
   </p>
-  <div class="form-group">
-    <label>Gebruikersnaam:</label>
-    <input [(ngModel)]="registration.user" class="form-control" placeholder="Gebruikersnaam">
+  <div class="checkbox">
+    <input type="checkbox" (change)="acceptedTermsAndConditions = !acceptedTermsAndConditions">Ik accepteer de Algemene Voorwaarden
   </div>
-  <div class="form-group">
-    <label>Wachtwoord:</label>
-    <input type="password" [(ngModel)]="registration.password" class="form-control" placeholder="Wachtwoord">
+  <div *ngIf="acceptedTermsAndConditions">
+    <div class="form-group">
+      <label>Gebruikersnaam:</label>
+      <input [(ngModel)]="registration.user" class="form-control" placeholder="Gebruikersnaam">
+    </div>
+    <div class="form-group">
+      <label>Wachtwoord:</label>
+      <input type="password" [(ngModel)]="registration.password" class="form-control" placeholder="Wachtwoord">
+    </div>
+    <div class="form-group">
+      <label>Voorletters:</label>
+      <input [(ngModel)]="registration.personalData.initials" class="form-control"placeholder="Voorletters">
+    </div>
+    <div class="form-group">
+      <label>Tussenvoegsel(s):</label>
+      <input [(ngModel)]="registration.personalData.prefix" class="form-control" placeholder="Tussenvoegsel(s)">
+    </div>
+    <div class="form-group">
+      <label>Achternaam:</label>
+      <input [(ngModel)]="registration.personalData.surname" class="form-control" placeholder="Achternaam">
+    </div>
+    <div class="form-group">
+      <label>Email:</label>
+      <input [(ngModel)]="registration.personalData.email" class="form-control" placeholder="Email">
+    </div>
+    <button (click)="register()">Registreren</button>
   </div>
-  <div class="form-group">
-    <label>Voorletters:</label>
-    <input [(ngModel)]="registration.personalData.initials" class="form-control"placeholder="Voorletters">
-  </div>
-  <div class="form-group">
-    <label>Tussenvoegsel(s):</label>
-    <input [(ngModel)]="registration.personalData.prefix" class="form-control" placeholder="Tussenvoegsel(s)">
-  </div>
-  <div class="form-group">
-    <label>Achternaam:</label>
-    <input [(ngModel)]="registration.personalData.surname" class="form-control" placeholder="Achternaam">
-  </div>
-  <div class="form-group">
-    <label>Email:</label>
-    <input [(ngModel)]="registration.personalData.email" class="form-control" placeholder="Email">
-  </div>
-  <button (click)="register()">Registreren</button>
   <button type="button" (click)="cancel()" class="btn">Annuleren</button>
 </div>

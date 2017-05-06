@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 export class RegisterComponent implements OnInit {
     public registration: Registration;
     public trialPeriodEndDate: string;
+    public acceptedTermsAndConditions: boolean = false;
 
     constructor(public registerService: RegisterService, private router: Router) {
         this.registration = new Registration();
