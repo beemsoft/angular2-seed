@@ -112,10 +112,10 @@ export class RegisterService {
         );
   }
 
-  deleteRegistration(registration: Registration) {
+  deleteRegistration() {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/register/'+registration.id, { headers: contentHeaders })
+    this.http.delete('http://localhost:8080/auth/register', { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);

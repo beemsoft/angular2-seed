@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
+import {RegisterService} from "../services/register.service";
 
 @Component({
   moduleId: module.id,
@@ -15,7 +16,7 @@ export class LoginComponent {
   @Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
   private loggedIn = false;
 
-  constructor(private http: Http, private router: Router, private location: Location) {}
+  constructor(public registerService: RegisterService, private http: Http, private router: Router, private location: Location) {}
 
   login(event, username, password) {
     event.preventDefault();
@@ -48,6 +49,11 @@ export class LoginComponent {
 
   editRegistration() {
     this.router.navigateByUrl('/register-edit');
+  }
+
+  public deleteRegistration(): void {
+    this.registerService.deleteRegistration();
+    this.logout();
   }
 
   isLoggedIn() {
