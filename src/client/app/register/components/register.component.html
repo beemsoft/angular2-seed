@@ -11,34 +11,111 @@
     <input type="checkbox" [ngModel]="acceptedTermsAndConditions" (change)="acceptedTermsAndConditions = !acceptedTermsAndConditions">Ik accepteer de <button (click)="showTermsAndConditions()">Algemene Voorwaarden</button>
   </div>
   <div *ngIf="acceptedTermsAndConditions">
-    <div class="form-group">
-      <label>Gebruikersnaam:</label>
-      <input [(ngModel)]="registration.user" class="form-control" placeholder="Gebruikersnaam">
-    </div>
-    <div class="form-group">
-      <label>Wachtwoord:</label>
-      <input type="password" [(ngModel)]="registration.password" class="form-control" placeholder="Wachtwoord">
-    </div>
-    <div class="form-group">
-      <label>Voorletters:</label>
-      <input [(ngModel)]="registration.personalData.initials" class="form-control"placeholder="Voorletters">
-    </div>
-    <div class="form-group">
-      <label>Tussenvoegsel(s):</label>
-      <input [(ngModel)]="registration.personalData.prefix" class="form-control" placeholder="Tussenvoegsel(s)">
-    </div>
-    <div class="form-group">
-      <label>Achternaam:</label>
-      <input [(ngModel)]="registration.personalData.surname" class="form-control" placeholder="Achternaam">
-    </div>
-    <div class="form-group">
-      <label>Email:</label>
-      <input [(ngModel)]="registration.personalData.email" class="form-control" placeholder="Email">
-    </div>
-    <button (click)="register()">Registreren</button>
+    <form (ngSubmit)="onSubmit(registrationForm.value)" #registrationForm="ngForm">
+      <div class="form-group">
+        <label>KvK nummer:</label>
+        <input [(ngModel)]="registration.companyData.chamberOfCommerceNumber"
+               class="form-control"
+               required
+               name="kvk"
+               #kvk="ngModel"
+               pattern="\d{8}"
+               placeholder="KvK nummer">
+        <div *ngIf="kvk.errors && (kvk.dirty || kvk.touched)"
+             class="alert alert-danger">
+          <div [hidden]="!kvk.errors.required">
+            KvK nummer is verplicht, het wordt op de factuur vermeld
+          </div>
+          <div [hidden]="!kvk.errors.pattern">
+            KvK nummer bestaat uit 8 cijfers
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Gebruikersnaam:</label>
+        <input [(ngModel)]="registration.user"
+               class="form-control"
+               name="username"
+               placeholder="Gebruikersnaam">
+      </div>
+      <div class="form-group">
+        <label>Wachtwoord:</label>
+        <input type="password"
+               [(ngModel)]="registration.password"
+               class="form-control"
+               name="password"
+               placeholder="Wachtwoord">
+      </div>
+      <div class="form-group">
+        <label>Voorletters:</label>
+        <input [(ngModel)]="registration.personalData.initials"
+               class="form-control"
+               required
+               name="initials"
+               #initials="ngModel"
+               pattern="[a-zA-Z]+"
+               placeholder="Voorletters">
+        <div *ngIf="initials.errors && (initials.dirty || initials.touched)"
+             class="alert alert-danger">
+          <div [hidden]="!initials.errors.required">
+            Initialen is verplicht
+          </div>
+          <div [hidden]="!initials.errors.pattern">
+            Initialen moet minstens uit 1 letter bestaan
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tussenvoegsel(s):</label>
+        <input [(ngModel)]="registration.personalData.prefix"
+               class="form-control"
+               name="prefix"
+               placeholder="Tussenvoegsel(s)">
+      </div>
+      <div class="form-group">
+        <label>Achternaam:</label>
+        <input [(ngModel)]="registration.personalData.surname"
+               class="form-control"
+               required
+               name="surname"
+               #surname="ngModel"
+               pattern="[a-zA-Z][a-zA-Z]+"
+               placeholder="Achternaam">
+        <div *ngIf="surname.errors && (surname.dirty || surname.touched)"
+             class="alert alert-danger">
+          <div [hidden]="!surname.errors.required">
+            Achternaam is verplicht
+          </div>
+          <div [hidden]="!surname.errors.pattern">
+            Achternaam moet minstens uit 2 letters bestaan
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email"
+               [(ngModel)]="registration.personalData.email"
+               class="form-control"
+               required
+               name="email"
+               #email="ngModel"
+               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+               placeholder="Email">
+        <div *ngIf="email.errors && (email.dirty || email.touched)"
+             class="alert alert-danger">
+          <div [hidden]="!email.errors.required">
+            Email is verplicht
+          </div>
+          <div [hidden]="!email.errors.pattern">
+            Email is niet correct
+          </div>
+        </div>
+      </div>
+      <button type="submit" [disabled]="!registrationForm.valid" (click)="register()">Registreren</button>
+    </form>
   </div>
   <button type="button" (click)="cancel()" class="btn">Annuleren</button>
-  <p>Deze online dienst wordt aangeboden door de eenmanszaak Beemsterboer Software, welke sinds 2006 is ingeschreven bij de Kamer van Koophandel te Utrecht onder nummer 30216247. Het btw nummer is 174006275B01.</p>
+  <p>Deze online dienst wordt aangeboden door de eenmanszaak Beemsterboer Software, welke sinds 2006 is ingeschreven bij de Kamer van Koophandel te Utrecht onder nummer 30216247. Het btw nummer is NL174006275B01.</p>
 </div>
 
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
