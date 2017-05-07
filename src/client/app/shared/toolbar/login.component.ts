@@ -52,8 +52,10 @@ export class LoginComponent {
   }
 
   public deleteRegistration(): void {
-    this.registerService.deleteRegistration();
-    this.logout();
+    if (confirm("Weet je zeker dat je je account wilt verwijderen? Alle gegevens worden direct verwijderd.")) {
+      this.registerService.deleteRegistration();
+      this.logout();
+    }
   }
 
   isLoggedIn() {
