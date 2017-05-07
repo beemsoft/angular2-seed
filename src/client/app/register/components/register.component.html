@@ -17,8 +17,8 @@
         <input [(ngModel)]="registration.companyData.chamberOfCommerceNumber"
                class="form-control"
                required
-               name="kvk"
                #kvk="ngModel"
+               [ngModelOptions]="{standalone: true}"
                pattern="\d{8}"
                placeholder="KvK nummer">
         <div *ngIf="kvk.errors && (kvk.dirty || kvk.touched)"
@@ -34,16 +34,16 @@
       <div class="form-group">
         <label>Gebruikersnaam:</label>
         <input [(ngModel)]="registration.user"
+               [ngModelOptions]="{standalone: true}"
                class="form-control"
-               name="username"
                placeholder="Gebruikersnaam">
       </div>
       <div class="form-group">
         <label>Wachtwoord:</label>
         <input type="password"
                [(ngModel)]="registration.password"
+               [ngModelOptions]="{standalone: true}"
                class="form-control"
-               name="password"
                placeholder="Wachtwoord">
       </div>
       <div class="form-group">
@@ -51,8 +51,8 @@
         <input [(ngModel)]="registration.personalData.initials"
                class="form-control"
                required
-               name="initials"
                #initials="ngModel"
+               [ngModelOptions]="{standalone: true}"
                pattern="[a-zA-Z]+"
                placeholder="Voorletters">
         <div *ngIf="initials.errors && (initials.dirty || initials.touched)"
@@ -68,8 +68,8 @@
       <div class="form-group">
         <label>Tussenvoegsel(s):</label>
         <input [(ngModel)]="registration.personalData.prefix"
+               [ngModelOptions]="{standalone: true}"
                class="form-control"
-               name="prefix"
                placeholder="Tussenvoegsel(s)">
       </div>
       <div class="form-group">
@@ -77,8 +77,8 @@
         <input [(ngModel)]="registration.personalData.surname"
                class="form-control"
                required
-               name="surname"
                #surname="ngModel"
+               [ngModelOptions]="{standalone: true}"
                pattern="[a-zA-Z][a-zA-Z]+"
                placeholder="Achternaam">
         <div *ngIf="surname.errors && (surname.dirty || surname.touched)"
@@ -97,8 +97,8 @@
                [(ngModel)]="registration.personalData.email"
                class="form-control"
                required
-               name="email"
                #email="ngModel"
+               [ngModelOptions]="{standalone: true}"
                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                placeholder="Email">
         <div *ngIf="email.errors && (email.dirty || email.touched)"

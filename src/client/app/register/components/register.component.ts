@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
 
     public register(): void {
         this.registerService.register(this.registration);
+        this.router.navigateByUrl('/');
     }
 
     public editRegistration() {
