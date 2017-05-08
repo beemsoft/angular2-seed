@@ -8,7 +8,7 @@ import {Component} from "@angular/core";
 })
 
 export class ToolbarComponent {
-  private user:string = "nog niet ingelogd";
+  private user:string = "inloggen s.v.p.";
 
   handleUserChange(user: string) {
     this.user = user;
