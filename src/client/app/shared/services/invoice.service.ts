@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import {Project} from "./project.service";
 import * as moment from "moment/moment";
+import {Config} from '../config/env.config';
 
 export class Invoice {
   id: number;
@@ -15,6 +16,7 @@ export class Invoice {
 
 @Injectable()
 export class InvoiceService {
+  private baseURL: string = Config.API;
 
   constructor(private http: Http) {}
 
@@ -22,7 +24,7 @@ export class InvoiceService {
     let body = JSON.stringify(invoice);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/invoice', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth/invoice', body, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -37,14 +39,14 @@ export class InvoiceService {
 
   getInvoices(): Observable<Invoice> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/invoice', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/invoice', { headers: contentHeaders })
         .map(res => <Invoice> res.json())
         .catch(this.handleError);
   }
 
   getIncomeForLatestPeriod(): Observable<Invoice> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/invoice/latest-period', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/invoice/latest-period', { headers: contentHeaders })
         .map(res => <Invoice> res.json())
         .catch(this.handleError);
   }
@@ -52,7 +54,7 @@ export class InvoiceService {
   deleteInvoice(invoice: Invoice) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/invoice/'+invoice.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/invoice/'+invoice.id, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -68,8 +70,7 @@ export class InvoiceService {
   updateInvoice(invoice: Invoice) {
     let body = JSON.stringify(invoice);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/invoice';
-    this.http.put(url, body, { headers: contentHeaders })
+    this.http.put(this.baseURL+'/auth/invoice', body, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -84,7 +85,7 @@ export class InvoiceService {
 
   createInvoicePdf(invoice: Invoice): any {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/invoice/' + invoice.id;
+    let url = this.baseURL+'/auth/invoice/' + invoice.id;
     return this.http.get(url, {headers: contentHeaders, responseType: ResponseContentType.ArrayBuffer}).map(
       (res) => {
         return new Blob([res.blob()], {type: 'application/pdf'})

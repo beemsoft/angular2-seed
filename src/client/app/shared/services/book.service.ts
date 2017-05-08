@@ -1,8 +1,8 @@
 import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
-import {LabelService} from "./label.service";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
+import {Config} from "../config/env.config";
 import Collection = _.Collection;
 
 export enum BookType {
@@ -26,14 +26,15 @@ export class BookValue {
 
 @Injectable()
 export class BookService {
+  private baseURL: string = Config.API;
 
-  constructor(private http: Http, private labelService: LabelService) {}
+  constructor(private http: Http) {}
 
   addBookValue(bookValue: BookValue) {
     let body = JSON.stringify(bookValue);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/book', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth/book', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -49,7 +50,7 @@ export class BookService {
   updateBookValue(bookValue: BookValue) {
     let body = JSON.stringify(bookValue);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/book';
+    let url = this.baseURL+'/auth/book';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -66,7 +67,7 @@ export class BookService {
   deleteBookValue(bookValue: BookValue) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/book/'+bookValue.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'auth/book/'+bookValue.id, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -81,7 +82,7 @@ export class BookService {
 
   getBookValues(): Observable<BookValue> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/book', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/book', { headers: contentHeaders })
       .map(res => <BookValue> res.json())
       .catch(this.handleError);
   }

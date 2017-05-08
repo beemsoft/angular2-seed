@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import * as moment from "moment/moment";
 import Collection = _.Collection;
+import {Config} from '../config/env.config';
 
 export enum ActivumType {
   MACHINERY = 1,
@@ -38,13 +39,14 @@ export class Office extends Activum {
 
 @Injectable()
 export class ActivumService {
+  private baseURL: string = Config.API;
 
   constructor(private http: Http) {}
 
   addActivum(activum: Activum) {
     let body = JSON.stringify(activum);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/activum/machine';
+    let url = this.baseURL+'/auth/activum/machine';
     this.http.post(url, body, { headers: contentHeaders })
       .subscribe(
         response => {
@@ -61,7 +63,7 @@ export class ActivumService {
   addActivumCar(businessCar: BusinessCar) {
     let body = JSON.stringify(businessCar);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/activum/car';
+    let url = this.baseURL+'/auth/activum/car';
     this.http.post(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -78,7 +80,7 @@ export class ActivumService {
   addActivumOffice(activum: Office) {
     let body = JSON.stringify(activum);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/activum/office';
+    let url = this.baseURL+'/auth/activum/office';
     this.http.post(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -95,7 +97,7 @@ export class ActivumService {
   updateActivum(activum: Activum) {
     let body = JSON.stringify(activum);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/activum/machine';
+    let url = this.baseURL+'/auth/activum/machine';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -112,7 +114,7 @@ export class ActivumService {
   updateActivumCar(businessCar: BusinessCar) {
     let body = JSON.stringify(businessCar);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/activum/car';
+    let url = this.baseURL+'/auth/activum/car';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -129,7 +131,7 @@ export class ActivumService {
   updateActivumOffice(activum: Office) {
     let body = JSON.stringify(activum);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/activum/office';
+    let url = this.baseURL+'/auth/activum/office';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -146,7 +148,7 @@ export class ActivumService {
   deleteActivum(activum: Activum) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/activum/'+activum.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/activum/'+activum.id, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -161,7 +163,7 @@ export class ActivumService {
 
   getActiva(): Observable<Activum> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/activum', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/activum', { headers: contentHeaders })
       .map(res => <Activum> res.json())
       .catch(this.handleError);
   }

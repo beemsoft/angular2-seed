@@ -5,6 +5,7 @@ import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import * as moment from "moment/moment";
 import Collection = _.Collection;
+import {Config} from '../config/env.config';
 
 export class Cost {
   id: number;
@@ -19,6 +20,7 @@ export class Cost {
 
 @Injectable()
 export class CostService {
+  private baseURL: string = Config.API;
 
   constructor(private http: Http) {}
 
@@ -27,7 +29,7 @@ export class CostService {
     let body = JSON.stringify(cost);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/cost', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth/cost', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -43,7 +45,7 @@ export class CostService {
   deleteCost(cost: Cost) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/cost/'+cost.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/cost/'+cost.id, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -59,7 +61,7 @@ export class CostService {
   updateCost(cost: Cost) {
     let body = JSON.stringify(cost);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/cost';
+    let url = this.baseURL+'/auth/cost';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -76,14 +78,14 @@ export class CostService {
   getCost(cost: Cost): Observable<Cost> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    return this.http.get('http://localhost:8080/auth/costs/'+cost.id, { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/costs/'+cost.id, { headers: contentHeaders })
       .map(res => <Cost> res.json())
       .catch(this.handleError);
   }
 
   getCosts(): Observable<Cost> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/costs', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/costs', { headers: contentHeaders })
       .map(res => <Cost> res.json())
       .catch(this.handleError);
   }

@@ -6,6 +6,7 @@ import {Injectable} from "@angular/core";
 import {Customer} from "./customer.service";
 import * as moment from "moment/moment";
 import Collection = _.Collection;
+import {Config} from "../config/env.config";
 
 export class Project {
   id: number;
@@ -22,6 +23,7 @@ export class Project {
 
 @Injectable()
 export class ProjectService {
+  private baseURL: string = Config.API;
 
   constructor(private http: Http) {}
 
@@ -29,7 +31,7 @@ export class ProjectService {
     let body = JSON.stringify(project);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/project', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth/project', body, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -44,7 +46,7 @@ export class ProjectService {
 
   getProjects(): Observable<Project> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/project', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/project', { headers: contentHeaders })
         .map(res => <Project> res.json())
         .catch(this.handleError);
   }
@@ -52,7 +54,7 @@ export class ProjectService {
   getProject(id: number): Observable<Project> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    return this.http.get('http://localhost:8080/auth/project/'+  id, { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/project/'+  id, { headers: contentHeaders })
         .map(res => <Project> res.json())
         .catch(this.handleError);
   }
@@ -60,7 +62,7 @@ export class ProjectService {
   deleteProject(project: Project) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/project/'+project.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/project/'+project.id, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -76,7 +78,7 @@ export class ProjectService {
   updateProject(project: Project) {
     let body = JSON.stringify(project);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/project';
+    let url = this.baseURL+'/auth/project';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {

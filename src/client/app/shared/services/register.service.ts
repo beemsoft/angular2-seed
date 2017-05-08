@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import Collection = _.Collection;
 import * as moment from "moment";
+import {Config} from "../config/env.config";
 
 export enum DeclarationPeriod {
   QUARTERLY,
@@ -41,6 +42,7 @@ export class Registration {
 
 @Injectable()
 export class RegisterService {
+  private baseURL: string = Config.API;
 
   constructor(private http: Http) {}
 
@@ -74,7 +76,7 @@ export class RegisterService {
 
   register(registration: Registration) {
     let body = JSON.stringify(registration);
-    this.http.post('http://localhost:8080/register', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/register', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -90,7 +92,7 @@ export class RegisterService {
   getRegistration(): Observable<Registration> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    return this.http.get('http://localhost:8080/auth/register', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/register', { headers: contentHeaders })
         .map(res => <Registration> res.json())
         .catch(this.handleError);
   }
@@ -98,7 +100,7 @@ export class RegisterService {
   updateRegistration(registration: Registration) {
     let body = JSON.stringify(registration);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/register';
+    let url = this.baseURL+'/auth/register';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {
@@ -115,7 +117,7 @@ export class RegisterService {
   deleteRegistration() {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/register', { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/register', { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);

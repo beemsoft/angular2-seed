@@ -5,6 +5,7 @@ import Collection = _.Collection;
 import {LabelService} from "./label.service";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
+import {Config} from '../config/env.config';
 
 export class CostMatch {
   matchString: string;
@@ -18,6 +19,7 @@ export class CostMatch {
 
 @Injectable()
 export class CostMatchService {
+  private baseURL: string = Config.API;
 
   constructor(private http: Http, private labelService: LabelService) {}
 
@@ -25,7 +27,7 @@ export class CostMatchService {
     let body = JSON.stringify(costMatch);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/match', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth/match', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -40,7 +42,7 @@ export class CostMatchService {
 
   getMatches(): Observable<CostMatch> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/match', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/match', { headers: contentHeaders })
       .map(res => <CostMatch> res.json())
       .catch(this.handleError);
   }
@@ -48,7 +50,7 @@ export class CostMatchService {
   deleteMatch(costMatch: CostMatch) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/match/'+costMatch.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/match/'+costMatch.id, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -64,7 +66,7 @@ export class CostMatchService {
   updateMatch(costMatch: CostMatch) {
     let body = JSON.stringify(costMatch);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/match';
+    let url = this.baseURL+'/auth/match';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {

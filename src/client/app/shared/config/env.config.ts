@@ -2,6 +2,7 @@
 // depending on your app specific config.
 export interface EnvConfig {
   API?: string;
+  DIGIPOORT_API?: string;
   ENV?: string;
 }
 

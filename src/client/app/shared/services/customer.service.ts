@@ -3,6 +3,7 @@ import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import Collection = _.Collection;
+import {Config} from "../config/env.config";
 
 export class Customer {
   id: number;
@@ -13,6 +14,7 @@ export class Customer {
 
 @Injectable()
 export class CustomerService {
+  private baseURL: string = Config.API;
 
   constructor(private http: Http) {}
 
@@ -20,7 +22,7 @@ export class CustomerService {
     let body = JSON.stringify(customer);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post('http://localhost:8080/auth/customer', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth/customer', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
@@ -35,7 +37,7 @@ export class CustomerService {
 
   getCustomers(): Observable<Customer> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    return this.http.get('http://localhost:8080/auth/customer', { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/customer', { headers: contentHeaders })
       .map(res => <Customer> res.json())
       .catch(this.handleError);
   }
@@ -43,7 +45,7 @@ export class CustomerService {
   getCustomer(id: number): Observable<Customer> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    return this.http.get('http://localhost:8080/auth/customer/'+  id, { headers: contentHeaders })
+    return this.http.get(this.baseURL+'/auth/customer/'+  id, { headers: contentHeaders })
         .map(res => <Customer> res.json())
         .catch(this.handleError);
   }
@@ -51,7 +53,7 @@ export class CustomerService {
   deleteCustomer(customer: Customer) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete('http://localhost:8080/auth/customer/'+customer.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/customer/'+customer.id, { headers: contentHeaders })
         .subscribe(
             response => {
               // localStorage.setItem('jwt', response.json().id_token);
@@ -67,7 +69,7 @@ export class CustomerService {
   updateCustomer(customer: Customer) {
     let body = JSON.stringify(customer);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    let url = 'http://localhost:8080/auth/customer';
+    let url = this.baseURL+'/auth/customer';
     this.http.put(url, body, { headers: contentHeaders })
         .subscribe(
             response => {

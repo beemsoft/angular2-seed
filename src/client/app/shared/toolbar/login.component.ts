@@ -4,6 +4,7 @@ import {contentHeaders} from "../../common/headers";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {RegisterService} from "../services/register.service";
+import {Config} from "../config/env.config";
 
 @Component({
   moduleId: module.id,
@@ -13,6 +14,7 @@ import {RegisterService} from "../services/register.service";
 })
 
 export class LoginComponent {
+  private baseURL: string = Config.API;
   @Output() userChanged: EventEmitter<string> = new EventEmitter<string>();
   private loggedIn = false;
 
@@ -21,7 +23,7 @@ export class LoginComponent {
   login(event, username, password) {
     event.preventDefault();
     let body = JSON.stringify({ username, password });
-    this.http.post('http://localhost:8080/auth', body, { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth', body, { headers: contentHeaders })
       .subscribe(
         response => {
           localStorage.setItem('jwt', response.json().token);
