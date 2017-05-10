@@ -1,5 +1,4 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Project, ProjectService} from "../../shared/services/project.service";
 
 @Component({
@@ -12,7 +11,7 @@ export class ProjectTableComponent {
   @Input() data:Array<any>;
   @Input() length:number = 0;
   @Output() rowDeleted:EventEmitter<any> = new EventEmitter();
-  @ViewChild('childModal') public childModal:ModalDirective;
+  @ViewChild('myModal') public childModal:any;
 
   public selectedProject:Project = new Project();
 
@@ -103,11 +102,11 @@ export class ProjectTableComponent {
   }
 
   public showChildModal():void {
-    this.childModal.show();
+    this.childModal.open();
   }
 
   public hideChildModal():void {
-    this.childModal.hide();
+    this.childModal.close();
   }
 
   public deleteProject():void {

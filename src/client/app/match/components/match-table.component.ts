@@ -1,5 +1,4 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {CostMatch, CostMatchService} from "../../shared/services/cost-match.service";
 import {CostType} from "../../shared/services/import-list.service";
 
@@ -14,7 +13,7 @@ export class CostMatchTableComponent {
   @Input() length:number = 0;
   @Output() rowDeleted:EventEmitter<any> = new EventEmitter();
   @Output() filterChanged: EventEmitter<string> = new EventEmitter<string>();
-  @ViewChild('childModal') public childModal:ModalDirective;
+  @ViewChild('myModal') public childModal:any;
 
   costTypes = CostType;
 
@@ -110,11 +109,11 @@ export class CostMatchTableComponent {
   }
 
   public showChildModal():void {
-    this.childModal.show();
+    this.childModal.open();
   }
 
   public hideChildModal():void {
-    this.childModal.hide();
+    this.childModal.close();
   }
 
   public deleteMatch():void {

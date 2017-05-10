@@ -21,30 +21,25 @@
 </pagination>
 <pre *ngIf="config.paging" class="card card-block card-header">Page:  / </pre>
 
-<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-     aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Factuur wijzigen / verwijderen</h4>
-      </div>
-      <div class="modal-body">
-        <input [(ngModel)]="selectedInvoice.invoiceNumber" placeholder="Factuurnummer">
-        <input [(ngModel)]="selectedInvoice.unitsOfWork" placeholder="Aantal uren">
-        <input [(ngModel)]="selectedInvoice.sent" placeholder="Datum verstuurd">
-        <button type="button" (click)="deleteInvoice()">Verwijder</button>
-        <button type="button" (click)="updateInvoice()">Wijzig</button>
-        <button type="button" (click)="createInvoicePdf()">Maak PDF</button>
-        <button type="button" (click)="createInvoicePdf2()">Maak PDF2</button>
-        <pdf-viewer [src]="pdfSrc"
-                    [page]="page"
-                    [original-size]="true"
-                    style="display: block;"
-        ></pdf-viewer>
-      </div>
-    </div>
-  </div>
-</div>
+<modal #myModal
+       title="Factuur wijzigen / verwijderen"
+       cancelButtonLabel="Terug"
+       modalClass="modal-lg modal-sm any-other-css-class"
+       [hideCloseButton]="false"
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true">
+  <modal-content>
+    <input [(ngModel)]="selectedInvoice.invoiceNumber" placeholder="Factuurnummer">
+    <input [(ngModel)]="selectedInvoice.unitsOfWork" placeholder="Aantal uren">
+    <input [(ngModel)]="selectedInvoice.sent" placeholder="Datum verstuurd">
+    <button type="button" (click)="deleteInvoice()">Verwijder</button>
+    <button type="button" (click)="updateInvoice()">Wijzig</button>
+    <button type="button" (click)="createInvoicePdf()">Maak PDF</button>
+    <button type="button" (click)="createInvoicePdf2()">Maak PDF2</button>
+    <pdf-viewer [src]="pdfSrc"
+                [page]="page"
+                [original-size]="true"
+                style="display: block;"
+    ></pdf-viewer>
+  </modal-content>
+</modal>

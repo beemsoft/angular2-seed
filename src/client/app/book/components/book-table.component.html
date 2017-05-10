@@ -21,22 +21,18 @@
 </pagination>
 <pre *ngIf="config.paging" class="card card-block card-header">Page:  / </pre>
 
-<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Boekwaarde wijzigen / verwijderen</h4>
-      </div>
-      <div class="modal-body">
-        <book-type-selector (select)="selectedBookValue.balanceType = $event" [selectedBookValue]="selectedBookValue"></book-type-selector>
-        <input [(ngModel)]="selectedBookValue.bookYear" placeholder="Boekjaar">
-        <input [(ngModel)]="selectedBookValue.saldo" placeholder="Saldo">
-        <button type="button" (click)="deleteBookValue()">Verwijder</button>
-        <button type="button" (click)="updateBookValue()">Wijzig</button>
-      </div>
-    </div>
-  </div>
-</div>
+<modal #myModal
+       title="Boekwaarde wijzigen / verwijderen"
+       cancelButtonLabel="Terug"
+       modalClass="modal-lg modal-sm any-other-css-class"
+       [hideCloseButton]="false"
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true">
+  <modal-content>
+    <book-type-selector (select)="selectedBookValue.balanceType = $event" [selectedBookValue]="selectedBookValue"></book-type-selector>
+    <input [(ngModel)]="selectedBookValue.bookYear" placeholder="Boekjaar">
+    <input [(ngModel)]="selectedBookValue.saldo" placeholder="Saldo">
+    <button type="button" (click)="deleteBookValue()">Verwijder</button>
+    <button type="button" (click)="updateBookValue()">Wijzig</button>
+  </modal-content>
+</modal>

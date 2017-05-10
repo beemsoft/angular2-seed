@@ -21,24 +21,20 @@
 </pagination>
 <pre *ngIf="config.paging" class="card card-block card-header">Page:  / </pre>
 
-<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="hideChildModal()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Project wijzigen / verwijderen</h4>
-      </div>
-      <div class="modal-body">
-        <input [(ngModel)]="selectedProject.code" placeholder="Naam">
-        <input [(ngModel)]="selectedProject.projectDescription" placeholder="Project omschrijving">
-        <input [(ngModel)]="selectedProject.activityDescription" placeholder="Activiteit omschrijving">
-        <input [(ngModel)]="selectedProject.rate" placeholder="Tarief">
-        <input [(ngModel)]="selectedProject.paymentTermDays" placeholder="Betalingstermijn in dagen">
-        <button type="button" (click)="deleteProject()">Verwijder</button>
-        <button type="button" (click)="updateProject()">Wijzig</button>
-      </div>
-    </div>
-  </div>
-</div>
+<modal #myModal
+       title="Project wijzigen / verwijderen"
+       cancelButtonLabel="Terug"
+       modalClass="modal-lg modal-sm any-other-css-class"
+       [hideCloseButton]="false"
+       [closeOnEscape]="true"
+       [closeOnOutsideClick]="true">
+  <modal-content>
+    <input [(ngModel)]="selectedProject.code" placeholder="Naam">
+    <input [(ngModel)]="selectedProject.projectDescription" placeholder="Project omschrijving">
+    <input [(ngModel)]="selectedProject.activityDescription" placeholder="Activiteit omschrijving">
+    <input [(ngModel)]="selectedProject.rate" placeholder="Tarief">
+    <input [(ngModel)]="selectedProject.paymentTermDays" placeholder="Betalingstermijn in dagen">
+    <button type="button" (click)="deleteProject()">Verwijder</button>
+    <button type="button" (click)="updateProject()">Wijzig</button>
+  </modal-content>
+</modal>

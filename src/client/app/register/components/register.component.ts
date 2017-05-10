@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {Registration, RegisterService} from "../../shared/services/register.service";
 import {Router} from "@angular/router";
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 
 @Component({
     moduleId: module.id,
@@ -12,7 +11,7 @@ export class RegisterComponent implements OnInit {
     public registration: Registration;
     public trialPeriodEndDate: string;
     public acceptedTermsAndConditions: boolean = false;
-    @ViewChild('childModal') public childModal:ModalDirective;
+    @ViewChild('myModal') public childModal:any;
 
     constructor(public registerService: RegisterService, private router: Router) {
         this.registration = new Registration();
@@ -36,15 +35,15 @@ export class RegisterComponent implements OnInit {
     }
 
     public showTermsAndConditions():void {
-        this.childModal.show();
+        this.childModal.open();
     }
 
     public hideChildModal():void {
-        this.childModal.hide();
+        this.childModal.close();
     }
 
     public accept():void {
-        this.childModal.hide();
+        this.childModal.close();
         this.acceptedTermsAndConditions = true;
     }
 }

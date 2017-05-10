@@ -1,5 +1,4 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Activum, ActivumService, ActivumType, Office, BusinessCar} from "../../shared/services/activum.service";
 
 @Component({
@@ -12,7 +11,7 @@ export class ActivumTableComponent {
     @Input() data:Array<any>;
     @Input() length:number = 0;
     @Output() rowDeleted:EventEmitter<any> = new EventEmitter();
-    @ViewChild('childModal') public childModal:ModalDirective;
+    @ViewChild('myModal') public childModal:any;
 
     public selectedActivum:Activum = new Activum();
 
@@ -105,11 +104,11 @@ export class ActivumTableComponent {
     }
 
     public showChildModal():void {
-        this.childModal.show();
+        this.childModal.open();
     }
 
     public hideChildModal():void {
-        this.childModal.hide();
+        this.childModal.close();
     }
 
     public deleteActivum():void {
