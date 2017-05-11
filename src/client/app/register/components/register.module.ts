@@ -5,12 +5,15 @@ import {RegisterComponent} from "./register.component";
 import {RegisterService} from "../../shared/services/register.service";
 import {RegisterEditComponent} from "./register-edit.component";
 import {ModalModule} from "ngx-modal/index";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        ModalModule
+        ModalModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         RegisterComponent,

@@ -11,107 +11,133 @@
     <input type="checkbox" [ngModel]="acceptedTermsAndConditions" (change)="acceptedTermsAndConditions = !acceptedTermsAndConditions">Ik accepteer de <button (click)="showTermsAndConditions()">Algemene Voorwaarden</button>
   </div>
   <div *ngIf="acceptedTermsAndConditions">
-    <form (ngSubmit)="onSubmit(registrationForm.value)" #registrationForm="ngForm">
-      <div class="form-group">
-        <label>KvK nummer:</label>
-        <input [(ngModel)]="registration.companyData.chamberOfCommerceNumber"
+    <form novalidate
+          (ngSubmit)="onSubmit()"
+          [formGroup]="myform">
+      <div class="form-group"
+           [ngClass]="{
+        'has-danger': kvkNummer.invalid && (kvkNummer.dirty || kvkNummer.touched),
+        'has-success': kvkNummer.valid && (kvkNummer.dirty || kvkNummer.touched)
+      }">
+        <label>KvK nummer</label>
+        <input type="text"
                class="form-control"
-               required
-               #kvk="ngModel"
-               [ngModelOptions]="{standalone: true}"
-               pattern="\d{8}"
-               placeholder="KvK nummer">
-        <div *ngIf="kvk.errors && (kvk.dirty || kvk.touched)"
-             class="alert alert-danger">
-          <div [hidden]="!kvk.errors.required">
-            KvK nummer is verplicht, het wordt op de factuur vermeld
-          </div>
-          <div [hidden]="!kvk.errors.pattern">
-            KvK nummer bestaat uit 8 cijfers
-          </div>
+               [(ngModel)]="registration.companyData.chamberOfCommerceNumber"
+               formControlName="kvkNummer"
+               required>
+        <div class="form-control-feedback"
+             *ngIf="kvkNummer.errors && (kvkNummer.dirty || kvkNummer.touched)">
+          <p *ngIf="kvkNummer.errors.required">KvK nummer is verplicht, het wordt op de factuur vermeld</p>
+          <p *ngIf="kvkNummer.errors.pattern">KvK nummer bestaat uit 8 cijfers</p>
         </div>
       </div>
-      <div class="form-group">
-        <label>Gebruikersnaam:</label>
-        <input [(ngModel)]="registration.user"
-               [ngModelOptions]="{standalone: true}"
-               class="form-control"
-               placeholder="Gebruikersnaam">
-      </div>
-      <div class="form-group">
-        <label>Wachtwoord:</label>
-        <input type="password"
-               [(ngModel)]="registration.password"
-               [ngModelOptions]="{standalone: true}"
-               class="form-control"
-               placeholder="Wachtwoord">
-      </div>
-      <div class="form-group">
-        <label>Voorletters:</label>
-        <input [(ngModel)]="registration.personalData.initials"
-               class="form-control"
-               required
-               #initials="ngModel"
-               [ngModelOptions]="{standalone: true}"
-               pattern="[a-zA-Z]+"
-               placeholder="Voorletters">
-        <div *ngIf="initials.errors && (initials.dirty || initials.touched)"
-             class="alert alert-danger">
-          <div [hidden]="!initials.errors.required">
-            Initialen is verplicht
-          </div>
-          <div [hidden]="!initials.errors.pattern">
-            Initialen moet minstens uit 1 letter bestaan
+      <fieldset formGroupName="name">
+        <div class="form-group"
+             [ngClass]="{
+        'has-danger': firstName.invalid && (firstName.dirty || firstName.touched),
+        'has-success': firstName.valid && (firstName.dirty || firstName.touched)
+      }">
+          <label>Voorletters</label>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="registration.personalData.initials"
+                 formControlName="firstName"
+                 required>
+          <div class="form-control-feedback"
+               *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+            <p *ngIf="firstName.errors.required">Initialen zijn verplicht</p>
           </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label>Tussenvoegsel(s):</label>
-        <input [(ngModel)]="registration.personalData.prefix"
-               [ngModelOptions]="{standalone: true}"
-               class="form-control"
-               placeholder="Tussenvoegsel(s)">
-      </div>
-      <div class="form-group">
-        <label>Achternaam:</label>
-        <input [(ngModel)]="registration.personalData.surname"
-               class="form-control"
-               required
-               #surname="ngModel"
-               [ngModelOptions]="{standalone: true}"
-               pattern="[a-zA-Z][a-zA-Z]+"
-               placeholder="Achternaam">
-        <div *ngIf="surname.errors && (surname.dirty || surname.touched)"
-             class="alert alert-danger">
-          <div [hidden]="!surname.errors.required">
-            Achternaam is verplicht
-          </div>
-          <div [hidden]="!surname.errors.pattern">
-            Achternaam moet minstens uit 2 letters bestaan
+
+        <div class="form-group"
+             [ngClass]="{
+        'has-danger': firstName.invalid && (firstName.dirty || firstName.touched),
+        'has-success': firstName.valid && (firstName.dirty || firstName.touched)
+      }">
+          <label>Tussenvoegsel(s)</label>
+          <input type="text"
+                 class="form-control"
+                 [(ngModel)]="registration.personalData.prefix"
+                 formControlName="prefix">
+        </div>
+
+        <div class="form-group"
+             [ngClass]="{
+        'has-danger': lastName.invalid && (lastName.dirty || lastName.touched),
+        'has-success': lastName.valid && (lastName.dirty || lastName.touched)
+      }">
+          <label>Achternaam</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="lastName"
+                 [(ngModel)]="registration.personalData.surname"
+                 required>
+          <div class="form-control-feedback"
+               *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+            <p *ngIf="lastName.errors.required">Achternaam is verplicht</p>
+            <p *ngIf="lastName.errors.pattern">Achternaam moet uit minstens 2 letters bestaan</p>
           </div>
         </div>
+      </fieldset>
+      <div class="form-group"
+           [ngClass]="{
+        'has-danger': userName.invalid && (userName.dirty || userName.touched),
+        'has-success': userName.valid && (userName.dirty || userName.touched)
+      }">
+        <label>Gebruikersnaam</label>
+        <input type="text"
+               class="form-control"
+               formControlName="userName"
+               [(ngModel)]="registration.user"
+               required>
+        <div class="form-control-feedback"
+             *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+          <p *ngIf="lastName.errors.required">Achternaam is verplicht</p>
+          <p *ngIf="lastName.errors.pattern">Achternaam moet uit minstens 2 letters bestaan</p>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Email:</label>
+      <div class="form-group"
+           [ngClass]="{
+        'has-danger': email.invalid && (email.dirty || email.touched),
+        'has-success': email.valid && (email.dirty || email.touched)
+   }">
+        <label>Email</label>
         <input type="email"
-               [(ngModel)]="registration.personalData.email"
                class="form-control"
-               required
-               #email="ngModel"
-               [ngModelOptions]="{standalone: true}"
-               pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-               placeholder="Email">
-        <div *ngIf="email.errors && (email.dirty || email.touched)"
-             class="alert alert-danger">
-          <div [hidden]="!email.errors.required">
-            Email is verplicht
-          </div>
-          <div [hidden]="!email.errors.pattern">
-            Email is niet correct
-          </div>
+               formControlName="email"
+               [(ngModel)]="registration.personalData.email"
+               required>
+        <div class="form-control-feedback"
+             *ngIf="email.errors && (email.dirty || email.touched)">
+          <p *ngIf="email.errors.required">Email is verplicht</p>
+          <p *ngIf="email.errors.pattern">Email is niet correct</p>
+        </div>
+
+        <!--
+          <pre>Valid? {{ myform.controls.email.valid }}</pre>
+          <pre>Dirty? {{ myform.controls.email.dirty }}</pre>
+        -->
+
+      </div>
+
+      <div class="form-group"
+           [ngClass]="{
+        'has-danger': password.invalid && (password.dirty || password.touched),
+        'has-success': password.valid && (password.dirty || password.touched)
+   }">
+        <label>Password</label>
+        <input type="password"
+               class="form-control"
+               formControlName="password"
+               [(ngModel)]="registration.password"
+               required>
+        <div class="form-control-feedback"
+             *ngIf="password.errors && (password.dirty || password.touched)">
+          <p *ngIf="password.errors.required">Wachtwoord is verplicht</p>
+          <p *ngIf="password.errors.minlength">Wachtwoord moet 8 karakters lang zijn, we hebben nog {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} karakters nodig</p>
         </div>
       </div>
-      <button type="submit" [disabled]="!registrationForm.valid" (click)="register()">Registreren</button>
+      <button type="submit" class="btn btn-primary">Registreren</button>
     </form>
   </div>
   <button type="button" (click)="cancel()" class="btn">Annuleren</button>
