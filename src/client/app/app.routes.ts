@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { AboutRoutes } from './about/index';
 import { HomeRoutes } from './home/index';
 import { VatRoutes } from "./vat/components/vat.routes";
 import {CostRoutes} from "./cost/components/cost.routes";
@@ -15,7 +14,6 @@ import {FiscalOverviewRoutes} from "./fiscal-overview/components/fiscal-overview
 
 export const routes: Routes = [
   ...HomeRoutes,
-  ...AboutRoutes,
   ...VatRoutes,
   ...CostRoutes,
   ...CostMatchRoutes,

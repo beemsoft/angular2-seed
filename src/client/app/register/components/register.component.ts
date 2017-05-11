@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
           Validators.required,
           Validators.pattern("[a-zA-Z]+")
         ]);
-        this.prefix = new FormControl('', Validators.required);
+        this.prefix = new FormControl();
         this.lastName = new FormControl('', [
           Validators.required,
           Validators.pattern("[a-zA-Z][a-zA-Z]+")
