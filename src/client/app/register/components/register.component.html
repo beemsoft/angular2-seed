@@ -49,11 +49,7 @@
           </div>
         </div>
 
-        <div class="form-group"
-             [ngClass]="{
-        'has-danger': firstName.invalid && (firstName.dirty || firstName.touched),
-        'has-success': firstName.valid && (firstName.dirty || firstName.touched)
-      }">
+        <div class="form-group">
           <label>Tussenvoegsel(s)</label>
           <input type="text"
                  class="form-control"
@@ -91,9 +87,9 @@
                [(ngModel)]="registration.user"
                required>
         <div class="form-control-feedback"
-             *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
-          <p *ngIf="lastName.errors.required">Achternaam is verplicht</p>
-          <p *ngIf="lastName.errors.pattern">Achternaam moet uit minstens 2 letters bestaan</p>
+             *ngIf="userName.errors && (userName.dirty || userName.touched)">
+          <p *ngIf="userName.errors.required">Gebruikersnaam is verplicht</p>
+          <p *ngIf="userName.errors.pattern">Gebruikersnaam moet uit minstens 2 letters bestaan</p>
         </div>
       </div>
       <div class="form-group"
