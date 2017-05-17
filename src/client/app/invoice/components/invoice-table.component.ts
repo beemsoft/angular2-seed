@@ -18,7 +18,6 @@ export class InvoiceTableComponent {
   private pdfSrc: string;
 
   public columns:Array<any> = [
-    {title: 'Id', name: 'id'},
     {title: 'Nummer', name: 'invoiceNumber'},
     {title: 'Aantal uren', name: 'unitsOfWork'},
     {title: 'Verstuurd', name: 'sent'}
@@ -102,6 +101,7 @@ export class InvoiceTableComponent {
 
   public onCellClick(event:Event):void {
     this.selectedInvoice = event.row;
+    this.createInvoicePdf();
     this.showChildModal();
   }
 
@@ -122,14 +122,18 @@ export class InvoiceTableComponent {
 
   public updateInvoice():void {
     this.invoiceService.updateInvoice(this.selectedInvoice);
-    this.hideChildModal();
+    this.createInvoicePdf();
   }
 
-  public createInvoicePdf2():void {
+  public createInvoicePdf():void {
     this.invoiceService.createInvoicePdf(this.selectedInvoice).subscribe(
       (res) => {
         this.pdfSrc = URL.createObjectURL(res);
       }
     );
+  }
+
+  public sendInvoice():void {
+    this.invoiceService.sendInvoice(this.selectedInvoice);
   }
 }

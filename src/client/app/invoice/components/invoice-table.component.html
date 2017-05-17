@@ -35,7 +35,7 @@
     <button type="button" (click)="deleteInvoice()">Verwijder</button>
     <button type="button" (click)="updateInvoice()">Wijzig</button>
     <button type="button" (click)="createInvoicePdf()">Maak PDF</button>
-    <button type="button" (click)="createInvoicePdf2()">Maak PDF2</button>
+    <button *ngIf="selectedInvoice.sent == null" type="button" (click)="sendInvoice()">Verstuur factuur</button>
     <pdf-viewer [src]="pdfSrc"
                 [page]="page"
                 [original-size]="true"

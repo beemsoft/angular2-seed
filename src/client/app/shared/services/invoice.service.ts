@@ -92,6 +92,22 @@ export class InvoiceService {
       });
   }
 
+  sendInvoice(invoice: Invoice) {
+    let body = JSON.stringify(invoice);
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    this.http.get(this.baseURL+'/auth/invoice/' + invoice.id + '/send', { headers: contentHeaders })
+      .subscribe(
+        response => {
+          // localStorage.setItem('jwt', response.json().id_token);
+          // this.router.parent.navigateByUrl('/vat');
+        },
+        error => {
+          alert(error);
+          console.log(error);
+        }
+      );
+  }
+
   /**
    * Handle HTTP error
    */
