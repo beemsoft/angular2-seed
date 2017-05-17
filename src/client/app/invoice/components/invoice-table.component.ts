@@ -14,7 +14,7 @@ export class InvoiceTableComponent {
   @ViewChild('myModal') public childModal:any;
 
   public selectedInvoice:Invoice = new Invoice();
-
+  public htmlText:string;
   private pdfSrc: string;
 
   public columns:Array<any> = [
@@ -134,6 +134,6 @@ export class InvoiceTableComponent {
   }
 
   public sendInvoice():void {
-    this.invoiceService.sendInvoice(this.selectedInvoice);
+    this.invoiceService.sendInvoice(this.selectedInvoice, this.htmlText);
   }
 }

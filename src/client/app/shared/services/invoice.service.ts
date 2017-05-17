@@ -92,10 +92,10 @@ export class InvoiceService {
       });
   }
 
-  sendInvoice(invoice: Invoice) {
-    let body = JSON.stringify(invoice);
+  sendInvoice(invoice: Invoice, htmlText: string) {
+    let body = JSON.stringify(htmlText);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
-    this.http.get(this.baseURL+'/auth/invoice/' + invoice.id + '/send', { headers: contentHeaders })
+    this.http.post(this.baseURL+'/auth/invoice/' + invoice.id + '/send', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
