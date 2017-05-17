@@ -75,7 +75,6 @@ export class RegisterComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.myform.valid);
         if (this.myform.valid) {
             this.registerService.register(this.registration);
             this.router.navigateByUrl('/');

@@ -16,7 +16,6 @@ export class CustomerTableComponent {
   public selectedCustomer:Customer = new Customer();
 
   public columns:Array<any> = [
-    {title: 'Id', name: 'id'},
     {title: 'Naam', name: 'name'}
   ];
   public page:number = 1;

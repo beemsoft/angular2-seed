@@ -7,7 +7,6 @@
           (cellClicked)="onCellClick($event)"
           [rows]="rows" [columns]="columns">
 </ng-table>
-<!-- changed to one-way-binding for the ngModel, see: http://stackoverflow.com/questions/34496514/ngmodel-no-value-accessor-for -->
 <pagination *ngIf="config.paging"
             class="pagination-sm"
             (ngModel)="page"

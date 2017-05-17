@@ -1,12 +1,62 @@
 <h1>Klanten</h1>
-<div>
-  <label>Naam</label><input [(ngModel)]="customer.name" placeholder="Naam">
-  <label>Adres</label><input [(ngModel)]="customer.address" placeholder="Adres (volledig)">
-  <label>Invoice email</label><input [(ngModel)]="customer.emailInvoice" placeholder="Email">
-  <button (click)="addCustomer()">Klant toevoegen</button>
+<form novalidate
+      (ngSubmit)="onSubmit()"
+      [formGroup]="myform">
+  <div class="form-group"
+       [ngClass]="{
+        'has-danger': name.invalid && (name.dirty || name.touched),
+        'has-success': name.valid && (name.dirty || name.touched)
+      }">
+  <label>Naam</label>
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="customer.name"
+           formControlName="name"
+           required>
+    <div class="form-control-feedback"
+         *ngIf="name.errors && (name.dirty || name.touched)">
+      <p *ngIf="name.errors.required">Naam is verplicht</p>
+    </div>
+  </div>
+  <div class="form-group"
+       [ngClass]="{
+        'has-danger': address.invalid && (address.dirty || address.touched),
+        'has-success': address.valid && (address.dirty || address.touched)
+      }">
+    <label>Adres</label>
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="customer.address"
+           placeholder="Volledige adres"
+           formControlName="address"
+           required>
+    <div class="form-control-feedback"
+         *ngIf="address.errors && (address.dirty || address.touched)">
+      <p *ngIf="address.errors.required">Adres is verplicht</p>
+    </div>
+  </div>
+  <div class="form-group"
+       [ngClass]="{
+        'has-danger': email.invalid && (email.dirty || email.touched),
+        'has-success': email.valid && (email.dirty || email.touched)
+      }">
+    <label>Invoice email</label>
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="customer.emailInvoice"
+           formControlName="email"
+           required>
+    <div class="form-control-feedback"
+         *ngIf="email.errors && (email.dirty || email.touched)">
+      <p *ngIf="email.errors.required">Email is verplicht</p>
+      <p *ngIf="email.errors.pattern">Email is niet correct</p>
+    </div>
+  </div>
 
+  <button type="submit" class="btn btn-primary">Toevoegen</button>
+</form>
   <customer-table [data]="customers"
                  [rows]="customerTable.rows"
                  [length]="customers.length">
   </customer-table>
-</div>
+

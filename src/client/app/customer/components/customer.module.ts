@@ -7,6 +7,7 @@ import {CustomerTableComponent} from "./customer-table.component";
 import {CustomerService} from "../../shared/services/customer.service";
 import {ModalModule} from "ngx-modal/index";
 import {PaginationModule} from "ng2-bootstrap/ng2-bootstrap";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [
@@ -14,7 +15,9 @@ import {PaginationModule} from "ng2-bootstrap/ng2-bootstrap";
       SharedModule,
       Ng2TableModule,
       PaginationModule,
-      ModalModule
+      ModalModule,
+      FormsModule,
+      ReactiveFormsModule
     ],
     declarations: [
       CustomerComponent,
