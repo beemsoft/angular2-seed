@@ -93,9 +93,25 @@ export class InvoiceService {
   }
 
   sendInvoice(invoice: Invoice, htmlText: string) {
-    let body = JSON.stringify(htmlText);
+    let body = htmlText;
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
     this.http.post(this.baseURL+'/auth/invoice/' + invoice.id + '/send', body, { headers: contentHeaders })
+      .subscribe(
+        response => {
+          // localStorage.setItem('jwt', response.json().id_token);
+          // this.router.parent.navigateByUrl('/vat');
+        },
+        error => {
+          alert(error);
+          console.log(error);
+        }
+      );
+  }
+
+  sendReminder(invoice: Invoice, htmlText: string) {
+    let body = htmlText;
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+    this.http.post(this.baseURL+'/auth/invoice/' + invoice.id + '/remind', body, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);

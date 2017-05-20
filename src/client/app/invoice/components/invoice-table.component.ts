@@ -1,5 +1,6 @@
 import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
 import {Invoice, InvoiceService} from "../../shared/services/invoice.service";
+import {RegisterService, Registration} from "../../shared/services/register.service";
 
 @Component({
   moduleId: module.id,
@@ -16,6 +17,7 @@ export class InvoiceTableComponent {
   public selectedInvoice:Invoice = new Invoice();
   public htmlText:string;
   private pdfSrc: string;
+  private registration: Registration;
 
   public columns:Array<any> = [
     {title: 'Nummer', name: 'invoiceNumber'},
@@ -33,8 +35,23 @@ export class InvoiceTableComponent {
   };
 
   constructor(
-    public invoiceService: InvoiceService
+    public invoiceService: InvoiceService,
+    public registerService: RegisterService
   ) {}
+
+  ngOnInit() {
+    this.registerService.getRegistration()
+      .subscribe(
+        registrationData => {
+          this.registration = registrationData;
+        },
+        error => {
+          alert(error);
+          console.log(error);
+        },
+        () => console.log('Registration retrieved')
+      )
+  }
 
   public changePage(page:any, data:Array<any> = this.data):Array<any> {
     let start = (page.page - 1) * page.itemsPerPage;
@@ -101,6 +118,14 @@ export class InvoiceTableComponent {
 
   public onCellClick(event:Event):void {
     this.selectedInvoice = event.row;
+    if (!!this.selectedInvoice.sent) {
+      this.htmlText = "Beste " + this.selectedInvoice.project.customer.contact + ",<br><br>Uit mijn adminstratie is gebleken dat factuur " + this.selectedInvoice.invoiceNumber +
+        " nog niet betaald is, terwijl de betalingstermijn al verstreken is.<br>Graag ontvang ik zo snel mogelijk de betaling.<br><br>" +
+        "Met vriendelijke groet,<br>" + this.registration.personalData.fullName;
+    } else {
+      this.htmlText = "Beste " + this.selectedInvoice.project.customer.contact + ", <br><br>Hierbij stuur ik je factuur " + this.selectedInvoice.invoiceNumber +
+        ".<br><br>Met vriendelijke groet,<br>" + this.registration.personalData.fullName;
+    }
     this.createInvoicePdf();
     this.showChildModal();
   }
@@ -122,7 +147,7 @@ export class InvoiceTableComponent {
 
   public updateInvoice():void {
     this.invoiceService.updateInvoice(this.selectedInvoice);
-    this.createInvoicePdf();
+    this.hideChildModal();
   }
 
   public createInvoicePdf():void {
@@ -135,5 +160,11 @@ export class InvoiceTableComponent {
 
   public sendInvoice():void {
     this.invoiceService.sendInvoice(this.selectedInvoice, this.htmlText);
+  }
+
+  public sendReminder():void {
+    if (confirm("Weet je zeker dat je een herinnering email wilt versturen?.")) {
+      this.invoiceService.sendReminder(this.selectedInvoice, this.htmlText);
+    }
   }
 }

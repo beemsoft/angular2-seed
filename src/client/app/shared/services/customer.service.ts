@@ -10,6 +10,7 @@ export class Customer {
   name: string;
   address: string;
   emailInvoice: string;
+  contact: string;
 }
 
 @Injectable()

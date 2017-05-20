@@ -16,6 +16,7 @@ export class CustomerComponent implements OnInit {
   name: FormControl;
   address: FormControl;
   email: FormControl;
+  contact: FormControl;
 
   constructor(
     public customerService: CustomerService,
@@ -52,13 +53,15 @@ export class CustomerComponent implements OnInit {
       Validators.required,
       Validators.pattern("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
     ]);
+    this.contact = new FormControl();
   }
 
   createForm() {
     this.myform = new FormGroup({
       name: this.name,
       address: this.address,
-      email: this.email
+      email: this.email,
+      contact: this.contact
     });
   }
 

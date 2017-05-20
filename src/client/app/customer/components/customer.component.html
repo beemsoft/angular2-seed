@@ -52,6 +52,14 @@
       <p *ngIf="email.errors.pattern">Email is niet correct</p>
     </div>
   </div>
+  <div class="form-group">
+    <label>Contact</label>
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="customer.contact"
+           placeholder="Contact naam"
+           formControlName="contact">
+  </div>
 
   <button type="submit" class="btn btn-primary">Toevoegen</button>
 </form>

@@ -35,8 +35,14 @@
     <button type="button" (click)="deleteInvoice()">Verwijder</button>
     <button type="button" (click)="updateInvoice()">Wijzig</button>
     <button type="button" (click)="createInvoicePdf()">Maak PDF</button>
-    <input [(ngModel)]="htmlText" placeholder="HTML tekst">
-    <button *ngIf="selectedInvoice.sent == null" type="button" (click)="sendInvoice()">Verstuur factuur</button>
+    <div class="textarea-btn-holder form-group form-group-replace">
+      <textarea autoGrow class="form-control text-comment" placeholder="HTML tekst"
+                name="description" [(ngModel)]="htmlText" ></textarea>
+    </div>
+    <div [innerHTML]="htmlText">
+    </div>
+    <button *ngIf="!selectedInvoice.sent" type="button" (click)="sendInvoice()">Verstuur factuur naar {{selectedInvoice.project.customer.emailInvoice}}</button>
+    <button *ngIf="!!selectedInvoice.sent" type="button" (click)="sendReminder()">Verstuur herinnering naar {{selectedInvoice.project.customer.emailInvoice}}</button>
     <pdf-viewer [src]="pdfSrc"
                 [page]="page"
                 [original-size]="true"

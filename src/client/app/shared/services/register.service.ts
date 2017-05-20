@@ -16,6 +16,10 @@ class PersonalData {
   prefix: string;
   surname: string;
   email: string;
+
+  getFullName():string {
+    return this.initials.concat(' ', this.prefix, ' ', this.surname);
+  }
 }
 
 class CompanyData {
