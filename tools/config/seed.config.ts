@@ -359,6 +359,7 @@ export class SeedConfig {
       'ng2-pdf-viewer': 'node_modules/ng2-pdf-viewer/dist/pdf-viewer.component.js',
       'pdfjs-dist': 'node_modules/pdfjs-dist',
       'ngx-modal': 'node_modules/ngx-modal',
+      'mydatepicker': 'node_modules/mydatepicker/bundles/mydatepicker.umd.min.js',
 
       'app/*': '/app/*',
       // For test config

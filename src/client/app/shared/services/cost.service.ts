@@ -3,9 +3,8 @@ import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
-import * as moment from "moment/moment";
+import {Config} from "../config/env.config";
 import Collection = _.Collection;
-import {Config} from '../config/env.config';
 
 export class Cost {
   id: number;
@@ -13,7 +12,7 @@ export class Cost {
   costType: CostType;
   costTypeId: number;
   costTypeDescription: string;
-  date: moment.Moment;
+  date: string;
   amount: number;
   vat: number;
 }
@@ -24,38 +23,19 @@ export class CostService {
 
   constructor(private http: Http) {}
 
-  addCost(cost: Cost) {
-    console.log(cost);
+  addCost(cost: Cost):Observable<number> {
     let body = JSON.stringify(cost);
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.post(this.baseURL+'/auth/cost', body, { headers: contentHeaders })
-      .subscribe(
-        response => {
-          // localStorage.setItem('jwt', response.json().id_token);
-          // this.router.parent.navigateByUrl('/vat');
-        },
-        error => {
-          alert(error);
-          console.log(error);
-        }
-      );
+    return this.http.post(this.baseURL+'/auth/cost', body, { headers: contentHeaders })
+      .catch(this.handleError);
   }
 
-  deleteCost(cost: Cost) {
+  deleteCost(cost: Cost):Observable<void> {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete(this.baseURL+'/auth/cost/'+cost.id, { headers: contentHeaders })
-      .subscribe(
-        response => {
-          // localStorage.setItem('jwt', response.json().id_token);
-          // this.router.parent.navigateByUrl('/vat');
-        },
-        error => {
-          alert(error);
-          console.log(error);
-        }
-      );
+    return this.http.delete(this.baseURL+'/auth/cost/'+cost.id, { headers: contentHeaders })
+      .catch(this.handleError);
   }
 
   updateCost(cost: Cost) {

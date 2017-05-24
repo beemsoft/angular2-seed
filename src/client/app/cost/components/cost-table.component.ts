@@ -1,5 +1,7 @@
-import {Component, Input, EventEmitter, Output, ViewChild} from "@angular/core";
+import {Component, Input, ViewChild} from "@angular/core";
 import {Cost, CostService} from "../../shared/services/cost.service";
+import {CostType} from "../../shared/services/import-list.service";
+import {LabelService} from "../../shared/services/label.service";
 
 @Component({
   moduleId: module.id,
@@ -10,13 +12,11 @@ export class CostTableComponent {
   @Input() rows:Array<any> = [];
   @Input() data:Array<any>;
   @Input() length:number = 0;
-  @Output() rowDeleted:EventEmitter<any> = new EventEmitter();
   @ViewChild('myModal') public childModal:any;
 
   public selectedCost:Cost = new Cost();
 
   public columns:Array<any> = [
-    {title: 'Id', name: 'id'},
     {title: 'Datum', name: 'date'},
     {title: 'Bedrag', name: 'amount'},
     {title: 'btw', name: 'vat'},
@@ -34,8 +34,30 @@ export class CostTableComponent {
   };
 
   constructor(
-    public costService: CostService
+    public costService: CostService,
+    private labelService: LabelService
   ) {}
+
+  public getRows() {
+    this.costService.getCosts()
+      .subscribe(costData => {
+          this.addRows(costData)
+        },
+        error => {
+          alert(error);
+          console.log(error);
+        }
+      );
+  }
+
+  public addRows(costData: Cost[]) {
+    costData.forEach((cost) => {
+      cost.costTypeDescription = this.labelService.get(CostType[cost.costType.id]);
+    });
+    this.data = costData;
+    this.config.filtering.filterString = '';
+    this.onChangeTable(this.config);
+  }
 
   public changePage(page:any, data:Array<any> = this.data):Array<any> {
     let start = (page.page - 1) * page.itemsPerPage;
@@ -125,10 +147,11 @@ export class CostTableComponent {
   }
 
   public deleteCost():void {
-    let index = this.rows.indexOf(this.selectedCost);
-    this.rows.splice(index, 1);
-    this.costService.deleteCost(this.selectedCost);
-    this.hideChildModal();
+    this.costService.deleteCost(this.selectedCost)
+      .subscribe(() => {
+        this.getRows();
+        this.hideChildModal();
+      });
   }
 
   public updateCost():void {

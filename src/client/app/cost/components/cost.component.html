@@ -2,15 +2,66 @@
 <div>
   <p>Voeg hier kosten toe.</p>
 
-  <cost-type-selector (select)="cost.costType = $event"></cost-type-selector>
-  <input [(ngModel)]="cost.date" placeholder="Datum">
-  <input [(ngModel)]="cost.amount" placeholder="Bedrag">
-  <input [(ngModel)]="cost.vat" placeholder="btw">
-  <input [(ngModel)]="cost.description" placeholder="Omschrijving">
-  <button (click)="addCost()">Kost toevoegen</button>
-
-  <cost-table [data]="costs"
-                     [rows]="costTable.rows"
-                     [length]="costs.length">
+  <form novalidate
+        (ngSubmit)="onSubmit()"
+        [formGroup]="myform">
+    <cost-type-selector (select)="cost.costType = $event" [selectedCostTypeId]="cost.costType"></cost-type-selector>
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': myDate.invalid && (myDate.dirty || myDate.touched),
+        'has-success': myDate.valid && (myDate.dirty || myDate.touched)
+      }">
+      <my-date-picker [options]="myDatePickerOptions"
+                      formControlName="myDate"></my-date-picker>
+      <div class="form-control-feedback"
+           *ngIf="myDate.errors && (myDate.dirty || myDate.touched)">
+        <p *ngIf="myDate.errors.required">Datum is verplicht</p>
+      </div>
+    </div>
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': amount.invalid && (amount.dirty || amount.touched),
+        'has-success': amount.valid && (amount.dirty || amount.touched)
+      }">
+      <input class="form-control"
+             formControlName="amount"
+             placeholder="Bedrag">
+      <div class="form-control-feedback"
+           *ngIf="amount.errors && (amount.dirty || amount.touched)">
+        <p *ngIf="amount.errors.pattern">Bedrag is niet correct, gebruik xxx.xx formaat</p>
+      </div>
+    </div>
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': vat.invalid && (vat.dirty || vat.touched),
+        'has-success': vat.valid && (vat.dirty || vat.touched)
+      }">
+      <input class="form-control"
+             formControlName="vat"
+             placeholder="btw">
+      <div class="form-control-feedback"
+           *ngIf="vat.errors && (vat.dirty || vat.touched)">
+        <p *ngIf="vat.errors.pattern">btw is niet correct, gebruik xxx.xx formaat</p>
+      </div>
+    </div>
+    <div class="form-group"
+         [ngClass]="{
+        'has-danger': description.invalid && (description.dirty || description.touched),
+        'has-success': description.valid && (description.dirty || description.touched)
+      }">
+      <input class="form-control"
+             formControlName="description"
+             placeholder="Omschrijving">
+      <div class="form-control-feedback"
+           *ngIf="description.errors && (description.dirty || description.touched)">
+        <p *ngIf="description.errors.required">Omschrijving is verplicht</p>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Toevoegen</button>
+  </form>
+  <cost-table [data]="costTable.data"
+              [rows]="costTable.rows"
+              [length]="costTable.rows.length"
+              (rowDeleted)="handleRowDelete($event)">
   </cost-table>
 </div>

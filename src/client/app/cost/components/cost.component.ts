@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {Cost, CostService} from "../../shared/services/cost.service";
 import {CostTableComponent} from "./cost-table.component";
-import moment = require("moment");
-import {LabelService} from "../../shared/services/label.service";
 import {CostType} from "../../shared/services/import-list.service";
+import {IMyDpOptions} from "mydatepicker";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import moment = require("moment");
 
 @Component({
   moduleId: module.id,
@@ -11,43 +12,91 @@ import {CostType} from "../../shared/services/import-list.service";
   templateUrl: 'cost.component.html'
 })
 export class CostComponent implements OnInit {
-  private costs: Array<Cost> = [];
   public cost: Cost;
+  myform: FormGroup;
+  myDate: FormControl;
+  amount: FormControl;
+  vat: FormControl;
+  description: FormControl;
+
+  private myDatePickerOptions: IMyDpOptions = {
+    todayBtnTxt: 'Vandaag',
+    dayLabels: {su: 'Zon', mo: 'Maa', tu: 'Din', we: 'Woe', th: 'Don', fr: 'Vrij', sa: 'Zat'},
+    dateFormat: 'yyyy/mm/dd'
+  };
 
   constructor(
     public costService: CostService,
     public costTable: CostTableComponent,
-    private labelService: LabelService
+    private fb: FormBuilder
   ) {
     this.cost = new Cost();
+    this.cost.costType = CostType.GENERAL_EXPENSE;
+    this.cost.date = null;
   }
 
   ngOnInit() {
-    this.costs = this.costService.getCosts()
-      .subscribe(
-        costData => {
-          this.costs = costData;
-          this.costs.forEach((cost) => {
-              cost.costTypeDescription = this.labelService.get(CostType[cost.costType.id]);
-          });
-          this.costTable.data = this.costs;
-          this.costTable.config.filtering.filterString = '';
-          this.costTable.onChangeTable(this.costTable.config);
+    this.costTable.getRows();
+    this.createFormControls();
+    this.createForm();
+    this.setDate();
+  }
+
+  setDate(): void {
+    // Set today date using the setValue function
+    let date = new Date();
+    this.myform.setValue({
+      myDate: {
+        date: {
+          year: date.getFullYear(),
+          month: date.getMonth() + 1,
+          day: date.getDate()
         },
-        error => {
-          alert(error);
-          console.log(error);
-        },
-        () => console.log('Costs retrieved: ' + this.costs.length)
-      )
+        formatted: moment().format('YYYY/MM/DD')
+      },
+      amount: 0,
+      vat: 0,
+      description: ''
+    });
+  }
+
+  createFormControls() {
+    this.myDate = this.fb.control('', [
+      Validators.required
+    ]);
+    this.amount = this.fb.control('', [
+      Validators.pattern("\\d+(\\.\\d{2})?")
+    ]);
+    this.vat = this.fb.control('', [
+      Validators.pattern("\\d+(\\.\\d{2})?")
+    ]);
+    this.description = this.fb.control('', [
+      Validators.required
+    ]);
+  }
+
+  createForm() {
+    this.myform = this.fb.group({
+      myDate: this.myDate,
+      amount: this.amount,
+      vat: this.vat,
+      description: this.description
+    });
+  }
+
+  onSubmit() {
+    if (this.myform.valid) {
+      this.addCost();
+    }
   }
 
   public addCost():void {
-    this.costService.addCost(this.cost);
-    this.costs = (<Cost[]>this.costs).concat(this.cost);
-
-    this.costTable.data = this.costs;
-    this.costTable.config.filtering.filterString = '';
-    this.costTable.onChangeTable(this.costTable.config);
+    let cost:Cost = this.myform.value;
+    cost.date = this.myform.controls['myDate'].value.formatted;
+    cost.costType = this.cost.costType;
+    this.costService.addCost(cost)
+      .subscribe(() => {
+        this.costTable.getRows();
+      });
   }
 }

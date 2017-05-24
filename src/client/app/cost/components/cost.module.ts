@@ -1,4 +1,4 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from "@angular/core";
 import {CostComponent} from "./cost.component";
 import {CostService} from "../../shared/services/cost.service";
 import {PaginationModule} from "ng2-bootstrap/ng2-bootstrap";
@@ -7,6 +7,8 @@ import {CostTableComponent} from "./cost-table.component";
 import {SharedModule} from "../../shared/shared.module";
 import {CommonModule} from "@angular/common";
 import {ModalModule} from "ngx-modal/index";
+import {MyDatePickerModule} from "mydatepicker";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [
@@ -14,7 +16,9 @@ import {ModalModule} from "ngx-modal/index";
       SharedModule,
       Ng2TableModule,
       PaginationModule,
-      ModalModule
+      ModalModule,
+      ReactiveFormsModule,
+      MyDatePickerModule
     ],
     declarations: [
       CostComponent,

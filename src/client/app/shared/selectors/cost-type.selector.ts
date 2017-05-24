@@ -9,10 +9,10 @@ export class KeysPipe implements PipeTransform {
 
   constructor(private labelService: LabelService) {}
 
-  transform(value, args:string[]) : any {
+  transform(value: any, args: string[]): any {
     let keys = [];
-    for (var enumMember in value) {
-      var isValueProperty = parseInt(enumMember, 10) >= 0;
+    for (let enumMember in value) {
+      let isValueProperty = parseInt(enumMember, 10) >= 0;
       if (isValueProperty) {
         keys.push({key: enumMember, value: this.labelService.get(value[enumMember])});
       }
@@ -34,6 +34,6 @@ export class KeysPipe implements PipeTransform {
 })
 export class CostTypeSelector {
   costTypes = CostType;
-  @Input() selectedCostTypeId;
+  @Input() selectedCostTypeId: number;
   @Output() select = new EventEmitter();
 }
