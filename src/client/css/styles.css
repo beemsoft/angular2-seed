@@ -33,6 +33,7 @@ section {
 }
 
 .navbar-default .navbar-nav > li > a {
+  background-color: white;
   color: #777;
 }
 
@@ -48,6 +49,7 @@ section {
   position: relative;
   display: block;
   padding: 10px 15px;
+  line-height: 21px !important;
 }
 
 .nav .navbar-brand {
@@ -77,6 +79,28 @@ section {
   color: #333;
   background-color: transparent;
 }
+
+.navbar-custom {
+  background-color: #71f0ff;
+  width: 150px;
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: rgba(255,255,255,.8);
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+  color: rgba(255,255,255,.5);
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+  color: #ffffff;
+}
+
+/* Fixes issue that menu is not scrollable */
+.navbar-custom .navbar-collapse.in { max-height: 80vh !important; overflow-y: scroll !important; overflow-x: hidden !important; }
 
 .bd-pageheader, .bs-docs-masthead {
   position: relative;

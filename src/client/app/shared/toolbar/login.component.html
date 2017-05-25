@@ -14,8 +14,5 @@
   </form>
 </div>
 <div *ngIf="loggedIn">
-  <button type="button" (click)="logout()" class="btn toolbar-button">Uitloggen</button>
-  <button type="button" (click)="editRegistration()" class="btn toolbar-button">Gegevens wijzigen</button>
-  <button type="button" (click)="deleteRegistration()" class="btn toolbar-button">Account verwijderen</button>
-  <sd-navbar></sd-navbar>
+  <sd-navbar (userChanged)="handleUserChange2($event)"></sd-navbar>
 </div>
