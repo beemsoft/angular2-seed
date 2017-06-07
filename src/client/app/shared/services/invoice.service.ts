@@ -9,6 +9,7 @@ import {Config} from '../config/env.config';
 export class Invoice {
   id: number;
   invoiceNumber: string;
+  month: string;
   project: Project = new Project();
   unitsOfWork: number;
   sent: moment.Moment;

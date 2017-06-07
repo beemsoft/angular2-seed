@@ -30,6 +30,7 @@
        [closeOnOutsideClick]="true">
   <modal-content>
     <input [(ngModel)]="selectedInvoice.invoiceNumber" placeholder="Factuurnummer">
+    <input [(ngModel)]="selectedInvoice.month" placeholder="Maand">
     <input [(ngModel)]="selectedInvoice.unitsOfWork" placeholder="Aantal uren">
     <input [(ngModel)]="selectedInvoice.sent" placeholder="Datum verstuurd">
     <button type="button" (click)="deleteInvoice()">Verwijder</button>

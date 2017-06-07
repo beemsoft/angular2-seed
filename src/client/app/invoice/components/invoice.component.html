@@ -3,6 +3,7 @@
   <label>Project:</label><project-selector (select)="invoice.project.id = $event"></project-selector>
   <label>Aantal uren</label><input [(ngModel)]="invoice.unitsOfWork" placeholder="Aantal uren">
   <label>Factuurnummer</label><input [(ngModel)]="invoice.invoiceNumber" placeholder="Factuur nummer">
+  <label>Maand</label><input [(ngModel)]="invoice.month" placeholder="Maand">
   <button (click)="addInvoice()">Factuur toevoegen</button>
 
   <invoice-table [data]="invoices"

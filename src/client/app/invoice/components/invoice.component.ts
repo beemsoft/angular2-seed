@@ -3,6 +3,7 @@ import {Invoice, InvoiceService} from "../../shared/services/invoice.service";
 import {InvoiceTableComponent} from "./invoice-table.component";
 import {ProjectService} from "../../shared/services/project.service";
 import moment = require("moment");
+import 'moment/locale/nl';
 
 @Component({
   moduleId: module.id,
@@ -17,7 +18,10 @@ export class InvoiceComponent implements OnInit {
     public invoiceService: InvoiceService,
     public invoiceTable: InvoiceTableComponent,
     private projectService: ProjectService
-  ) {}
+  ) {
+    this.invoice = new Invoice();
+    this.invoice.month = moment().locale('nl').subtract(1,'months').format("MMMM");
+  }
 
   ngOnInit() {
     this.invoiceService.getInvoices()
