@@ -20,7 +20,7 @@ export class VatReport extends FiscalReport {
   totalVatOut: number = 0;
   carVatCorrection: number = 0;
   vatSaldo: number = 0;
-  paidInvoices: number = 0;
+  sentInvoices: number = 0;
   totalNetIn: number = 0;
 }
 
@@ -56,7 +56,7 @@ export class VatCalculationService {
   }
 
   calculateTotalVat(transactions:Array<Transaction>): Observable<VatReport> {
-    let totalVatOut:number = 0, paidInvoices:number = 0;
+    let totalVatOut:number = 0, sentInvoices:number = 0;
     let totalCarCosts:number = 0, totalTransportCosts:number = 0, totalOfficeCosts:number =0, totalFoodCosts:number = 0, totalOtherCosts:number =0;
 
     function applyVat(transaction:Transaction): Transaction {
@@ -83,7 +83,7 @@ export class VatCalculationService {
           case CostType.INVOICE_PAID:
             transactions[i].amountNet = "n.v.t.";
             transactions[i].amountVat = "n.v.t.";
-            paidInvoices += transactions[i].amount;
+            sentInvoices += transactions[i].amount;
             break;
           default:
             if (transactions[i].costMatch != null && transactions[i].costMatch.vatType != null) {
@@ -131,7 +131,7 @@ export class VatCalculationService {
               vatReport.carVatCorrection = carData.vatCorrectionForPrivateUsage;
               vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
               vatReport.vatSaldo = Math.round(vatReport.totalVatIn - vatReport.totalVatOut + vatReport.carVatCorrection);
-              vatReport.paidInvoices = paidInvoices;
+              vatReport.sentInvoices = sentInvoices;
               vatReport.totalOfficeCosts = Math.round(totalOfficeCosts * 100) / 100;
               vatReport.totalCarCosts = Math.round(totalCarCosts * 100) / 100;
               vatReport.totalTransportCosts = Math.round(totalTransportCosts * 100) / 100;
