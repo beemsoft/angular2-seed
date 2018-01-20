@@ -1,6 +1,5 @@
 import * as moment from 'moment/moment'
 import {CsvParseService} from "./csv-parse.service";
-import any = jasmine.any;
 import {LabelService} from "./label.service";
 import {CostMatch} from "./cost-match.service";
 import {Injectable} from "@angular/core";

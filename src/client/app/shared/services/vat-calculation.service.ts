@@ -2,6 +2,7 @@ import {CostCharacter, CostType, Transaction, VatType} from "./import-list.servi
 import {Injectable} from "@angular/core";
 import {ActivumService} from "./activum.service";
 import {Observable} from "rxjs/Observable";
+import {Invoice, InvoiceService} from "./invoice.service";
 
 export class FiscalReport  {
   firstTransactionDate: string;
@@ -25,8 +26,12 @@ export class VatReport extends FiscalReport {
 
 @Injectable()
 export class VatCalculationService {
+  private invoices: Invoice[];
 
-  constructor(private activumService: ActivumService) {}
+  constructor(
+    private activumService: ActivumService,
+    private invoiceService: InvoiceService
+  ) {}
 
   static applyVat(transaction:Transaction, vatType:number): Transaction {
     transaction.amountNet = Math.round((transaction.amount / (1 + (vatType / 100))) * 100) / 100;
@@ -50,7 +55,7 @@ export class VatCalculationService {
     return transaction;
   }
 
-  calculateTotalVat(transactions:Array<Transaction>, vatReport:VatReport): Observable<VatReport> {
+  calculateTotalVat(transactions:Array<Transaction>): Observable<VatReport> {
     let totalVatOut:number = 0, paidInvoices:number = 0;
     let totalCarCosts:number = 0, totalTransportCosts:number = 0, totalOfficeCosts:number =0, totalFoodCosts:number = 0, totalOtherCosts:number =0;
 
@@ -110,6 +115,27 @@ export class VatCalculationService {
     return this.activumService.getActivumCar()
       .map(
         carData => {
+          let vatReport = new VatReport();
+
+          this.invoiceService.getIncomeForLatestPeriod()
+          .subscribe(
+            invoiceData => {
+              this.invoices = invoiceData;
+              this.invoices.forEach((invoice: Invoice) => {
+                let netIn = invoice.unitsOfWork * invoice.project.rate;
+                vatReport.totalNetIn += netIn;
+                vatReport.totalVatIn += netIn * .21;
+              });
+              vatReport.totalVatIn = Math.round(vatReport.totalVatIn * 100) / 100;
+              vatReport.totalNetIn = Math.round(vatReport.totalNetIn * 100) / 100;
+            },
+            error => {
+              alert(error);
+              console.log(error);
+            },
+            () => console.log('Invoices retrieved')
+          );
+
           vatReport.carVatCorrection = carData.vatCorrectionForPrivateUsage;
           vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
           vatReport.vatSaldo = Math.round(vatReport.totalVatIn - vatReport.totalVatOut + vatReport.carVatCorrection);

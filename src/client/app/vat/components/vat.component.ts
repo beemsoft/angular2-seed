@@ -86,7 +86,6 @@ export class VatComponent implements OnInit {
       this.transactionTable.length = this.transactions.length;
       if (this.transactionsLoaded) {
         this.updateTotalVat();
-        this.checkTransactions();
         this.transactionTable.data = this.transactions;
         this.transactionTable.onChangeTable(this.transactionTable.config);
       }
@@ -112,7 +111,6 @@ export class VatComponent implements OnInit {
       }
     }
     this.updateTotalVat();
-    this.checkTransactions();
 
     this.transactionTable.config.filtering.filterString = '';
     this.transactionTable.onChangeTable(this.transactionTable.config);
@@ -123,7 +121,10 @@ export class VatComponent implements OnInit {
   }
 
   private updateTotalVat():void {
-    this.vatCalculationService.calculateTotalVat(this.transactions, this.vatReport)
-      .subscribe(vatReport => this.vatReport = vatReport);
+    this.vatCalculationService.calculateTotalVat(this.transactions)
+      .subscribe(vatReport => {
+        this.vatReport = vatReport;
+        this.checkTransactions();
+      });
   }
 }
