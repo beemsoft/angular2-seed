@@ -67,7 +67,7 @@ export class BookService {
   deleteBookValue(bookValue: BookValue) {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
 
-    this.http.delete(this.baseURL+'auth/book/'+bookValue.id, { headers: contentHeaders })
+    this.http.delete(this.baseURL+'/auth/book/'+bookValue.id, { headers: contentHeaders })
       .subscribe(
         response => {
           // localStorage.setItem('jwt', response.json().id_token);
