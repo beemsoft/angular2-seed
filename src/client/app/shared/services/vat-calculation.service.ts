@@ -128,6 +128,15 @@ export class VatCalculationService {
               });
               vatReport.totalVatIn = Math.round(vatReport.totalVatIn * 100) / 100;
               vatReport.totalNetIn = Math.round(vatReport.totalNetIn * 100) / 100;
+              vatReport.carVatCorrection = carData.vatCorrectionForPrivateUsage;
+              vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
+              vatReport.vatSaldo = Math.round(vatReport.totalVatIn - vatReport.totalVatOut + vatReport.carVatCorrection);
+              vatReport.paidInvoices = paidInvoices;
+              vatReport.totalOfficeCosts = Math.round(totalOfficeCosts * 100) / 100;
+              vatReport.totalCarCosts = Math.round(totalCarCosts * 100) / 100;
+              vatReport.totalTransportCosts = Math.round(totalTransportCosts * 100) / 100;
+              vatReport.totalFoodCosts = Math.round(totalFoodCosts * 100) / 100;
+              vatReport.totalOtherCosts = Math.round(totalOtherCosts * 100) / 100;
             },
             error => {
               alert(error);
@@ -136,15 +145,6 @@ export class VatCalculationService {
             () => console.log('Invoices retrieved')
           );
 
-          vatReport.carVatCorrection = carData.vatCorrectionForPrivateUsage;
-          vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
-          vatReport.vatSaldo = Math.round(vatReport.totalVatIn - vatReport.totalVatOut + vatReport.carVatCorrection);
-          vatReport.paidInvoices = paidInvoices;
-          vatReport.totalOfficeCosts = Math.round(totalOfficeCosts * 100) / 100;
-          vatReport.totalCarCosts = Math.round(totalCarCosts * 100) / 100;
-          vatReport.totalTransportCosts = Math.round(totalTransportCosts * 100) / 100;
-          vatReport.totalFoodCosts = Math.round(totalFoodCosts * 100) / 100;
-          vatReport.totalOtherCosts = Math.round(totalOtherCosts * 100) / 100;
           return vatReport;
         }
       );
