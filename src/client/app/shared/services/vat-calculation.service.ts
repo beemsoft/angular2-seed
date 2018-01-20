@@ -1,6 +1,7 @@
-import {Transaction, CostCharacter, CostType, VatType} from "./import-list.service";
+import {CostCharacter, CostType, Transaction, VatType} from "./import-list.service";
 import {Injectable} from "@angular/core";
-import * as moment from "moment/moment";
+import {ActivumService} from "./activum.service";
+import {Observable} from "rxjs/Observable";
 
 export class FiscalReport  {
   firstTransactionDate: string;
@@ -25,19 +26,21 @@ export class VatReport extends FiscalReport {
 @Injectable()
 export class VatCalculationService {
 
-  static applyVat(transaction:Transaction, vatType:number): Transaction {
+  constructor(private activumService: ActivumService) {}
+
+  applyVat(transaction:Transaction, vatType:number): Transaction {
     transaction.amountNet = Math.round((transaction.amount / (1 + (vatType / 100))) * 100) / 100;
     transaction.amountVat = Math.round((transaction.amount - transaction.amountNet) * 100 ) / 100;
     return transaction;
   }
 
-  static applyPercentage(transaction:Transaction, percentage:number): Transaction {
+  applyPercentage(transaction:Transaction, percentage:number): Transaction {
     transaction.amountNet = Math.round(transaction.amountNet * percentage) / 100;
     transaction.amountVat = Math.round(transaction.amountVat * percentage) / 100;
     return transaction
   }
 
-  static applyFixedAmount(transaction:Transaction, fixedAmount:number): Transaction {
+  applyFixedAmount(transaction:Transaction, fixedAmount:number): Transaction {
     transaction.amountNet = fixedAmount;
     if (transaction.costMatch.vatType === VatType[VatType.HIGH]) {
       transaction.amountVat = Math.round(fixedAmount * 21) / 100;
@@ -47,17 +50,17 @@ export class VatCalculationService {
     return transaction;
   }
 
-  static calculateTotalVat(transactions:Array<Transaction>, vatReport:VatReport): VatReport {
+  calculateTotalVat(transactions:Array<Transaction>, vatReport:VatReport): Observable<VatReport> {
     let totalVatOut:number = 0, paidInvoices:number = 0;
     let totalCarCosts:number = 0, totalTransportCosts:number = 0, totalOfficeCosts:number =0, totalFoodCosts:number = 0, totalOtherCosts:number =0;
 
     function applyVat(transaction:Transaction): Transaction {
       if (transaction.costMatch.vatType === VatType[VatType.HIGH]) {
-        return VatCalculationService.applyVat(transaction, 21);
+        return this.applyVat(transaction, 21);
       } else if (transaction.costMatch.vatType === VatType[VatType.LOW]) {
-        return VatCalculationService.applyVat(transaction, 6);
+        return this.applyVat(transaction, 6);
       } else {
-        return VatCalculationService.applyVat(transaction, 0);
+        return this.applyVat(transaction, 0);
       }
     }
 
@@ -69,7 +72,7 @@ export class VatCalculationService {
         let vatIn = 0, vatOut = 0, transaction:Transaction;
         switch (CostType[transactions[i].costType]) {
           case CostType.BUSINESS_FOOD:
-            transaction = VatCalculationService.applyVat(transactions[i], 0);
+            transaction = this.applyVat(transactions[i], 0);
             totalFoodCosts += transaction.amountNet;
             break;
           case CostType.INVOICE_PAID:
@@ -80,11 +83,11 @@ export class VatCalculationService {
           default:
             if (transactions[i].costMatch != null && transactions[i].costMatch.vatType != null) {
               if (transactions[i].costMatch.fixedAmount > 0) {
-                transaction = VatCalculationService.applyFixedAmount(transactions[i], transactions[i].costMatch.fixedAmount);
+                transaction = this.applyFixedAmount(transactions[i], transactions[i].costMatch.fixedAmount);
               } else {
                 transaction = applyVat(transactions[i]);
                 if (transactions[i].costMatch.percentage > 0) {
-                  transaction = VatCalculationService.applyPercentage(transactions[i], transactions[i].costMatch.percentage);
+                  transaction = this.applyPercentage(transactions[i], transactions[i].costMatch.percentage);
                 }
               }
               vatOut = transaction.amountVat;
@@ -103,14 +106,21 @@ export class VatCalculationService {
         totalVatOut += vatOut;
       }
     }
-    vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
-    vatReport.vatSaldo = Math.round(vatReport.totalVatIn - vatReport.totalVatOut);
-    vatReport.paidInvoices = paidInvoices;
-    vatReport.totalOfficeCosts = Math.round(totalOfficeCosts * 100) / 100;
-    vatReport.totalCarCosts = Math.round(totalCarCosts * 100) / 100;
-    vatReport.totalTransportCosts = Math.round(totalTransportCosts * 100) / 100;
-    vatReport.totalFoodCosts = Math.round(totalFoodCosts * 100) / 100;
-    vatReport.totalOtherCosts = Math.round(totalOtherCosts * 100) / 100;
-    return vatReport;
+
+    return this.activumService.getActivumCar()
+      .map(
+        carData => {
+          vatReport.carVatCorrection = carData.vatCorrectionForPrivateUsage;
+          vatReport.totalVatOut = Math.round(totalVatOut * 100) / 100;
+          vatReport.vatSaldo = Math.round(vatReport.totalVatIn - vatReport.totalVatOut + vatReport.carVatCorrection);
+          vatReport.paidInvoices = paidInvoices;
+          vatReport.totalOfficeCosts = Math.round(totalOfficeCosts * 100) / 100;
+          vatReport.totalCarCosts = Math.round(totalCarCosts * 100) / 100;
+          vatReport.totalTransportCosts = Math.round(totalTransportCosts * 100) / 100;
+          vatReport.totalFoodCosts = Math.round(totalFoodCosts * 100) / 100;
+          vatReport.totalOtherCosts = Math.round(totalOtherCosts * 100) / 100;
+          return vatReport;
+        }
+      );
   }
 }

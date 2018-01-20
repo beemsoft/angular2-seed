@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from "@angular/core";
 import {VatReport} from "../../shared/services/vat-calculation.service";
 import {FiscalOverviewService} from "../../shared/services/fiscal-overview.service";
 import {Invoice, InvoiceService} from "../../shared/services/invoice.service";
-import {ActivumService} from "../../shared/services/activum.service";
 
 @Component({
   moduleId: module.id,
@@ -15,8 +14,7 @@ export class VatReportComponent implements OnInit {
 
   constructor(
     private fiscalOverviewService: FiscalOverviewService,
-    private invoiceService: InvoiceService,
-    private activumService: ActivumService) {
+    private invoiceService: InvoiceService) {
   };
 
   ngOnInit(): void {
@@ -37,13 +35,6 @@ export class VatReportComponent implements OnInit {
           console.log(error);
         },
         () => console.log('Invoices retrieved')
-      );
-    this.activumService.getActivumCar()
-      .subscribe(
-        carData => {
-          this.vatReport.carVatCorrection = carData.vatCorrectionForPrivateUsage;
-          this.vatReport.vatSaldo += this.vatReport.carVatCorrection;
-        }
       );
   }
 

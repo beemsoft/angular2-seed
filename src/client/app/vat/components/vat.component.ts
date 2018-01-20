@@ -26,8 +26,9 @@ export class VatComponent implements OnInit {
 
   constructor(
     private importListService: ImportListService,
-    public costMatchService: CostMatchService,
+    private costMatchService: CostMatchService,
     private labelService: LabelService,
+    private vatCalculationService: VatCalculationService,
     public transactionTable: TransactionTableComponent
   ) {
     this.uploadedFile = null;
@@ -122,10 +123,7 @@ export class VatComponent implements OnInit {
   }
 
   private updateTotalVat():void {
-    this.vatReport = VatCalculationService.calculateTotalVat(this.transactions, this.vatReport);
+    this.vatCalculationService.calculateTotalVat(this.transactions, this.vatReport)
+      .subscribe(vatReport => this.vatReport = vatReport);
   }
-
-  // public calculateVatDisabled():boolean {
-  //   return this.transactionsUnmatched > 0;
-  // }
 }

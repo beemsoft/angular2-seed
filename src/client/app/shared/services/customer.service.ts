@@ -2,7 +2,6 @@ import {Http} from "@angular/http";
 import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
-import Collection = _.Collection;
 import {Config} from "../config/env.config";
 
 export class Customer {
