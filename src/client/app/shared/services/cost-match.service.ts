@@ -94,13 +94,15 @@ export class CostMatchService {
 
   match(transactions: Array<Transaction>, costMatches: Collection<CostMatch>) {
     transactions.forEach(transaction => {
-      for (let costMatch of costMatches) {
-        if (transaction.description.toLowerCase().indexOf(costMatch.matchString.toLowerCase()) > -1) {
-          transaction.costType = CostType[costMatch.costType.id];
-          transaction.costTypeDescription = this.labelService.get(CostType[costMatch.costType.id]);
-          transaction.costCharacter = CostCharacter[costMatch.costCharacter];
-          transaction.costCharacterDescription = this.labelService.get(CostCharacter[costMatch.costCharacter]);
-          transaction.costMatch = costMatch;
+      if (costMatches) {
+        for (let costMatch of costMatches) {
+          if (transaction.description.toLowerCase().indexOf(costMatch.matchString.toLowerCase()) > -1) {
+            transaction.costType = CostType[costMatch.costType.id];
+            transaction.costTypeDescription = this.labelService.get(CostType[costMatch.costType.id]);
+            transaction.costCharacter = CostCharacter[costMatch.costCharacter];
+            transaction.costCharacterDescription = this.labelService.get(CostCharacter[costMatch.costCharacter]);
+            transaction.costMatch = costMatch;
+          }
         }
       }
     });

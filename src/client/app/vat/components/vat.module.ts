@@ -8,7 +8,6 @@ import {PaginationModule} from "ng2-bootstrap/ng2-bootstrap";
 import {VatCalculationService} from "../../shared/services/vat-calculation.service";
 import {TransactionTableComponent} from "./transaction-table.component";
 import {VatReportComponent} from "./vat-report.component";
-import {FiscalReportComponent} from "./fiscal-report.component";
 
 @NgModule({
     imports: [
@@ -20,8 +19,7 @@ import {FiscalReportComponent} from "./fiscal-report.component";
     declarations: [
       VatComponent,
       TransactionTableComponent,
-      VatReportComponent,
-      FiscalReportComponent
+      VatReportComponent
     ],
     exports: [VatComponent],
     providers: [

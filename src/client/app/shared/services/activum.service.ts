@@ -3,7 +3,6 @@ import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import * as moment from "moment/moment";
-import Collection = _.Collection;
 import {Config} from '../config/env.config';
 
 export enum ActivumType {
@@ -165,6 +164,16 @@ export class ActivumService {
     contentHeaders.set('Authorization', localStorage.getItem('jwt'));
     return this.http.get(this.baseURL+'/auth/activum', { headers: contentHeaders })
       .map(res => <Activum> res.json())
+      .catch(this.handleError);
+  }
+
+  getActivumCar(): Observable<BusinessCar> {
+    contentHeaders.set('Authorization', localStorage.getItem('jwt'));
+
+    return this.http.get(this.baseURL+'/auth/activum/car', { headers: contentHeaders })
+      .map(res => {
+        return res.text().length > 0 ? <BusinessCar> res.json() : {};
+      })
       .catch(this.handleError);
   }
 

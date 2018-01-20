@@ -16,6 +16,7 @@ export class FiscalReport  {
 export class VatReport extends FiscalReport {
   totalVatIn: number = 0;
   totalVatOut: number = 0;
+  carVatCorrection: number = 0;
   vatSaldo: number = 0;
   paidInvoices: number = 0;
   totalNetIn: number = 0;

@@ -4,7 +4,6 @@ import {contentHeaders} from "../../common/headers";
 import {Observable} from "rxjs/Rx";
 import {Injectable} from "@angular/core";
 import {Config} from "../config/env.config";
-import Collection = _.Collection;
 
 export class Cost {
   id: number;
