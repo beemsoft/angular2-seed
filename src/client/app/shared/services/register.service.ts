@@ -16,6 +16,7 @@ class PersonalData {
   prefix: string;
   surname: string;
   email: string;
+  phoneNumber: number;
 
   getFullName():string {
     return this.initials.concat(' ', this.prefix, ' ', this.surname);

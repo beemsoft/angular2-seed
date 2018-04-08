@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     lastName: FormControl;
     userName: FormControl;
     email: FormControl;
+    phoneNumber: FormControl;
     password: FormControl;
 
     constructor(public registerService: RegisterService, private router: Router) {
@@ -54,6 +55,10 @@ export class RegisterComponent implements OnInit {
             Validators.required,
             Validators.pattern("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
         ]);
+        this.phoneNumber = new FormControl('', [
+          Validators.required,
+          Validators.pattern("\\d{10}")
+        ]);
         this.password = new FormControl('', [
             Validators.required,
             Validators.minLength(8)
@@ -70,6 +75,7 @@ export class RegisterComponent implements OnInit {
             }),
             userName: this.userName,
             email: this.email,
+            phoneNumber: this.phoneNumber,
             password: this.password
         });
     }

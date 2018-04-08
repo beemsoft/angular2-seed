@@ -112,6 +112,24 @@
 
       <div class="form-group"
            [ngClass]="{
+        'has-danger': phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched),
+        'has-success': phoneNumber.valid && (phoneNumber.dirty || phoneNumber.touched)
+   }">
+        <label>Telefoonnummer</label>
+        <input type="number"
+               class="form-control"
+               formControlName="email"
+               [(ngModel)]="registration.personalData.phoneNumber"
+               required>
+        <div class="form-control-feedback"
+             *ngIf="phoneNumber.errors && (phoneNumber.dirty || phoneNumber.touched)">
+          <p *ngIf="phoneNumber.errors.required">Telefoonnummer is verplicht</p>
+          <p *ngIf="phoneNumber.errors.pattern">Telefoonnummer is niet correct</p>
+        </div>
+      </div>
+
+      <div class="form-group"
+           [ngClass]="{
         'has-danger': password.invalid && (password.dirty || password.touched),
         'has-success': password.valid && (password.dirty || password.touched)
    }">
